@@ -1,3 +1,5 @@
+import layout.LoginForm;
+
 import javax.swing.*;
 
 /**
@@ -8,11 +10,16 @@ public class MockMain {
     private static final int WINDOW_HEIGHT = 720;
 
     private JFrame mainFrame;
+    private LoginForm loginForm;
 
     public MockMain() {
-        mainFrame = new JFrame();
+        mainFrame = new JFrame("Theatre Management Software");
         mainFrame.setVisible(true);
         mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        loginForm = new LoginForm();
+        mainFrame.setContentPane(loginForm.getMainPanel());
     }
 
     public static void main(String args[]) {
