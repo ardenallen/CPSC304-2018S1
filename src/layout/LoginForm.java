@@ -1,6 +1,8 @@
 package layout;
 
+import layout.dialog.FailedLoginDialog;
 import layout.dialog.InvalidIdDialog;
+import model.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +13,12 @@ public class LoginForm {
     private JComboBox<String> userClassOptionBox;
     private JButton loginButton;
     private JTextField idField;
+
+    private MainFrame mainFrame;
+
+    public LoginForm(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+    }
 
     public JPanel getMainPanel() {
         return mainPanel;
@@ -44,7 +52,14 @@ public class LoginForm {
                     invalidIdDialog.setVisible(true);
                 }
 
-                // tryAuth(userClass, userId);
+                if (tryAuth(userClass, userId)) {
+                    mainFrame.switchClassPanel(new User(userClass, userId));
+                } else {
+                    FailedLoginDialog failedLoginDialog = new FailedLoginDialog();
+                    failedLoginDialog.pack();
+                    failedLoginDialog.setLocationRelativeTo(mainPanel);
+                    failedLoginDialog.setVisible(true);
+                }
             }
         });
     }
