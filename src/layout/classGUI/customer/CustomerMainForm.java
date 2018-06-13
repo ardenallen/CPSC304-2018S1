@@ -1,6 +1,7 @@
 package layout.classGUI.customer;
 
 import layout.MainFrame;
+import layout.dialog.LoyaltyPointDialog;
 import layout.dialog.LoyaltySignupDialog;
 import model.Customer;
 
@@ -19,7 +20,8 @@ public class CustomerMainForm {
     private JLabel statusLabel;
 
     private MainFrame mainFrame;
-
+    private ActionListener signupListner;
+    private ActionListener pointCheckListener;
     private Customer customer;
 
     public CustomerMainForm(MainFrame mainFrame, Customer customer) {
@@ -28,6 +30,7 @@ public class CustomerMainForm {
 
         if(customer.isLoyaltyMember()){
             statusLabel.setText(STATUS_BASE + "Loyalty Member");
+            switchLoyalMembershipButton();
         } else {
             statusLabel.setText(STATUS_BASE + "Regular Member");
         }
@@ -37,37 +40,46 @@ public class CustomerMainForm {
         return mainPanel;
     }
 
+    private void switchLoyalMembershipButton() {
+        loyaltySignupButton.setText("Check membership points");
+        loyaltySignupButton.removeActionListener(signupListner);
+
+        pointCheckListener = e -> {
+            LoyaltyPointDialog loyaltyPointDialog = new LoyaltyPointDialog(customer);
+            loyaltyPointDialog.pack();
+            loyaltyPointDialog.setLocationRelativeTo(mainPanel);
+            loyaltyPointDialog.setVisible(true);
+        };
+
+        loyaltySignupButton.addActionListener(pointCheckListener);
+
+        loyaltySignupButton.revalidate();
+    }
+
     private void createUIComponents() {
+        /*
+         * Status label handler
+         */
         statusLabel = new JLabel();
 
         /*
          * Logout button handler
          */
         logoutButton = new JButton("Logout");
-        logoutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.logout();
-            }
-        });
+        logoutButton.addActionListener(e -> mainFrame.logout());
 
         /*
-         * Loyalty member sign-up button handler
+         * Loyalty member sign-up/point check button handler
          */
+        signupListner = e -> {
+            LoyaltySignupDialog loyaltySignupDialog = new LoyaltySignupDialog(customer, mainFrame);
+            loyaltySignupDialog.pack();
+            loyaltySignupDialog.setLocationRelativeTo(mainPanel);
+            loyaltySignupDialog.setVisible(true);
+        };
+
         loyaltySignupButton = new JButton("Signup for loyalty membership");
 
-        loyaltySignupButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LoyaltySignupDialog loyaltySignupDialog = new LoyaltySignupDialog(customer, mainFrame);
-                loyaltySignupDialog.pack();
-                loyaltySignupDialog.setLocationRelativeTo(mainPanel);
-                loyaltySignupDialog.setVisible(true);
-            }
-        });
-
-        if (customer.isLoyaltyMember()) {
-            loyaltySignupButton.setEnabled(false);
-        }
+        loyaltySignupButton.addActionListener(signupListner);
     }
 }
