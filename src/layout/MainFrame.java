@@ -3,6 +3,7 @@ package layout;
 import layout.classGUI.customer.CustomerMainForm;
 import layout.classGUI.employee.EmployeeMainForm;
 import layout.classGUI.manager.ManagerMainForm;
+import model.Customer;
 import model.User;
 
 import javax.swing.*;
@@ -39,7 +40,8 @@ public class MainFrame {
     public void switchClassPanel(User user) {
         switch(user.getUserClass()) {
             case "customer":
-                customerMainForm = new CustomerMainForm(this);
+                Customer customer = new Customer(user.getUserId());
+                customerMainForm = new CustomerMainForm(this, customer);
                 removeContent();
                 changeContent(customerMainForm.getMainPanel());
                 break;
@@ -62,6 +64,12 @@ public class MainFrame {
         removeContent();
         loginForm = new LoginForm(this);
         changeContent(loginForm.getMainPanel());
+    }
+
+    public void refreshCustomerFrame(Customer customer) {
+        customerMainForm = new CustomerMainForm(this, customer);
+        removeContent();
+        changeContent(customerMainForm.getMainPanel());
     }
 
     private void removeContent() {
