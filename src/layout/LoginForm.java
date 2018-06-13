@@ -50,6 +50,7 @@ public class LoginForm {
                     invalidIdDialog.pack();
                     invalidIdDialog.setLocationRelativeTo(mainPanel);
                     invalidIdDialog.setVisible(true);
+                    return;
                 }
 
                 if (tryAuth(userClass, userId)) {

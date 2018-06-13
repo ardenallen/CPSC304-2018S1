@@ -13,6 +13,7 @@ public class ManagerMainForm {
     private JButton bookingsButton;
     private JButton statsButton;
     private JButton logoutButton;
+    private JButton employeeButton;
 
     private MainFrame mainFrame;
 
