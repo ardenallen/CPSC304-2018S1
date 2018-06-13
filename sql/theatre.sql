@@ -14,7 +14,7 @@ DROP TABLE Employee;
 CREATE TABLE Movie
   (
     title char(50),
-    genre char(20),
+    genre char(50),
     duration int,
     censor char(3),
     PRIMARY KEY(title)
@@ -123,3 +123,36 @@ CREATE TABLE Ticket
 --
 -- Adding in data
 --
+
+-- INSERT Movie data
+INSERT INTO Movie values('Incredibles 2', 'Family', 125, 'PG');
+INSERT INTO Movie values('Deadpool 2', 'Action/Comedy', 119, '18A');
+INSERT INTO Movie values('Solo: A Stars Wars Story', 'Action/Sci-Fi', 135, 'PG');
+INSERT INTO Movie values('Hotel Artemis', 'Action/Sci-Fi/Suspense', 94, '18A');
+INSERT INTO Movie values('Avengers: Infinity War', 'Action/Adventure/Fantasy', 150, 'PG');
+INSERT INTO Movie values('Wont you be my neighbor?', 'Documentary', 95, 'PG');
+INSERT INTO Movie values('Show Dogs', 'Family', 92, 'PG');
+INSERT INTO Movie values('Disobedience', 'Drama/Romance', 114, '14A');
+INSERT INTO Movie values('Hereditary', 'Horror', 128, '14A');
+INSERT INTO Movie values('I Feel Pretty', 'Comedy', 110, 'PG');
+INSERT INTO Movie values('Book Club', 'Comedy', 104, 'PG');
+INSERT INTO Movie values('On Chesil Beach', 'Drama', 110, '14A');
+INSERT INTO Movie values('Tag', 'Comedy', 100, '14A');
+
+-- INSERT Auditorium data
+INSERT INTO Auditorium values(1, 120);
+INSERT INTO Auditorium values(2, 112);
+INSERT INTO Auditorium values(3, 112);
+INSERT INTO Auditorium values(4, 112);
+INSERT INTO Auditorium values(5, 112);
+INSERT INTO Auditorium values(6, 180);
+INSERT INTO Auditorium values(7, 180);
+INSERT INTO Auditorium values(8, 180);
+INSERT INTO Auditorium values(9, 307);
+INSERT INTO Auditorium values(10, 307);
+
+-- INSERT Showtime data
+INSERT INTO Showtime1 values('2018-06-15 12:15:00', 'Incredibles 2', 10);
+INSERT INTO Showtime1 values('2018-06-15 15:25:00', 'Incredibles 2', 10);
+INSERT INTO Showtime1 values('2018-06-15 18:30:00', 'Incredibles 2', 10);
+INSERT INTO Showtime1 values('2018-06-15 21:15:00', 'Incredibles 2', 10);
