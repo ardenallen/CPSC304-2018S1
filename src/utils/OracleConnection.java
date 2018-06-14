@@ -12,8 +12,9 @@ public class OracleConnection {
      * connects to Oracle database named ug using user supplied username and password
      */
     public void connect() {
-        String connectURL = "jdbc:oracle:thin@dbhost.ugrad.cs";
+        String connectURL = "jdbc:oracle:thin:@localhost:1522:ug";
         try {
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             conn = DriverManager.getConnection(connectURL,"ora_p9n0b","a10804152");
             System.out.println("\nConnected to Oracle!");
         } catch (SQLException ex) {

@@ -6,11 +6,12 @@ import java.sql.SQLException;
 
 public class TicketDB {
 
-    private OracleConnection oracle;
+    private OracleConnection oracle = new OracleConnection();
 
     // This returns the number of tickets show given the Movie Title and the start time of the Showtime
-    public int ticketSoldPerMoviePerShowtime (String movieTitlle, String showTime) throws SQLException {
+    public int ticketSoldPerMoviePerShowtime (String movieTitlle, String showTime) {
         oracle.connect();
+        int ticketSold = -1;
         try {
             PreparedStatement ps = oracle.conn.prepareStatement(
                     "SELECT COUNT(*) FROM TICKET " +
@@ -18,11 +19,11 @@ public class TicketDB {
             ps.setString(1, movieTitlle);
             ps.setString(2, showTime);
             ResultSet rs = ps.executeQuery();
-
-            return rs.getFetchSize();
+            ticketSold = rs.getFetchSize();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-            throw ex;
-        }
+        } return ticketSold;
     }
+
+
 }
