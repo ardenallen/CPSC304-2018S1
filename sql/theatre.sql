@@ -13,7 +13,7 @@ DROP TABLE Employee;
 
 CREATE TABLE Movie
   (
-    title varchar(50),
+    title char(50),
     genre varchar(50),
     duration int,
     censor char(3),
