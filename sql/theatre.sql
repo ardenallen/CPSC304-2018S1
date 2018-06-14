@@ -13,7 +13,7 @@ DROP TABLE Employee;
 
 CREATE TABLE Movie
   (
-    title char(50),
+    title varchar(50),
     genre varchar(50),
     duration int,
     censor char(3),
@@ -30,7 +30,7 @@ CREATE TABLE Auditorium
 CREATE TABLE Showtime1
   ( 
     start_time timestamp,
-    title char(50),
+    title varchar(50),
     aID int NOT NULL,
     UNIQUE(start_time, aID),
     PRIMARY KEY (start_time, title),
@@ -41,7 +41,7 @@ CREATE TABLE Showtime1
 CREATE TABLE Showtime2
   ( 
     cc char(1),
-    title char(50),
+    title varchar(50),
     aID int,
     PRIMARY KEY (title, aID),
     FOREIGN KEY (title) REFERENCES Movie (title) ON DELETE CASCADE,
@@ -106,7 +106,7 @@ CREATE TABLE Ticket
   (
     transaction int NOT NULL,
     ticket_num int,
-    title char(50) NOT NULL,
+    title varchar(50) NOT NULL,
     start_time timestamp NOT NULL,
     price decimal,
     aID int NOT NULL,
