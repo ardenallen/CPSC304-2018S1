@@ -10,26 +10,6 @@ public class Customer extends User {
 
     public Customer(int userId) {
         super("customer", userId);
-        try {
-            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-        } catch (SQLException ex) {
-            System.out.println("Message: " + ex.getMessage());
-            System.exit(-1);
-        }
-    }
-
-    private boolean connect(String username, String password) {
-        String connectURL = "jdbc:oracle:thin:@localhost:1522:ug";
-
-        try {
-            con = DriverManager.getConnection(connectURL,username,password);
-
-            System.out.println("\nConnected to Oracle!");
-            return true;
-        } catch (SQLException ex) {
-            System.out.println("Message: " + ex.getMessage());
-            return false;
-        }
     }
 
     public boolean isLoyaltyMember() {
