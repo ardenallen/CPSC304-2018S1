@@ -6,20 +6,24 @@ import java.sql.Connection;
 
 
 public class OracleConnection {
-    public Connection conn;
+    private Connection conn;
 
     /*
      * connects to Oracle database named ug using user supplied username and password
      */
-    public void connect()throws SQLException {
+    public void connect() {
         String connectURL = "jdbc:oracle:thin:@localhost:1522:ug";
         try {
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            conn = DriverManager.getConnection(connectURL,"ora_p9n0b","a10804152");
+            this.conn = DriverManager.getConnection(connectURL,"ora_p9n0b","a10804152");
             System.out.println("\nConnected to Oracle!");
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
-            throw ex;
+            ex.printStackTrace();
         }
+    }
+
+    public Connection returnConnection() {
+        return this.conn;
     }
 }

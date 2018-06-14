@@ -13,15 +13,13 @@ public class TicketDB {
         int ticketSold = -1;
         try {
             oracle.connect();
-            PreparedStatement ps = oracle.conn.prepareStatement(
-                    "SELECT COUNT(TICKET_NUM) FROM Ticket " +
+            PreparedStatement ps = oracle.returnConnection().prepareStatement(
+                    "SELECT COUNT(*) FROM Ticket " +
                     "WHERE TITLE = ? AND START_TIME = ?");
             ps.setString(1, movieTitlle);
             ps.setString(2, showTime);
             ResultSet rs = ps.executeQuery();
-            // DO NOT USE FETCH SIZE, GET RESULT FROM rs
             ticketSold = rs.getFetchSize();
-            System.out.println(ticketSold);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         } return ticketSold;
