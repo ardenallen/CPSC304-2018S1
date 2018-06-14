@@ -10,14 +10,21 @@ public class MovieDB {
 
     // This returns the movie's info (duration, genre and censor) given a movieTitle
     public MovieInfo getMovieInfo (String movieTitle) {
-        //String SQL = "SELECT Title, Duration, Genre, Censor FROM Movie WHERE Title = ?";
-        //String SQL = "SELECT Title, Duration, Genre, Censor FROM Movie WHERE Title = '" + movieTitle + "'";
-        String SQL = "SELECT Title, Duration, Genre, Censor FROM Movie WHERE Duration = ?";
         MovieInfo result = null;
         try {
             oracle.connect();
-            PreparedStatement ps = oracle.conn.prepareStatement(SQL);
-            ps.setInt(1, 140);
+            // This PreparedStatement works:
+            PreparedStatement ps = oracle.conn.prepareStatement(
+                    "SELECT Title, Duration, Genre, Censor FROM Movie " +
+                            "WHERE Title = 'Tag'");
+
+            // This one does not;
+            /* PreparedStatement ps = oracle.conn.prepareStatement(
+                    "SELECT Title, Duration, Genre, Censor FROM Movie " +
+                            "WHERE Title = 'Tag'");
+            ps.setString(1, movieTitle);
+            */
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
