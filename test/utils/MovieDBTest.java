@@ -12,6 +12,6 @@ public class MovieDBTest {
         movieDB = new MovieDB();
         MovieInfo actual = movieDB.getMovieInfo("Tag");
         MovieInfo expected = new MovieInfo(100, "Comedy", "14A");
-        Assert.assertEquals(expected, actual);
+        Assert.assertTrue(expected.equals(actual));
     }
 }
