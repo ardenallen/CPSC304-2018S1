@@ -1,5 +1,6 @@
 package layout;
 
+import layout.classGUI.customer.CustomerBookingForm;
 import layout.classGUI.customer.CustomerMainForm;
 import layout.classGUI.employee.EmployeeMainForm;
 import layout.classGUI.manager.ManagerMainForm;
@@ -70,6 +71,11 @@ public class MainFrame {
         customerMainForm = new CustomerMainForm(this, customer);
         removeContent();
         changeContent(customerMainForm.getMainPanel());
+    }
+
+    public void changeToCustomerBookingPanel() {
+        CustomerBookingForm customerBookingForm = new CustomerBookingForm(this);
+        changeContent(customerBookingForm.getMainPanel());
     }
 
     private void removeContent() {

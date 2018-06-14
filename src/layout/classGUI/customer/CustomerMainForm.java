@@ -81,5 +81,14 @@ public class CustomerMainForm {
         loyaltySignupButton = new JButton("Signup for loyalty membership");
 
         loyaltySignupButton.addActionListener(signupListner);
+
+        /*
+         * Booking button handler
+         */
+
+        bookButton = new JButton("Book tickets");
+        bookButton.addActionListener(e -> {
+            mainFrame.changeToCustomerBookingPanel();
+        });
     }
 }
