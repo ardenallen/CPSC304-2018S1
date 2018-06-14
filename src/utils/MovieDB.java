@@ -16,14 +16,8 @@ public class MovieDB {
             // This PreparedStatement works:
             PreparedStatement ps = oracle.conn.prepareStatement(
                     "SELECT Title, Duration, Genre, Censor FROM Movie " +
-                            "WHERE Title = 'Tag'");
-
-            // This one does not;
-            /* PreparedStatement ps = oracle.conn.prepareStatement(
-                    "SELECT Title, Duration, Genre, Censor FROM Movie " +
-                            "WHERE Title = 'Tag'");
-            ps.setString(1, movieTitle);
-            */
+                            "WHERE Title LIKE ?");
+            ps.setString(1, "%" + movieTitle + "%");
 
             ResultSet rs = ps.executeQuery();
 
