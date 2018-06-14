@@ -10,11 +10,11 @@ public class TicketDB {
 
     // This returns the number of tickets show given the Movie Title and the start time of the Showtime
     public int ticketSoldPerMoviePerShowtime (String movieTitlle, String showTime) {
-        oracle.connect();
         int ticketSold = -1;
         try {
+            oracle.connect();
             PreparedStatement ps = oracle.conn.prepareStatement(
-                    "SELECT COUNT(*) FROM TICKET " +
+                    "SELECT COUNT(*) FROM Ticket " +
                     "WHERE TITLE = ? AND START_TIME = ?");
             ps.setString(1, movieTitlle);
             ps.setString(2, showTime);
