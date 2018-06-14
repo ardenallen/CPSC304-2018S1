@@ -119,6 +119,7 @@ CREATE TABLE Ticket
     FOREIGN KEY (start_time, title) REFERENCES Showtime1 (start_time, title) ON DELETE CASCADE
   );
 
+ commit;
 
 --
 -- Adding in data
@@ -156,3 +157,5 @@ INSERT INTO Showtime1 values('2018-06-15 12:15:00', 'Incredibles 2', 10);
 INSERT INTO Showtime1 values('2018-06-15 15:25:00', 'Incredibles 2', 10);
 INSERT INTO Showtime1 values('2018-06-15 18:30:00', 'Incredibles 2', 10);
 INSERT INTO Showtime1 values('2018-06-15 21:15:00', 'Incredibles 2', 10);
+
+commit work;
