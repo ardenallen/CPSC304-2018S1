@@ -8,7 +8,7 @@ public class EmployeeTest {
 
     @Test
     public void testGetMovieInfo() {
-        int ticketSold = employee.ticketSoldPerMoviePerShowtime("Tag", "2018-06-15 12:15:00");
+        int ticketSold = Employee.ticketSoldPerMoviePerShowtime("Tag", "2018-06-15 12:15:00");
         Assert.assertTrue(ticketSold == 0);
     }
 }

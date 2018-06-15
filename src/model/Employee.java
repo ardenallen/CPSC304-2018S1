@@ -4,11 +4,19 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Employee extends User {
-    public Employee(int userId) {
+    private int eID;
+    private String name;
+    private int SIN;
+    private String phone;
+
+    public Employee(int userId, String name, int SIN, String phone) {
         super("employee", userId);
+        this.name = name;
+        this.SIN = SIN;
+        this.phone = phone;
     }
 
-    public int ticketSoldPerMoviePerShowtime (String movieTitle, String showTime) {
+    public static int ticketSoldPerMoviePerShowtime (String movieTitle, String showTime) {
         int ticketSold = -1;
         try {
             PreparedStatement ps = conn.prepareStatement(

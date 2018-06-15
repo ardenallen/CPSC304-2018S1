@@ -41,7 +41,6 @@ public class Movie {
 
     public static List<Movie> getAllMovie() {
         List<Movie> result = new ArrayList<>();
-
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT * FROM MOVIE");

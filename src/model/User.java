@@ -7,7 +7,7 @@ import java.sql.*;
 public class User {
     private String userClass;
     private int userId;
-    public Connection conn = OracleConnection.buildConnection();
+    public static Connection conn = OracleConnection.buildConnection();
 
     //Constructor
     public User(String userClass, int userId) {
@@ -27,7 +27,7 @@ public class User {
 
     public void setUserId(int newUserId) { this.userId = newUserId; }
 
-    public Movie getMovieInfo(String movieTitle) {
+    public static Movie getMovieInfo(String movieTitle) {
 
         Movie result = null;
         try {
