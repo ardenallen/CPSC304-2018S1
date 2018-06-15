@@ -2,13 +2,13 @@ package model;
 
 public class Ticket {
     private int ticketNum;
-    private int price;
+    private float price;
     private String transactionNum;
     private String title;
     private String startTime; // String??
     private int aId;
 
-    public Ticket(int ticketNum, int price, String transactionNum, String title, String startTime, int aId) {
+    public Ticket(int ticketNum, float price, String transactionNum, String title, String startTime, int aId) {
         this.ticketNum = ticketNum;
         this.price = price;
         this.transactionNum = transactionNum;
@@ -21,7 +21,7 @@ public class Ticket {
         return ticketNum;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 

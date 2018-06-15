@@ -1,7 +1,7 @@
 package model;
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 // Booking is a list of tickets
 public class Booking {
@@ -10,9 +10,9 @@ public class Booking {
     private String cardInfo;
     private int eId;
     private int cId;
-    private ArrayList<Ticket> tickets;
+    private List<Ticket> tickets;
 
-    public Booking(String transactionNum, String paymentMethod, String cardInfo, int eId, int cId, ArrayList<Ticket> tickets) {
+    public Booking(String transactionNum, String paymentMethod, String cardInfo, int eId, int cId, List<Ticket> tickets) {
         this.transactionNum = transactionNum;
         this.paymentMethod = paymentMethod;
         this.cardInfo = cardInfo;
@@ -41,7 +41,7 @@ public class Booking {
         return cId;
     }
 
-    public ArrayList<Ticket> getTickets() {
+    public List<Ticket> getTickets() {
         return tickets;
     }
 }
