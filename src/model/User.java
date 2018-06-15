@@ -19,37 +19,11 @@ public class User {
         return userClass;
     }
 
-     public void setUserClass(String newUserClass) { this.userClass = newUserClass; }
+    public void setUserClass(String newUserClass) { this.userClass = newUserClass; }
 
     public Integer getUserId() {
         return userId;
     }
 
     public void setUserId(int newUserId) { this.userId = newUserId; }
-
-    public Movie getMovieInfo(String movieTitle) {
-
-        Movie result = null;
-        try {
-            PreparedStatement ps = conn.prepareStatement(
-                    "SELECT Title, Duration, Genre, Censor " +
-                    "FROM Movie " + "WHERE Title = ?");
-
-            ps.setString(1, movieTitle);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()){
-                String title = rs.getString("Title");
-                int duration = rs.getInt("Duration");
-                String genre = rs.getString("Genre");
-                String censor = rs.getString("Censor");
-                System.out.println(title);
-                result = new Movie(title, duration, genre, censor);
-            }
-        } catch (SQLException ex) {
-            System.out.println("Message: " + ex.getMessage());
-        }
-        return result;
-    }
 }

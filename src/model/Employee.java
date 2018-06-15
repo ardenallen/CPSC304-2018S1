@@ -19,7 +19,4 @@ public class Employee extends User {
         }
         return ticketSold;
     }
-
-
-
 }
