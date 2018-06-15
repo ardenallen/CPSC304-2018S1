@@ -10,7 +10,6 @@ public class Manager extends Employee {
     }
 
     public void addMovie(String title, int duration, String genre, String censor) {
-         this.connect();
          try {
              PreparedStatement ps = conn.prepareStatement(
                      "INSERT INTO MOVIE " +
@@ -27,7 +26,6 @@ public class Manager extends Employee {
     }
 
     public void removeMovie (String title) {
-        this.connect();
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "DELETE MOVIE WHERE Title = ?");

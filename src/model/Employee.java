@@ -9,7 +9,6 @@ public class Employee extends User {
     }
 
     public int ticketSoldPerMoviePerShowtime (String movieTitle, String showTime) {
-        this.connect();
         int ticketSold = -1;
         try {
             PreparedStatement ps = conn.prepareStatement(

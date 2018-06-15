@@ -8,8 +8,8 @@ public class UserTest {
 
     @Test
     public void testGetMovieInfo() {
-        MovieInfo actual = user.getMovieInfo("Tag");
-        MovieInfo expected = new MovieInfo("Tag", 100, "Comedy","14A");
+        Movie actual = user.getMovieInfo("Tag");
+        Movie expected = new Movie("Tag", 100, "Comedy","14A");
         Assert.assertTrue(actual.equals(expected));
     }
 }

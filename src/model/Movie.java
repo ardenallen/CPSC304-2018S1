@@ -1,9 +1,16 @@
 package model;
 
+import utils.OracleConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
+    public static Connection conn = OracleConnection.buildConnection();
     private String title;
     private int duration; // in minutes
     private String genre;
@@ -32,14 +39,26 @@ public class Movie {
         return censor;
     }
 
-    public static List<Movie> getAllMovieInfo() {
-        List<Movie> allMovie = new ArrayList<>();
+    public static List<Movie> getAllMovie() {
+        List<Movie> result = new ArrayList<>();
 
-        /*
-         * TODO: Add query to pull all movies
-         */
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT * FROM MOVIE");
+            ResultSet rs = ps.executeQuery();
 
-        return allMovie;
+            while (rs.next()) {
+                String title = rs.getString("Title");
+                int duration = rs.getInt("Duration");
+                String genre = rs.getString("Genre");
+                String censor = rs.getString("Censor");
+                Movie movie = new Movie(title, duration, genre, censor);
+                result.add(movie);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
     }
 
     public boolean equals(Movie movie) {
