@@ -1,8 +1,6 @@
 package model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class User {
     public Connection conn;
@@ -41,7 +39,27 @@ public class User {
 
     public void setUserId(int newUserId) { this.userId = newUserId; }
 
-    //public MovieInfo getMovieInfo(String ) {
+    public MovieInfo getMovieInfo(String movieTitle) {
+        MovieInfo result = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT Title, Duration, Genre, Censor " +
+                    "FROM Movie " + "WHERE Title = ?");
 
-    //}
+            ps.setString(1, movieTitle);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                String title = rs.getString("Title");
+                int duration = rs.getInt("Duration");
+                String genre = rs.getString("Genre");
+                String censor = rs.getString("Censor");
+                System.out.println(title);
+                result = new MovieInfo(title, duration, genre, censor);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
+    }
 }
