@@ -19,13 +19,11 @@ public class User {
         return userClass;
     }
 
-     public void setUserClass(String newUserClass) { this.userClass = newUserClass; }
+    public void setUserClass(String newUserClass) { this.userClass = newUserClass; }
 
     public Integer getUserId() {
         return userId;
     }
-
-    public void setUserId(int newUserId) { this.userId = newUserId; }
 
     public static Movie getMovieInfo(String movieTitle) {
 

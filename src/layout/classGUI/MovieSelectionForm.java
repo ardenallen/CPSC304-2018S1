@@ -28,12 +28,17 @@ public class MovieSelectionForm {
         for (Movie movie : movieList) {
             JButton movieButton = new JButton();
             movieButton.setText(movieInfoHtmlParser(movie));
+            movieButton.addActionListener(e -> {
+                mainFrame.changeToShowtimeSelectPanel(movie);
+            });
             mainPanel.add(movieButton);
-
-            /*
-             * TODO: Add a new action listener to showtime selection screen
-             */
         }
+
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(e -> {
+            mainFrame.backToCustomerMainForm();
+        });
+        mainPanel.add(backButton);
     }
 
     public JPanel getMainPanel() {
