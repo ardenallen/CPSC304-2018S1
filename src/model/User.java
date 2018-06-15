@@ -43,7 +43,8 @@ public class User {
         this.connect();
         MovieInfo result = null;
         try {
-            PreparedStatement ps = conn.prepareStatement("SELECT Title, Duration, Genre, Censor " +
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT Title, Duration, Genre, Censor " +
                     "FROM Movie " + "WHERE Title = ?");
 
             ps.setString(1, movieTitle);

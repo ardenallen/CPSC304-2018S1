@@ -12,7 +12,8 @@ public class Employee extends User {
         this.connect();
         int ticketSold = -1;
         try {
-            PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM Ticket " +
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT COUNT(*) FROM Ticket " +
                     "WHERE TITLE = ? AND START_TIME = ?");
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
