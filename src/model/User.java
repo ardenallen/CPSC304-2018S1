@@ -39,9 +39,9 @@ public class User {
 
     public void setUserId(int newUserId) { this.userId = newUserId; }
 
-    public MovieInfo getMovieInfo(String movieTitle) {
+    public Movie getMovieInfo(String movieTitle) {
         this.connect();
-        MovieInfo result = null;
+        Movie result = null;
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT Title, Duration, Genre, Censor " +
@@ -57,7 +57,7 @@ public class User {
                 String genre = rs.getString("Genre");
                 String censor = rs.getString("Censor");
                 System.out.println(title);
-                result = new MovieInfo(title, duration, genre, censor);
+                result = new Movie(title, duration, genre, censor);
             }
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
