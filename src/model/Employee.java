@@ -35,4 +35,27 @@ public class Employee extends User {
         }
         return ticketSold;
     }
+
+    public static Booking getBooking(String transactionNumber) {
+        Booking result = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT T.TRANSACTION, TICKET_NUM, TITLE, START_TIME, PRICE, AID, " +
+                            "PAYMENT_METHOD, CARD_INFO, EID, CID " +
+                            "FROM BOOKING B, TICKET T " +
+                            "WHERE T.TRANSACTION = ? " +
+                            "AND T.TRANSACTION = B.TRANSACTION");
+            ps.setString(1, transactionNumber);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                // Question: What is the expected output of this??
+            }
+
+        } catch (SQLException ex) {
+
+        }
+
+        return result;
+    }
 }
