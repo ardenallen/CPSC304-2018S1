@@ -18,6 +18,8 @@ public class MovieSelectionForm {
 
     public MovieSelectionForm(MainFrame mainFrame) {
         /*
+         * Movie button generator
+         *
          * TODO: Get list of movie from DB
          *
          * Below is just placeholder for now
@@ -34,6 +36,9 @@ public class MovieSelectionForm {
             mainPanel.add(movieButton);
         }
 
+        /*
+         * Back button handler
+         */
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
             mainFrame.backToCustomerMainForm();

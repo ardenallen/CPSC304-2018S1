@@ -2,6 +2,7 @@ package layout;
 
 import layout.classGUI.MovieSelectionForm;
 import layout.classGUI.ShowtimeSelectionForm;
+import layout.classGUI.customer.CustomerBookingForm;
 import layout.classGUI.customer.CustomerMainForm;
 import layout.classGUI.employee.EmployeeMainForm;
 import layout.classGUI.manager.ManagerMainForm;
@@ -95,6 +96,11 @@ public class MainFrame {
     public void backToMovieSelectionForm() {
         removeContent();
         changeContent(movieSelectionForm.getMainPanel());
+    }
+
+    public void backToShowtimeSelectionForm() {
+        removeContent();
+        changeContent(showtimeSelectionForm.getMainPanel());
     }
 
     private void removeContent() {
