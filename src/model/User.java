@@ -40,6 +40,7 @@ public class User {
     public void setUserId(int newUserId) { this.userId = newUserId; }
 
     public MovieInfo getMovieInfo(String movieTitle) {
+        this.connect();
         MovieInfo result = null;
         try {
             PreparedStatement ps = conn.prepareStatement("SELECT Title, Duration, Genre, Censor " +
