@@ -1,4 +1,4 @@
-package layout.classGUI.customer;
+package layout.classGUI.customer.history;
 
 import layout.MainFrame;
 import model.Booking;
@@ -13,8 +13,10 @@ public class CustomerHistoryForm {
 
     private List<Booking> bookingList;
 
-    public CustomerHistoryForm(Customer customer, MainFrame mainFrame) {
+    public CustomerHistoryForm(MainFrame mainFrame, Customer customer) {
         /*
+         * History button generator
+         *
          * TODO: Get booking list of customer from DB
          *
          * Below is a placeholder
@@ -25,9 +27,7 @@ public class CustomerHistoryForm {
             JButton bookingButton = new JButton();
             bookingButton.setText("Transaction #: " + booking.getTransactionNum());
             bookingButton.addActionListener(e -> {
-                /*
-                 * TODO: Create a page to view associated tickets
-                 */
+                mainFrame.changeToCustomerTicketsPanel(booking);
             });
         }
 
@@ -39,5 +39,9 @@ public class CustomerHistoryForm {
             mainFrame.backToCustomerMainForm();
         });
         mainPanel.add(backButton);
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 }

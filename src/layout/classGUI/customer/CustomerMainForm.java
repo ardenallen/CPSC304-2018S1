@@ -87,5 +87,13 @@ public class CustomerMainForm {
         bookButton.addActionListener(e -> {
             mainFrame.changeToMovieSelectPanel();
         });
+
+        /*
+         * History button handler
+         */
+        historyButton = new JButton("View bookings");
+        historyButton.addActionListener(e -> {
+            mainFrame.changeToCustomerHistoryPanel(customer);
+        });
     }
 }

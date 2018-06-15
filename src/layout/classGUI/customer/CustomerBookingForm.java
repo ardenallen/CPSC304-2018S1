@@ -57,6 +57,7 @@ public class CustomerBookingForm {
         confirmButton.addActionListener(e -> {
             /*
              * TODO: Add booking into DB
+             * TODO: Give customer points, if he/she is a loyalty member
              */
         });
 
