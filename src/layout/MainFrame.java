@@ -56,7 +56,8 @@ public class MainFrame {
     public void switchClassPanel(User user) {
         switch(user.getUserClass()) {
             case "customer":
-                Customer customer = new Customer(user.getUserId());
+                // TODO: Get customer name from DB
+                Customer customer = new Customer(user.getUserId(), "John");
                 customerMainForm = new CustomerMainForm(this, customer);
                 removeContent();
                 changeContent(customerMainForm.getMainPanel());

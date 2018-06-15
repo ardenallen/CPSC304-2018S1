@@ -185,16 +185,16 @@ INSERT INTO Showtime1 values('2018-06-22 18:30:00', 'Tag', 8);
 INSERT INTO Showtime1 values('2018-06-22 21:15:00', 'Tag', 8);
 
 -- INSERT Closed Captioning Information
-INSERT INTO Showtime2 values('1', 'Solo: A Stars Wars Story', 1)
-INSERT INTO Showtime2 values('0', 'Disobedience', 2)
-INSERT INTO Showtime2 values('0', 'Wont you be my neighbor?', 3)
-INSERT INTO Showtime2 values('1', 'Avengers: Infinity War', 4)
-INSERT INTO Showtime2 values('1', 'On Chesil Beach', 5)
-INSERT INTO Showtime2 values('1', 'Book Club', 6)
-INSERT INTO Showtime2 values('1', 'Hereditary', 7)
-INSERT INTO Showtime2 values('1', 'Tag', 8)
-INSERT INTO Showtime2 values('0', 'Deadpool 2', 9)
-INSERT INTO Showtime2 values('1', 'Incredibles 2', 10)
+INSERT INTO Showtime2 values('1', 'Solo: A Stars Wars Story', 1);
+INSERT INTO Showtime2 values('0', 'Disobedience', 2);
+INSERT INTO Showtime2 values('0', 'Wont you be my neighbor?', 3);
+INSERT INTO Showtime2 values('1', 'Avengers: Infinity War', 4);
+INSERT INTO Showtime2 values('1', 'On Chesil Beach', 5);
+INSERT INTO Showtime2 values('1', 'Book Club', 6);
+INSERT INTO Showtime2 values('1', 'Hereditary', 7);
+INSERT INTO Showtime2 values('1', 'Tag', 8);
+INSERT INTO Showtime2 values('0', 'Deadpool 2', 9);
+INSERT INTO Showtime2 values('1', 'Incredibles 2', 10);
 
 
 -- INSERT Customer data
