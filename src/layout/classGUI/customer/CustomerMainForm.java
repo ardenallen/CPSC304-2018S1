@@ -17,10 +17,11 @@ public class CustomerMainForm {
     private JButton logoutButton;
     private JPanel mainPanel;
     private JLabel statusLabel;
-
-    private MainFrame mainFrame;
     private ActionListener signupListner;
     private ActionListener pointCheckListener;
+
+    private MainFrame mainFrame;
+
     private Customer customer;
 
     public CustomerMainForm(MainFrame mainFrame, Customer customer) {
@@ -76,18 +77,23 @@ public class CustomerMainForm {
             loyaltySignupDialog.setLocationRelativeTo(mainPanel);
             loyaltySignupDialog.setVisible(true);
         };
-
         loyaltySignupButton = new JButton("Signup for loyalty membership");
-
         loyaltySignupButton.addActionListener(signupListner);
 
         /*
          * Booking button handler
          */
-
         bookButton = new JButton("Book tickets");
         bookButton.addActionListener(e -> {
             mainFrame.changeToMovieSelectPanel();
+        });
+
+        /*
+         * History button handler
+         */
+        historyButton = new JButton("View bookings");
+        historyButton.addActionListener(e -> {
+            mainFrame.changeToCustomerHistoryPanel(customer);
         });
     }
 }

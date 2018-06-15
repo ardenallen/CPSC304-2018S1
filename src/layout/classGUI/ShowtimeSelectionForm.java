@@ -15,10 +15,13 @@ public class ShowtimeSelectionForm {
     private static final String HTML_END = "</html>";
 
     private JPanel mainPanel;
+
     private List<Showtime> showtimeList;
 
     public ShowtimeSelectionForm(Movie movie, MainFrame mainFrame) {
         /*
+         * Showtime button generator
+         *
          * TODO: Get list of showtime for a movie from DB
          *
          * Below is just placeholder for now
@@ -36,6 +39,9 @@ public class ShowtimeSelectionForm {
             mainPanel.add(showTimeButton);
         }
 
+        /*
+         * Back button handler
+         */
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
             mainFrame.backToMovieSelectionForm();
@@ -70,6 +76,10 @@ public class ShowtimeSelectionForm {
         stringBuilder.append("Auditorium #: ");
         stringBuilder.append(showtime.getaId());
         stringBuilder.append(HTML_PARA_END);
+
+        /*
+         * TODO: Add showtime availability
+         */
 
         stringBuilder.append(HTML_END);
 

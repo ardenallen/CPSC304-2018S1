@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 // Booking is a list of tickets
 public class Booking {
-    public String transactionNum;
-    public String paymentMethod;
-    public String cardInfo;
-    public int eId;
-    public int cId;
-    public ArrayList<Ticket> tickets;
+    private String transactionNum;
+    private String paymentMethod;
+    private String cardInfo;
+    private int eId;
+    private int cId;
+    private ArrayList<Ticket> tickets;
 
     public Booking(String transactionNum, String paymentMethod, String cardInfo, int eId, int cId, ArrayList<Ticket> tickets) {
         this.transactionNum = transactionNum;
@@ -19,5 +19,29 @@ public class Booking {
         this.eId = eId;
         this.cId = cId;
         this.tickets = tickets;
+    }
+
+    public String getTransactionNum() {
+        return transactionNum;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public String getCardInfo() {
+        return cardInfo;
+    }
+
+    public int geteId() {
+        return eId;
+    }
+
+    public int getcId() {
+        return cId;
+    }
+
+    public ArrayList<Ticket> getTickets() {
+        return tickets;
     }
 }

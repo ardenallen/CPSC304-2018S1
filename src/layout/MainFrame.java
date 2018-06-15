@@ -2,9 +2,12 @@ package layout;
 
 import layout.classGUI.MovieSelectionForm;
 import layout.classGUI.ShowtimeSelectionForm;
+import layout.classGUI.customer.history.CustomerHistoryForm;
 import layout.classGUI.customer.CustomerMainForm;
+import layout.classGUI.customer.history.CustomerTicketsForm;
 import layout.classGUI.employee.EmployeeMainForm;
 import layout.classGUI.manager.ManagerMainForm;
+import model.Booking;
 import model.Customer;
 import model.Movie;
 import model.User;
@@ -21,11 +24,15 @@ public class MainFrame {
     private JFrame mainFrame;
 
     private LoginForm loginForm;
-    private CustomerMainForm customerMainForm;
-    private EmployeeMainForm employeeMainForm;
-    private ManagerMainForm managerMainForm;
     private MovieSelectionForm movieSelectionForm;
     private ShowtimeSelectionForm showtimeSelectionForm;
+
+    private CustomerMainForm customerMainForm;
+    private CustomerHistoryForm customerHistoryForm;
+    private CustomerTicketsForm customerTicketsForm;
+
+    private EmployeeMainForm employeeMainForm;
+    private ManagerMainForm managerMainForm;
 
     private MainFrame() {
         mainFrame = new JFrame("Theatre Management Software");
@@ -41,6 +48,10 @@ public class MainFrame {
     public static void main(String args[]) {
         MainFrame mainFrame = new MainFrame();
     }
+
+    /**
+     * General UI handler
+     */
 
     public void switchClassPanel(User user) {
         switch(user.getUserClass()) {
@@ -71,12 +82,6 @@ public class MainFrame {
         changeContent(loginForm.getMainPanel());
     }
 
-    public void refreshCustomerFrame(Customer customer) {
-        customerMainForm = new CustomerMainForm(this, customer);
-        removeContent();
-        changeContent(customerMainForm.getMainPanel());
-    }
-
     public void changeToMovieSelectPanel() {
         movieSelectionForm = new MovieSelectionForm(this);
         changeContent(movieSelectionForm.getMainPanel());
@@ -87,16 +92,48 @@ public class MainFrame {
         changeContent(showtimeSelectionForm.getMainPanel());
     }
 
-    public void backToCustomerMainForm() {
-        removeContent();
-        changeContent(customerMainForm.getMainPanel());
-    }
-
     public void backToMovieSelectionForm() {
         removeContent();
         changeContent(movieSelectionForm.getMainPanel());
     }
 
+    public void backToShowtimeSelectionForm() {
+        removeContent();
+        changeContent(showtimeSelectionForm.getMainPanel());
+    }
+
+    /**
+     * Customer specific UI handler
+     */
+    public void refreshCustomerFrame(Customer customer) {
+        customerMainForm = new CustomerMainForm(this, customer);
+        removeContent();
+        changeContent(customerMainForm.getMainPanel());
+    }
+
+    public void backToCustomerMainForm() {
+        removeContent();
+        changeContent(customerMainForm.getMainPanel());
+    }
+
+    public void changeToCustomerHistoryPanel(Customer customer) {
+        customerHistoryForm = new CustomerHistoryForm(this, customer);
+        changeContent(customerHistoryForm.getMainPanel());
+    }
+
+    public void changeToCustomerTicketsPanel(Booking booking) {
+        customerTicketsForm = new CustomerTicketsForm(this, booking);
+        changeContent(customerTicketsForm.getMainPanel());
+    }
+
+    public void backToCustomerHistorySelectionForm() {
+        removeContent();
+        changeContent(customerHistoryForm.getMainPanel());
+    }
+
+    /**
+     * UI helper methods
+     */
     private void removeContent() {
         mainFrame.getContentPane().removeAll();
         repaintFrame();
