@@ -1,14 +1,16 @@
 package model;
 
+import java.math.BigDecimal;
+
 public class Ticket {
     private int ticketNum;
-    private float price;
+    private BigDecimal price;
     private String transactionNum;
     private String title;
     private String startTime; // String??
     private int aId;
 
-    public Ticket(int ticketNum, float price, String transactionNum, String title, String startTime, int aId) {
+    public Ticket(int ticketNum, BigDecimal price, String transactionNum, String title, String startTime, int aId) {
         this.ticketNum = ticketNum;
         this.price = price;
         this.transactionNum = transactionNum;
@@ -21,7 +23,7 @@ public class Ticket {
         return ticketNum;
     }
 
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
@@ -39,5 +41,15 @@ public class Ticket {
 
     public int getaId() {
         return aId;
+    }
+
+    public boolean equals (Ticket x) {
+        boolean equalPrice = x.price.compareTo(this.price) == 1 ? true : false;
+        return this.ticketNum == x.ticketNum &&
+                equalPrice &&
+                this.transactionNum.equals(x.transactionNum)  &&
+                this.title.equals(x.title) &&
+                this.startTime.equals(x.startTime) &&
+                this.aId == x.aId;
     }
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,8 +59,8 @@ public class Employee extends User {
             while (rs.next()) {
                 int ticketNum = rs.getInt("Ticket_num");
                 String title = rs.getString("Title");
-                String startTime = rs.getString("Start)time");
-                float price = rs.getFloat("Price");
+                String startTime = rs.getString("Start_time");
+                BigDecimal price = rs.getBigDecimal("Price");
                 int aId = rs.getInt("aID");
                 Ticket x = new Ticket(ticketNum, price, transactionNumber, title, startTime, aId);
                 tickets.add(x);

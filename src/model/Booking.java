@@ -44,4 +44,8 @@ public class Booking {
     public List<Ticket> getTickets() {
         return tickets;
     }
+
+    public boolean equals (Booking x) {
+        return false;
+    }
 }
