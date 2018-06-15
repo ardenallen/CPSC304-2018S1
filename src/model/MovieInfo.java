@@ -30,11 +30,8 @@ public class MovieInfo {
     }
 
     public boolean equals(MovieInfo movieInfo) {
-        boolean w = movieInfo.title == this.title;
-        boolean x = movieInfo.duration == this.duration;
-        boolean y =  movieInfo.genre.equals(this.genre);
-        boolean z = movieInfo.censor.equals(this.censor);
-        return movieInfo.duration == this.duration &&
+        return  movieInfo.title.equals(this.title) &&
+                movieInfo.duration == this.duration &&
                 movieInfo.genre.equals(this.genre) &&
                 movieInfo.censor.equals(this.censor);
     }
