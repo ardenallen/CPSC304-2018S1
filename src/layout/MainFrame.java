@@ -1,6 +1,6 @@
 package layout;
 
-import layout.classGUI.customer.CustomerBookingForm;
+import layout.classGUI.MovieSelectionForm;
 import layout.classGUI.customer.CustomerMainForm;
 import layout.classGUI.employee.EmployeeMainForm;
 import layout.classGUI.manager.ManagerMainForm;
@@ -74,8 +74,8 @@ public class MainFrame {
     }
 
     public void changeToCustomerBookingPanel() {
-        CustomerBookingForm customerBookingForm = new CustomerBookingForm(this);
-        changeContent(customerBookingForm.getMainPanel());
+        MovieSelectionForm movieSelectionForm = new MovieSelectionForm(this);
+        changeContent(movieSelectionForm.getMainPanel());
     }
 
     private void removeContent() {

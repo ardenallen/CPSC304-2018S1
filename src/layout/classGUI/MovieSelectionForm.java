@@ -1,4 +1,4 @@
-package layout.classGUI.customer;
+package layout.classGUI;
 
 import layout.MainFrame;
 import model.Movie;
@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerBookingForm {
+public class MovieSelectionForm {
     private static final String HTML_START = "<html>";
     private static final String HTML_PARA_START = "<p>";
     private static final String HTML_PARA_END = "</p>";
@@ -17,7 +17,7 @@ public class CustomerBookingForm {
     private JPanel mainPanel;
     private List<MovieInfo> movieInfoList;
 
-    public CustomerBookingForm(MainFrame mainFrame) {
+    public MovieSelectionForm(MainFrame mainFrame) {
         /*
          * TODO: Get list of movie from DB
          */
