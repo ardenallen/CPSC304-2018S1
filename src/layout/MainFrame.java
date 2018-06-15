@@ -1,10 +1,12 @@
 package layout;
 
-import layout.classGUI.customer.CustomerBookingForm;
+import layout.classGUI.MovieSelectionForm;
+import layout.classGUI.ShowtimeSelectionForm;
 import layout.classGUI.customer.CustomerMainForm;
 import layout.classGUI.employee.EmployeeMainForm;
 import layout.classGUI.manager.ManagerMainForm;
 import model.Customer;
+import model.Movie;
 import model.User;
 
 import javax.swing.*;
@@ -22,6 +24,8 @@ public class MainFrame {
     private CustomerMainForm customerMainForm;
     private EmployeeMainForm employeeMainForm;
     private ManagerMainForm managerMainForm;
+    private MovieSelectionForm movieSelectionForm;
+    private ShowtimeSelectionForm showtimeSelectionForm;
 
     private MainFrame() {
         mainFrame = new JFrame("Theatre Management Software");
@@ -73,9 +77,24 @@ public class MainFrame {
         changeContent(customerMainForm.getMainPanel());
     }
 
-    public void changeToCustomerBookingPanel() {
-        CustomerBookingForm customerBookingForm = new CustomerBookingForm(this);
-        changeContent(customerBookingForm.getMainPanel());
+    public void changeToMovieSelectPanel() {
+        movieSelectionForm = new MovieSelectionForm(this);
+        changeContent(movieSelectionForm.getMainPanel());
+    }
+
+    public void changeToShowtimeSelectPanel(Movie movie) {
+        showtimeSelectionForm = new ShowtimeSelectionForm(movie, this);
+        changeContent(showtimeSelectionForm.getMainPanel());
+    }
+
+    public void backToCustomerMainForm() {
+        removeContent();
+        changeContent(customerMainForm.getMainPanel());
+    }
+
+    public void backToMovieSelectionForm() {
+        removeContent();
+        changeContent(movieSelectionForm.getMainPanel());
     }
 
     private void removeContent() {

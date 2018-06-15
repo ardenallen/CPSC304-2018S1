@@ -6,7 +6,6 @@ import layout.dialog.LoyaltySignupDialog;
 import model.Customer;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CustomerMainForm {
@@ -88,7 +87,7 @@ public class CustomerMainForm {
 
         bookButton = new JButton("Book tickets");
         bookButton.addActionListener(e -> {
-            mainFrame.changeToCustomerBookingPanel();
+            mainFrame.changeToMovieSelectPanel();
         });
     }
 }
