@@ -3,13 +3,15 @@ package model;
 import java.sql.*;
 
 public class Customer extends User {
+    private static int ticketPoint = 1000;
     private boolean isLoyaltyMember = false;
     private int pointBalance;
+    private String name;
 
-    private Connection con;
 
-    public Customer(int userId) {
+    public Customer(int userId, String name) {
         super("customer", userId);
+        this.name = name;
     }
 
     public boolean isLoyaltyMember() {
@@ -20,8 +22,21 @@ public class Customer extends User {
         return pointBalance;
     }
 
+    public boolean redeem(int numOfTickets) {
+        if (this.pointBalance - numOfTickets * ticketPoint >= 0) {
+            this.pointBalance = this.pointBalance - numOfTickets * ticketPoint;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void updatePoint(int point) {
+        this.pointBalance += point;
+    }
+
     public void signupForLoyaltyMember() {
-        isLoyaltyMember = true;
-        pointBalance = 0;
+        this.isLoyaltyMember = true;
+        this.pointBalance = 0;
     }
 }
