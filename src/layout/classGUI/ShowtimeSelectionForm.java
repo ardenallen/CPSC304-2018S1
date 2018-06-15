@@ -5,6 +5,7 @@ import model.Movie;
 import model.Showtime;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,10 @@ public class ShowtimeSelectionForm {
          */
         showtimeList = new ArrayList<>();
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
         for (Showtime showtime : showtimeList) {
             JButton showTimeButton = new JButton();
             showTimeButton.setText(showtimeInfoHtmlParser(showtime));
@@ -36,7 +41,7 @@ public class ShowtimeSelectionForm {
              * TODO: Add and connect booking page as an action listener
              */
 
-            mainPanel.add(showTimeButton);
+            mainPanel.add(showTimeButton, gbc);
         }
 
         /*

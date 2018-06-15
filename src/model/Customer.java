@@ -1,7 +1,5 @@
 package model;
 
-import java.sql.*;
-
 public class Customer extends User {
     private static int ticketPoint = 1000;
     private boolean isLoyaltyMember = false;
