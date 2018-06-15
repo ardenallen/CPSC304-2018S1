@@ -1,4 +1,6 @@
 package utils;
+import model.MovieInfo;
+
 import java.sql.*;
 
 public class CustomerDB {
