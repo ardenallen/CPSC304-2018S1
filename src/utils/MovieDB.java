@@ -36,7 +36,7 @@ public class MovieDB {
                 String genre = rs.getString("Genre");
                 String censor = rs.getString("Censor");
                 System.out.println(title);
-                result = new MovieInfo(duration, genre, censor);
+                result = new MovieInfo(title, duration, genre, censor);
             }
             ps.close();
         } catch (SQLException ex) {
