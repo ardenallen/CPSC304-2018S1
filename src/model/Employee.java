@@ -3,6 +3,8 @@ package model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Employee extends User {
     private int eID;
@@ -38,6 +40,11 @@ public class Employee extends User {
 
     public static Booking getBooking(String transactionNumber) {
         Booking result = null;
+        String paymentMethod = "";
+        String cardInfo = "";
+        int eId = -1;
+        int cId = -1;
+        List<Ticket> tickets = new ArrayList<>();
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT T.TRANSACTION, TICKET_NUM, TITLE, START_TIME, PRICE, AID, " +
@@ -49,13 +56,23 @@ public class Employee extends User {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                // Question: What is the expected output of this??
+                int ticketNum = rs.getInt("Ticket_num");
+                String title = rs.getString("Title");
+                String startTime = rs.getString("Start)time");
+                float price = rs.getFloat("Price");
+                int aId = rs.getInt("aID");
+                Ticket x = new Ticket(ticketNum, price, transactionNumber, title, startTime, aId);
+                tickets.add(x);
+                paymentMethod = rs.getString("Payment_method");
+                cardInfo = rs.getString("Card_info");
+                eId = rs.getInt("eID");
+                cId = rs.getInt("cId");
             }
-
         } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
 
         }
-
+        result = new Booking(transactionNumber, paymentMethod, cardInfo, eId, cId, tickets);
         return result;
     }
 }
