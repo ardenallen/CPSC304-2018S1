@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Employee extends User {
@@ -21,7 +22,14 @@ public class Employee extends User {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT COUNT(*) FROM Ticket " +
-                    "WHERE TITLE = ? AND START_TIME = ?");
+                    "WHERE TITLE = ? AND START_TIME = {ts ?}");
+            ps.setString(1, movieTitle);
+            ps.setString(2, showTime);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ticketSold = rs.getInt(1);
+            }
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
         }
