@@ -10,12 +10,14 @@ import java.sql.SQLException;
 
 public class Customer extends User {
     private static int ticketPoint = 1000;
-    private boolean isLoyaltyMember = false;
     private int pointBalance;
     private String name;
+    private int cID;
 
     public Customer(int userId) {
         super("customer", userId);
+
+        cID = userId;
 
         try {
             PreparedStatement ps = conn.prepareStatement("SELECT NAME FROM CUSTOMER WHERE CID = ?");
@@ -37,11 +39,37 @@ public class Customer extends User {
     }
 
     public boolean isLoyaltyMember() {
-        return isLoyaltyMember;
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM LOYALTY_MEMBER WHERE CID = ?");
+
+            ps.setInt(1, cID);
+
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+
+        return false;
     }
 
     public int getPointBalance() {
-        return pointBalance;
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT POINT_BALANCE FROM LOYALTY_MEMBER WHERE CID = ?");
+
+            ps.setInt(1, cID);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("POINT_BALANCE");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+
+        return 0;
     }
 
     public boolean redeem(int numOfTickets) {
@@ -88,7 +116,14 @@ public class Customer extends User {
     }
 
     public void signUpForLoyaltyMember() {
-        this.isLoyaltyMember = true;
-        this.pointBalance = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO LOYALTY_MEMBER VALUES (?,0)");
+
+            ps.setInt(1, cID);
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
     }
 }
