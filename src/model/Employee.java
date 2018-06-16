@@ -1,10 +1,7 @@
 package model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +28,7 @@ public class Employee extends User {
             ps.setString(2, showTime);
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
+            while(rs.next()) {
                 ticketSold = rs.getInt(1);
             }
         } catch (SQLException ex) {
@@ -57,7 +54,7 @@ public class Employee extends User {
             ps.setString(1, transactionNumber);
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
+            while(rs.next()) {
                 int ticketNum = rs.getInt("Ticket_num");
                 String title = rs.getString("Title");
                 Timestamp startTime = rs.getTimestamp("Start_time");
@@ -91,7 +88,7 @@ public class Employee extends User {
                             "AND T.TRANSACTION = B.TRANSACTION");
             ps.setInt(1, ticketNum);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            while(rs.next()) {
                 paymentMethod = rs.getString("Payment_method");
                 cardInfo = rs.getString("Card_info");
             }
@@ -143,7 +140,7 @@ public class Employee extends User {
                             "GROUP BY T.TITLE " +
                             "ORDER BY COUNT(*) DESC");
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            while(rs.next()) {
                 String title = rs.getString("Title");
                 int count = rs.getInt(2);
                 MovieStat x = new MovieStat(title, count);
@@ -155,12 +152,44 @@ public class Employee extends User {
         return result;
     }
 
-    // Should be called with getLeastMostPopularMovie()
-    public static int getLeastMostPopularMovieTicketCount(String minMax) {
+    // Return all movies with the max (most popular) or min (least popular) # of ticket sold
+    // Will not take into account of movies with no tickets sold
+    public static List<Movie> getLeastMostPopularMovie(String minMax) {
+        List<Movie> result = new ArrayList<>();
+        int minMaxNumTicketSold = Employee.getLeastMostPopularMovieTicketCount(minMax);
+        List<String> movieTitles = Employee.getMovieFromNumTicketsSold(minMaxNumTicketSold);
+        String sqlMovieTitles = "";
+        for (String movieTitle : movieTitles) {
+            sqlMovieTitles += "'" + movieTitle + "', ";
+        }
+        sqlMovieTitles = sqlMovieTitles.substring(0, sqlMovieTitles.length() - 2);
+        String SQL = "SELECT * FROM MOVIE WHERE TITLE IN (%s)";
+        SQL = String.format(SQL, sqlMovieTitles);
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(SQL);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                String title = rs.getString("Title");
+                int duration = rs.getInt("Duration");
+                String genre = rs.getString("Genre");
+                String censor = rs.getString("Censor");
+                Movie x = new Movie(title, duration, genre, censor);
+                result.add(x);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
+    }
+
+    private static int getLeastMostPopularMovieTicketCount(String minMax) {
         int result = -1;
         String SQL = "SELECT %s(TICKET_SOLD) FROM (" +
                 "SELECT TITLE, COUNT(*) AS TICKET_SOLD " +
-                "FROM TICKET " +
+                "FROM TICKET T " +
                 "GROUP BY TITLE)";
         SQL = minMax.equalsIgnoreCase("Min") ?
                 String.format(SQL, "MIN") :
@@ -168,9 +197,33 @@ public class Employee extends User {
         try {
             PreparedStatement ps = conn.prepareStatement(SQL);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            while(rs.next()) {
                 result = rs.getInt(1);
             }
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
+    }
+
+    // Extracts movie name given the number of ticket sold
+    // will be wrapped in another function
+    private static List<String> getMovieFromNumTicketsSold(int numTicketSold) {
+        List<String> result = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT TITLE, COUNT(*) FROM TICKET " +
+                    "GROUP BY TITLE");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                int count = rs.getInt(2);
+                if (count == numTicketSold) {
+                    String title = rs.getString("Title");
+                    result.add(title);
+                }
+            }
+            ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
         }
@@ -186,7 +239,7 @@ public class Employee extends User {
                             "GROUP BY TRANSACTION");
             ps.setString(1, transactionNum);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            while(rs.next()) {
                 BigDecimal price = rs.getBigDecimal(2);
                 result = result.add(price);
             }
