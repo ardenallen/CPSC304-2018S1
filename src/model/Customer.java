@@ -117,7 +117,8 @@ public class Customer extends User {
 
     public void signUpForLoyaltyMember() {
         try {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO LOYALTY_MEMBER VALUES (?,0)");
+            PreparedStatement ps = conn.prepareStatement(
+                    "INSERT INTO LOYALTY_MEMBER VALUES (?,0)");
 
             ps.setInt(1, cID);
 
@@ -125,5 +126,25 @@ public class Customer extends User {
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
         }
+    }
+
+    public static List<String> getRecommendations() {
+        List<String> result = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT * FROM (" +
+                            "SELECT TITLE, COUNT(*) FROM TICKET " +
+                            "GROUP BY TITLE " +
+                            "ORDER BY COUNT(*) DESC)" +
+                            "WHERE ROWNUM = 1 OR ROWNUM = 2 OR ROWNUM = 3");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getString(1));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
     }
 }

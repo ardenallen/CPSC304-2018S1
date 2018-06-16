@@ -78,7 +78,7 @@ public class Employee extends User {
     }
 
     // Employee will have to enter the cardNum if the ticket was bought using a card,
-    // else please enter -1 for cardNum
+    // else please leave blank if cash
     public static void refund(String customerCardNum, int ticketNum) {
         String paymentMethod = "";
         String cardInfo = "";
@@ -118,5 +118,18 @@ public class Employee extends User {
         }
     }
 
+    public int getRevenuePerEmployeePerDay(String date) {
+        //SUM AGGREGATE
+        // USE THIS.EID
+        int result = -1;
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT SUM(PRICE) FROM TICKET "
+            );
+        } catch (SQLException ex) {
+
+        }
+        return result;
+    }
 
 }
