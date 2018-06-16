@@ -53,4 +53,11 @@ public class EmployeeTest {
         BigDecimal actual = Employee.getTotalBookingPrice("86744569999");
         Assert.assertTrue(actual.compareTo(new BigDecimal(0)) == 1);
     }
+
+    @Test
+    public void testGetLeastMostPopularMovie() {
+        int min = Employee.getLeastMostPopularMovieTicketCount("MIN");
+        int max = Employee.getLeastMostPopularMovieTicketCount("MAX");
+        Assert.assertTrue(max >= min);
+    }
 }

@@ -155,17 +155,24 @@ public class Employee extends User {
         return result;
     }
 
-    // Input will decide which query will be executed
-
-    // BLOCKED
-    public Movie getLeastMostPopularMovie(String minMax) {
-        Movie result = null;
-        String SQL = "SELECT * FROM ";
+    // Should be called with getLeastMostPopularMovie()
+    public static int getLeastMostPopularMovieTicketCount(String minMax) {
+        int result = -1;
+        String SQL = "SELECT %s(TICKET_SOLD) FROM (" +
+                "SELECT TITLE, COUNT(*) AS TICKET_SOLD " +
+                "FROM TICKET " +
+                "GROUP BY TITLE)";
+        SQL = minMax.equalsIgnoreCase("Min") ?
+                String.format(SQL, "MIN") :
+                String.format(SQL, "MAX");
         try {
-            PreparedStatement ps = conn.prepareStatement(
-                    "");
+            PreparedStatement ps = conn.prepareStatement(SQL);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result = rs.getInt(1);
+            }
         } catch (SQLException ex) {
-
+            System.out.println("Message: " + ex.getMessage());
         }
         return result;
     }
