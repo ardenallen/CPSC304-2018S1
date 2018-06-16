@@ -78,4 +78,34 @@ public class Ticket {
 
         return result;
     }
+
+    public static List<Ticket> viewTicketsInBooking (String transactionNum) {
+        List<Ticket> result = new ArrayList<>();
+
+        Connection conn = OracleConnection.buildConnection();
+
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT T.TICKET_NUM, T.PRICE, T.TRANSACTION, T.TITLE, T.START_TIME, T.AID " +
+                    "FROM BOOKING B, TICKET T " +
+                    "WHERE T.TRANSACTION = B.TRANSACTION " +
+                    "AND T.TRANSACTION = ?");
+            ps.setString(1, transactionNum);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int ticketNum = rs.getInt("TICKET_NUM");
+                BigDecimal price = rs.getBigDecimal("PRICE");
+                String transaction = rs.getString("TRANSACTION");
+                String title = rs.getString("TITLE");
+                Timestamp startTime = rs.getTimestamp("START_TIME");
+                int auditorium = rs.getInt("AID");
+
+                result.add(new Ticket(ticketNum, price, transaction, title, startTime, auditorium));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return result;
+    }
 }

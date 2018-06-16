@@ -11,17 +11,8 @@ import java.util.List;
 public class CustomerHistoryForm {
     private JPanel mainPanel;
 
-    private List<Booking> bookingList;
-
     public CustomerHistoryForm(MainFrame mainFrame, Customer customer) {
-        /*
-         * History button generator
-         *
-         * TODO: Get booking list of customer from DB
-         *
-         * Below is a placeholder
-         */
-        bookingList = new ArrayList<>();
+        List<Booking> bookingList = customer.getAllBookings();
 
         for (Booking booking : bookingList) {
             JButton bookingButton = new JButton();
