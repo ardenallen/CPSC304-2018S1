@@ -38,4 +38,18 @@ public class EmployeeTest {
         Employee.refund("5531584671644409", 1);
 
     }
+
+    @Test
+    public void testGetAllMovieState() {
+        List<MovieStat> result = Employee.getAllMovieStats();
+        MovieStat first = result.get(0);
+        MovieStat last = result.get(result.size() - 1);
+        Assert.assertTrue(first.morePopular(last));
+    }
+
+    @Test
+    public void testTotalBookingPrice() {
+        BigDecimal actual = Employee.getTotalBookingPrice("86744569999");
+        Assert.assertTrue(actual.compareTo(new BigDecimal(0)) == 1);
+    }
 }
