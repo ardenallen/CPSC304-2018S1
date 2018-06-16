@@ -15,7 +15,7 @@ CREATE TABLE Movie
     title varchar(50),
     genre varchar(50),
     duration int,
-    censor char(3),
+    censor varchar(3),
     PRIMARY KEY(title)
   );
 
@@ -66,7 +66,7 @@ CREATE TABLE Loyalty_member
 CREATE TABLE Employee 
   (
     eID int,
-    name  char(30),
+    name varchar(30),
     SIN int,
     phone char(10),
     PRIMARY KEY(eID)
@@ -82,7 +82,7 @@ CREATE TABLE Manager
 CREATE TABLE Booking 
   (
     transaction char(11),
-    payment_method char(20),
+    payment_method varchar(20),
     card_info char(16),
     eID int,
     cID int NOT NULL,
