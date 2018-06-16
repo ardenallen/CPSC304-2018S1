@@ -62,5 +62,10 @@ public class Manager extends Employee {
         return result;
     }
 
+    public void getEmployeeStats(String date) {
+
+
+    }
+
 
 }
