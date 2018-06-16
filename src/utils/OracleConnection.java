@@ -11,7 +11,7 @@ public class OracleConnection {
         String connectURL = "jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug";
         try {
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            conn = DriverManager.getConnection(connectURL,"ora_a2l0b","a30183157");
+            conn = DriverManager.getConnection(connectURL,"ora_p9n0b","a10804152");
             System.out.println("\nConnected to Oracle!");
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());

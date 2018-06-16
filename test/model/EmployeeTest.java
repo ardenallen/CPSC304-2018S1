@@ -1,6 +1,7 @@
 package model;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -27,5 +28,14 @@ public class EmployeeTest {
         Ticket actualTicket = actualBooking.getTickets().get(0);
         Assert.assertTrue(actualTicket.equals(expectedTicket));
         Assert.assertTrue(expectedBooking.getCardInfo().equals(actualBooking.getCardInfo()));
+    }
+
+    // This is only for running the refund method, and will actually delete stuff in the Ticket table
+    // Please ignore, unless testing for the method
+    @Ignore
+    @Test
+    public void testRefund() {
+        Employee.refund("5531584671644409", 1);
+
     }
 }
