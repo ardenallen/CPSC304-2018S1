@@ -26,7 +26,7 @@ public class LoginForm {
 
     private boolean tryAuth(String userClass, Integer userId) {
         /*
-         * Add a check to make sure the user exists in database.
+         * TODO: Create auth client that queries if user exists in DB
          */
 
         return true;
