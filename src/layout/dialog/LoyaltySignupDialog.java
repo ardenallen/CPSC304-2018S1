@@ -45,7 +45,7 @@ public class LoyaltySignupDialog extends JDialog {
     }
 
     private void onOK(Customer customer, MainFrame mainFrame) {
-        customer.signupForLoyaltyMember();
+        customer.signUpForLoyaltyMember();
         mainFrame.refreshCustomerFrame(customer);
         dispose();
     }

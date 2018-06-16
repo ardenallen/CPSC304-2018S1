@@ -2,6 +2,7 @@ package layout;
 
 import layout.dialog.FailedLoginDialog;
 import layout.dialog.InvalidIdDialog;
+import model.AuthClient;
 import model.User;
 
 import javax.swing.*;
@@ -22,14 +23,6 @@ public class LoginForm {
 
     public JPanel getMainPanel() {
         return mainPanel;
-    }
-
-    private boolean tryAuth(String userClass, Integer userId) {
-        /*
-         * TODO: Create auth client that queries if user exists in DB
-         */
-
-        return true;
     }
 
     private void createUIComponents() {
@@ -53,8 +46,10 @@ public class LoginForm {
                     return;
                 }
 
-                if (tryAuth(userClass, userId)) {
-                    mainFrame.switchClassPanel(new User(userClass, userId));
+                User userToLogin = new User(userClass, userId);
+
+                if (AuthClient.tryAuth(userToLogin)) {
+                    mainFrame.switchClassPanel(userToLogin);
                 } else {
                     FailedLoginDialog failedLoginDialog = new FailedLoginDialog();
                     failedLoginDialog.pack();
