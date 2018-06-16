@@ -1,12 +1,13 @@
 package model;
 
+//import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Customer extends User {
     private static int ticketPoint = 1000;
-    private boolean isLoyaltyMember = false;
+    private boolean isLoyaltyMember;
     private int pointBalance;
     private String name;
 
@@ -18,12 +19,21 @@ public class Customer extends User {
                     "FROM CUSTOMER " +
                     "WHERE CID = ?");
             ps.setInt(1, userId);
-
-            ResultSet rs = ps.executeQueryrs.next();
+            ResultSet rs = ps.executeQuery();
+            rs.next();
             this.name = rs.getString("NAME");
 
+            PreparedStatement ps2 = conn.prepareStatement("SELECT * " +
+                    "FROM LOYALTY_MEMBER " +
+                    "WHERE CID = ?");
+            ps2.setInt(1, userId);
+            ResultSet rs2 = ps2.executeQuery();
+            this.isLoyaltyMember = rs2.next();
+            ps.close();
+
+
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Message: " + ex.getMessage());
             ex.printStackTrace();
             System.exit(-1);
         }
@@ -64,13 +74,13 @@ public class Customer extends User {
 
             while (rs.next()) {
                 int ticketNum = rs.getInt("TICKET_NUM");
-                int price = rs.getInt("PRICE");
+                //BigDecimal price = rs.getBigDecimal("PRICE");
                 String transaction = rs.getString("TRANSACTION");
                 String title = rs.getString("TITLE");
                 Timestamp start_time = rs.getTimestamp("START_TIME");
                 String startTime = start_time.toString();
                 int auditorium = rs.getInt("AID");
-                result.add(new Ticket(ticketNum, price, transaction, title, startTime, auditorium));
+                //result.add(new Ticket(ticketNum, price, transaction, title, startTime, auditorium));
             }
 
         } catch (SQLException ex) {

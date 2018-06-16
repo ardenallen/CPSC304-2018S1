@@ -50,7 +50,7 @@ CREATE TABLE Showtime2
 CREATE TABLE Customer 
   (
     cID int,
-    name  char(30),
+    name  varchar(30),
     PRIMARY KEY(cID)
   );
 
