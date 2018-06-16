@@ -38,4 +38,12 @@ public class EmployeeTest {
         Employee.refund("5531584671644409", 1);
 
     }
+
+    @Test
+    public void testGetAllMovieState() {
+        List<MovieStat> result = Employee.getAllMovieStats();
+        MovieStat first = result.get(0);
+        MovieStat last = result.get(result.size() - 1);
+        Assert.assertTrue(first.morePopular(last));
+    }
 }

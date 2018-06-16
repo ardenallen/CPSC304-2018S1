@@ -132,6 +132,9 @@ public class Customer extends User {
         List<String> result = new ArrayList<>();
         try {
             PreparedStatement ps = conn.prepareStatement(
+                    // Since Oracle does not support TOP, we are doing a nested query
+                    // The inner query will get all movies in descending order of ticket count
+                    // The out query will pick the top 3 using ROWNUM
                     "SELECT * FROM (" +
                             "SELECT TITLE, COUNT(*) FROM TICKET " +
                             "GROUP BY TITLE " +

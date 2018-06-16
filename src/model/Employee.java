@@ -132,4 +132,25 @@ public class Employee extends User {
         return result;
     }
 
+    // Returns a list of MovieStat in descending order of the number of tickets sold
+    public static List<MovieStat> getAllMovieStats() {
+        List<MovieStat> result = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT T.TITLE, COUNT(*) " +
+                            "FROM TICKET T " +
+                            "GROUP BY T.TITLE " +
+                            "ORDER BY COUNT(*) DESC");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String title = rs.getString("Title");
+                int count = rs.getInt(2);
+                MovieStat x = new MovieStat(title, count);
+                result.add(x);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
+    }
 }

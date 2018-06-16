@@ -54,6 +54,7 @@ public class Movie {
                 Movie movie = new Movie(title, duration, genre, censor);
                 result.add(movie);
             }
+            ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
         }
