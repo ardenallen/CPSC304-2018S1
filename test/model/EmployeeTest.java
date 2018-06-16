@@ -46,4 +46,10 @@ public class EmployeeTest {
         MovieStat last = result.get(result.size() - 1);
         Assert.assertTrue(first.morePopular(last));
     }
+
+    @Test
+    public void testTotalBookingPrice() {
+        BigDecimal actual = Employee.getTotalBookingPrice("86744569999");
+        Assert.assertTrue(actual.compareTo(new BigDecimal(0)) == 1);
+    }
 }

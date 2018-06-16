@@ -153,4 +153,38 @@ public class Employee extends User {
         }
         return result;
     }
+
+    // Input will decide which query will be executed
+
+    // BLOCKED
+    public Movie getLeastMostPopularMovie(String minMax) {
+        Movie result = null;
+        String SQL = "SELECT * FROM ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "");
+        } catch (SQLException ex) {
+
+        }
+        return result;
+    }
+
+    public static BigDecimal getTotalBookingPrice(String transactionNum) {
+        BigDecimal result = new BigDecimal(0);
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT TRANSACTION, SUM(PRICE) AS TOTAL FROM TICKET " +
+                            "WHERE TRANSACTION = ? " +
+                            "GROUP BY TRANSACTION");
+            ps.setString(1, transactionNum);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                BigDecimal price = rs.getBigDecimal(2);
+                result = result.add(price);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
+    }
 }
