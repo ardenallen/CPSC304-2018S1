@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer extends User {
-    private static int ticketPoint = 1000;
+    private static final int TICKET_POINT_REDEEM = 1000;
+    private static final int TICKET_POINT_ADD = 50;
+
     private boolean isLoyaltyMember;
     private int pointBalance;
     private String name;
@@ -46,20 +48,45 @@ public class Customer extends User {
     }
 
     public int getPointBalance() {
-        return pointBalance;
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * " +
+                    "FROM LOYALTY_MEMBER " +
+                    "WHERE CID = ?");
+            ps.setInt(1, getUserId());
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("POINT_BALANCE");
+            }
+        } catch (SQLException e) {
+            System.out.println("Message: " + e.getMessage());
+        }
+
+        return -1;
     }
 
-    public boolean redeem(int numOfTickets) {
-        if (this.pointBalance - numOfTickets * ticketPoint >= 0) {
-            this.pointBalance = this.pointBalance - numOfTickets * ticketPoint;
-            return true;
-        } else {
-            return false;
+    public void redeem(int numOfTickets) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = POINT_BALANCE - ? WHERE CID = ?");
+            ps.setInt(1, numOfTickets * TICKET_POINT_REDEEM);
+            ps.setInt(2, getUserId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Message: " + e.getMessage());
         }
     }
 
-    public void updatePoint(int point) {
-        this.pointBalance += point;
+    public void addPoint(int numOfTickets) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = POINT_BALANCE + ? WHERE CID = ?");
+            ps.setInt(1, numOfTickets * TICKET_POINT_ADD);
+            ps.setInt(2, getUserId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Message: " + e.getMessage());
+        }
     }
 
     public List<Ticket> viewBooking (int cId) {
@@ -93,7 +120,38 @@ public class Customer extends User {
     }
 
     public void signUpForLoyaltyMember() {
-        this.isLoyaltyMember = true;
-        this.pointBalance = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "INSERT INTO LOYALTY_MEMBER VALUES (?,0)");
+
+            ps.setInt(1, super.getUserId());
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+
+    public static List<String> getRecommendations() {
+        List<String> result = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    // Since Oracle does not support TOP, we are doing a nested query
+                    // The inner query will get all movies in descending order of ticket count
+                    // The out query will pick the top 3 using ROWNUM
+                    "SELECT * FROM (" +
+                            "SELECT TITLE, COUNT(*) FROM TICKET " +
+                            "GROUP BY TITLE " +
+                            "ORDER BY COUNT(*) DESC)" +
+                            "WHERE ROWNUM = 1 OR ROWNUM = 2 OR ROWNUM = 3");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getString(1));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
     }
 }

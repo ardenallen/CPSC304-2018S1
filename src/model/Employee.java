@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class Employee extends User {
             while (rs.next()) {
                 int ticketNum = rs.getInt("Ticket_num");
                 String title = rs.getString("Title");
-                String startTime = rs.getString("Start_time");
+                Timestamp startTime = rs.getTimestamp("Start_time");
                 BigDecimal price = rs.getBigDecimal("Price");
                 int aId = rs.getInt("aID");
                 Ticket x = new Ticket(ticketNum, price, transactionNumber, title, startTime, aId);
@@ -78,7 +79,7 @@ public class Employee extends User {
     }
 
     // Employee will have to enter the cardNum if the ticket was bought using a card,
-    // else please enter -1 for cardNum
+    // else please leave blank if cash
     public static void refund(String customerCardNum, int ticketNum) {
         String paymentMethod = "";
         String cardInfo = "";
@@ -118,5 +119,73 @@ public class Employee extends User {
         }
     }
 
+    public int getRevenuePerEmployeePerDay(String date) {
+        //SUM AGGREGATE
+        // USE THIS.EID
+        int result = -1;
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT SUM(PRICE) FROM TICKET "
+            );
+        } catch (SQLException ex) {
 
+        }
+        return result;
+    }
+
+    // Returns a list of MovieStat in descending order of the number of tickets sold
+    public static List<MovieStat> getAllMovieStats() {
+        List<MovieStat> result = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT T.TITLE, COUNT(*) " +
+                            "FROM TICKET T " +
+                            "GROUP BY T.TITLE " +
+                            "ORDER BY COUNT(*) DESC");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String title = rs.getString("Title");
+                int count = rs.getInt(2);
+                MovieStat x = new MovieStat(title, count);
+                result.add(x);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
+    }
+
+    // Input will decide which query will be executed
+
+    // BLOCKED
+    public Movie getLeastMostPopularMovie(String minMax) {
+        Movie result = null;
+        String SQL = "SELECT * FROM ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "");
+        } catch (SQLException ex) {
+
+        }
+        return result;
+    }
+
+    public static BigDecimal getTotalBookingPrice(String transactionNum) {
+        BigDecimal result = new BigDecimal(0);
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT TRANSACTION, SUM(PRICE) AS TOTAL FROM TICKET " +
+                            "WHERE TRANSACTION = ? " +
+                            "GROUP BY TRANSACTION");
+            ps.setString(1, transactionNum);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                BigDecimal price = rs.getBigDecimal(2);
+                result = result.add(price);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
+    }
 }
