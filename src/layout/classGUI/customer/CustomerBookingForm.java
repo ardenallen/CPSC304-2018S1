@@ -1,8 +1,8 @@
 package layout.classGUI.customer;
 
 import layout.MainFrame;
-import model.Movie;
-import model.Showtime;
+import layout.dialog.ZeroTicketNumDialog;
+import model.*;
 
 import javax.swing.*;
 
@@ -13,11 +13,17 @@ public class CustomerBookingForm {
     private JButton backButton;
     private JTextField cardNumberField;
     private JLabel cardNumberLabel;
+    private JPanel mainPanel;
+    private JLabel pointTitleLabel;
+    private JLabel loyaltyPointLabel;
+    private JButton redeemButton;
 
     private MainFrame mainFrame;
 
     private Movie movie;
     private Showtime showtime;
+    private boolean isLoyaltyMember;
+    private int loyaltyPointBalance;
 
     public CustomerBookingForm(Movie movie, Showtime showtime, MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -25,20 +31,66 @@ public class CustomerBookingForm {
         this.showtime = showtime;
 
         cardNumberLabel.setText("Card number: ");
+        pointTitleLabel.setText("Loyalty point balance: ");
+        loyaltyPointLabel.setText(String.valueOf(loyaltyPointBalance));
     }
 
     private void createUIComponents() {
+        /*
+         * Loyalty point labels setup
+         */
+        pointTitleLabel = new JLabel();
+        loyaltyPointLabel = new JLabel();
+        isLoyaltyMember = mainFrame.getCustomer().isLoyaltyMember();
+
+        if (isLoyaltyMember) {
+            pointTitleLabel.setVisible(true);
+            loyaltyPointLabel.setVisible(true);
+            loyaltyPointBalance = mainFrame.getCustomer().getPointBalance();
+        } else {
+            pointTitleLabel.setVisible(false);
+            loyaltyPointLabel.setVisible(false);
+            loyaltyPointBalance = -1;
+        }
+
+        /*
+         * Redeem button setup
+         */
+        redeemButton = new JButton("Redeem");
+        redeemButton.addActionListener(e -> {
+            mainFrame.changeToLoyaltyPointRedeemForm(mainFrame.getCustomer(), movie, showtime);
+        });
+
+        if (!isLoyaltyMember) {
+            redeemButton.setVisible(false);
+        }
+
+        if (loyaltyPointBalance < 1000) {
+            redeemButton.setEnabled(false);
+        }
+
+        /*
+         * Card fields are invisible by default
+         */
         cardNumberField = new JTextField();
         cardNumberLabel = new JLabel();
+        cardNumberLabel.setVisible(false);
+        cardNumberField.setVisible(false);
 
-        // TODO: Set max value as available booking #
+        /*
+         * Spinner setup
+         */
         Integer value = 0;
         Integer min = 0;
-        Integer max = 100;
+        Integer max =
+                Auditorium.getAuditoriumCapacity(showtime.getaId()) - Ticket.getTicketsOfShowtime(showtime).size();
         Integer step = 1;
         SpinnerNumberModel model = new SpinnerNumberModel(value, min, max, step);
         ticketNumSpinner = new JSpinner(model);
 
+        /*
+         * Payment option combo box setup
+         */
         String[] paymentOptions = {"Cash", "Credit", "Debit"};
         paymentOptionBox = new JComboBox<>(paymentOptions);
         paymentOptionBox.addActionListener(e -> {
@@ -47,7 +99,10 @@ public class CustomerBookingForm {
 
             assert selectionOption != null;
 
-            if (selectionOption.equals("Cash")) {
+            if (!selectionOption.equals("Cash")) {
+                cardNumberLabel.setVisible(true);
+                cardNumberField.setVisible(true);
+            } else {
                 cardNumberLabel.setVisible(false);
                 cardNumberField.setVisible(false);
             }
@@ -57,13 +112,31 @@ public class CustomerBookingForm {
         confirmButton.addActionListener(e -> {
             /*
              * TODO: Add booking into DB
-             * TODO: Give customer points, if he/she is a loyalty member
              */
+            Integer ticketNum = (Integer) ticketNumSpinner.getValue();
+
+            // If ticket number is zero (error)
+            if (ticketNum == 0) {
+                ZeroTicketNumDialog zeroTicketNumDialog = new ZeroTicketNumDialog();
+                zeroTicketNumDialog.pack();
+                zeroTicketNumDialog.setLocationRelativeTo(mainPanel);
+                zeroTicketNumDialog.setVisible(true);
+                return;
+            }
+
+            Customer currentCustomer = mainFrame.getCustomer();
+            currentCustomer.addPoint(ticketNum);
+
+            mainFrame.backToCustomerMainForm();
         });
 
         backButton = new JButton("Back");
         backButton.addActionListener(e -> {
             mainFrame.backToShowtimeSelectionForm();
         });
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 }

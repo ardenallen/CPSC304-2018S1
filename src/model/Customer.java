@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer extends User {
-    private static int ticketPoint = 1000;
+    private static final int TICKET_POINT_REDEEM = 1000;
+    private static final int TICKET_POINT_ADD = 50;
+
     private boolean isLoyaltyMember;
     private int pointBalance;
     private String name;
@@ -46,20 +48,45 @@ public class Customer extends User {
     }
 
     public int getPointBalance() {
-        return pointBalance;
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * " +
+                    "FROM LOYALTY_MEMBER " +
+                    "WHERE CID = ?");
+            ps.setInt(1, getUserId());
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("POINT_BALANCE");
+            }
+        } catch (SQLException e) {
+            System.out.println("Message: " + e.getMessage());
+        }
+
+        return -1;
     }
 
-    public boolean redeem(int numOfTickets) {
-        if (this.pointBalance - numOfTickets * ticketPoint >= 0) {
-            this.pointBalance = this.pointBalance - numOfTickets * ticketPoint;
-            return true;
-        } else {
-            return false;
+    public void redeem(int numOfTickets) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = POINT_BALANCE - ? WHERE CID = ?");
+            ps.setInt(1, numOfTickets * TICKET_POINT_REDEEM);
+            ps.setInt(2, getUserId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Message: " + e.getMessage());
         }
     }
 
-    public void updatePoint(int point) {
-        this.pointBalance += point;
+    public void addPoint(int numOfTickets) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = POINT_BALANCE + ? WHERE CID = ?");
+            ps.setInt(1, numOfTickets * TICKET_POINT_ADD);
+            ps.setInt(2, getUserId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Message: " + e.getMessage());
+        }
     }
 
     public List<Ticket> viewBooking (int cId) {
