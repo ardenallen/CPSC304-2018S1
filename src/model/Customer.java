@@ -4,6 +4,7 @@ package model;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Customer extends User {
     private static final int TICKET_POINT_REDEEM = 1000;
@@ -12,7 +13,6 @@ public class Customer extends User {
     private boolean isLoyaltyMember;
     private int pointBalance;
     private String name;
-
 
     public Customer(int userId) {
         super("customer", userId);
@@ -56,13 +56,18 @@ public class Customer extends User {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return rs.getInt("POINT_BALANCE");
+                pointBalance = rs.getInt("POINT_BALANCE");
+                return pointBalance;
             }
         } catch (SQLException e) {
             System.out.println("Message: " + e.getMessage());
         }
 
         return -1;
+    }
+
+    public boolean canRedeem(int numOfTickets) {
+        return pointBalance - numOfTickets * TICKET_POINT_REDEEM >= 0;
     }
 
     public void redeem(int numOfTickets) {
@@ -153,5 +158,91 @@ public class Customer extends User {
             System.out.println("Message: " + ex.getMessage());
         }
         return result;
+    }
+
+    public boolean buyTickets(Movie movie, Showtime showtime, int quantity, String payment) {
+        String paymentMethod;
+        String cardInfo;
+        int price = 13;
+
+        if (payment == "Cash") {
+            paymentMethod = "Cash";
+            cardInfo = null;
+        } else if (payment.startsWith("C")) {
+            paymentMethod = "Credit";
+            cardInfo = payment.substring(1);
+        } else if (payment.startsWith("D")) {
+            paymentMethod = "Debit";
+            cardInfo = payment.substring(1);
+        } else {
+            paymentMethod = "Redeem";
+            cardInfo = null;
+            price = 0;
+        }
+
+        if (paymentMethod == "Redeem") {
+            if (!this.canRedeem(quantity)) {
+                return false;
+            }
+        } else {
+            this.redeem(quantity);
+        }
+
+        int cId = this.getUserId();
+        String title = movie.getTitle();
+        int auditorum = showtime.getaId();
+        Timestamp startTime = showtime.getStartTime();
+
+        int ticketNum = 0;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT max(TICKET_NUM) FROM TICKET");
+            if (rs.next()) {
+                ticketNum = rs.getInt(1) + 1;
+            }
+            stmt.close();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+            ex.printStackTrace();
+            System.exit(-1);
+        }
+
+
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        Long randomNumber = random.nextLong(10_000_000_000L, 100_000_000_000L);
+        String transactionNumber = randomNumber.toString();
+
+        try {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO BOOKING " +
+                    "(TRANSACTION, PAYMENT_METHOD, CARD_INFO, EID, CID) " +
+                    "VALUES (?, ?, ?, NULL, ?)");
+            ps.setString(1, transactionNumber);
+            ps.setString(2, paymentMethod);
+            ps.setString(3, cardInfo);
+            ps.setInt(4, cId);
+            ps.executeUpdate();
+            conn.commit();
+            ps.close();
+
+            PreparedStatement ps2 = conn.prepareStatement("INSERT INTO TICKET " +
+                    "(TRANSACTION, TICKET_NUM, TITLE, START_TIME, PRICE, AID) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)");
+            ps2.setString(1, "43456441781");
+            ps2.setString(3, title);
+            ps2.setTimestamp(4, startTime);
+            ps2.setInt(5, price);
+            ps2.setInt(6, auditorum);
+
+            for (int i=0; i < quantity; i++) {
+                ps2.setInt(2, ticketNum);
+                ps2.executeUpdate();
+            }
+            ps2.close();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+            ex.printStackTrace();
+            System.exit(-1);
+        }
+        return true;
     }
 }
