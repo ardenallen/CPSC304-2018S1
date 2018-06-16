@@ -8,6 +8,6 @@ public class MovieTest {
     @Test
     public void testGetAllMovies() {
         int size = Movie.getAllMovie().size();
-        Assert.assertEquals(size, 13);
+        Assert.assertEquals(size, 11);
     }
 }

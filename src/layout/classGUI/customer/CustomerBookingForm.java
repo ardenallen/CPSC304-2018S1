@@ -39,7 +39,7 @@ public class CustomerBookingForm {
         SpinnerNumberModel model = new SpinnerNumberModel(value, min, max, step);
         ticketNumSpinner = new JSpinner(model);
 
-        String[] paymentOptions = { "Cash", "Credit card", "Debit card"};
+        String[] paymentOptions = {"Cash", "Credit", "Debit"};
         paymentOptionBox = new JComboBox<>(paymentOptions);
         paymentOptionBox.addActionListener(e -> {
             JComboBox jcb = (JComboBox) e.getSource();
