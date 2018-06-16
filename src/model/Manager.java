@@ -62,9 +62,10 @@ public class Manager extends Employee {
         return result;
     }
 
-    public void getEmployeeStats(String date) {
+    public List<EmployeeStat> getEmployeeStats(String date) {
+        List<EmployeeStat> result = new ArrayList<>();
 
-
+        return result;
     }
 
 

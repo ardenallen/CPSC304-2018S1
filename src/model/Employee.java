@@ -18,14 +18,15 @@ public class Employee extends User {
         this.phone = phone;
     }
 
-    public static int ticketSoldPerMoviePerShowtime (String movieTitle, String showTime) {
+    public static int ticketSoldPerMoviePerShowtime (String movieTitle, Timestamp showTime) {
         int ticketSold = -1;
+        String timeStampString = showTime.toString();
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT COUNT(*) FROM Ticket " +
                     "WHERE TITLE = ? AND START_TIME = {ts ?}");
             ps.setString(1, movieTitle);
-            ps.setString(2, showTime);
+            ps.setString(2, timeStampString);
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {

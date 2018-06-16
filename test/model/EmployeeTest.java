@@ -15,7 +15,8 @@ public class EmployeeTest {
     @Ignore
     @Test
     public void testTicketSoldPerMoviePerShowtime() {
-        int ticketSold = Employee.ticketSoldPerMoviePerShowtime("Incredibles 2", "2018-06-22 18:30:00");
+        Timestamp timestamp = Timestamp.valueOf("2018-06-22 18:30:00");
+        int ticketSold = Employee.ticketSoldPerMoviePerShowtime("Incredibles 2", timestamp);
         Assert.assertTrue(ticketSold == 34);
     }
 
