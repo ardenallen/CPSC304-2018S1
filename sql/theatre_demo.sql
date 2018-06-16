@@ -127,28 +127,28 @@ INSERT INTO Auditorium values(5, 112);
 
 
 -- INSERT Showtime data
-INSERT INTO Showtime1 values('2018-06-22 12:15:00', 'Incredibles 2', 10);
-INSERT INTO Showtime1 values('2018-06-22 15:25:00', 'Incredibles 2', 10);
-INSERT INTO Showtime1 values('2018-06-22 18:30:00', 'Incredibles 2', 10);
-INSERT INTO Showtime1 values('2018-06-22 12:55:00', 'Deadpool 2', 9);
-INSERT INTO Showtime1 values('2018-06-22 16:15:00', 'Deadpool 2', 9);
-INSERT INTO Showtime1 values('2018-06-22 19:30:00', 'Deadpool 2', 9);
-INSERT INTO Showtime1 values('2018-06-22 12:15:00', 'Solo: A Stars Wars Story',1);
-INSERT INTO Showtime1 values('2018-06-22 15:25:00', 'Solo: A Stars Wars Story', 1);
+INSERT INTO Showtime1 values('2018-06-22 12:15:00', 'Incredibles 2', 1);
+INSERT INTO Showtime1 values('2018-06-22 15:25:00', 'Incredibles 2', 1);
+INSERT INTO Showtime1 values('2018-06-22 18:30:00', 'Incredibles 2', 1);
+INSERT INTO Showtime1 values('2018-06-22 12:55:00', 'Deadpool 2', 2);
+INSERT INTO Showtime1 values('2018-06-22 16:15:00', 'Deadpool 2', 2);
+INSERT INTO Showtime1 values('2018-06-22 19:30:00', 'Deadpool 2', 2);
+INSERT INTO Showtime1 values('2018-06-22 12:15:00', 'Solo: A Stars Wars Story',3);
+INSERT INTO Showtime1 values('2018-06-22 15:25:00', 'Solo: A Stars Wars Story', 3);
 INSERT INTO Showtime1 values('2018-06-22 18:30:00', 'Solo: A Stars Wars Story', 1);
 INSERT INTO Showtime1 values('2018-06-22 12:15:00', 'Avengers: Infinity War', 4);
 INSERT INTO Showtime1 values('2018-06-22 15:25:00', 'Avengers: Infinity War', 4);
 INSERT INTO Showtime1 values('2018-06-22 18:30:00', 'Avengers: Infinity War', 4);
-INSERT INTO Showtime1 values('2018-06-23 15:00:00', 'Wont you be my neighbor?', 3);
-INSERT INTO Showtime1 values('2018-06-23 17:50:00', 'Wont you be my neighbor?', 3);
+INSERT INTO Showtime1 values('2018-06-23 15:00:00', 'Wont you be my neighbor?', 5);
+INSERT INTO Showtime1 values('2018-06-23 17:50:00', 'Wont you be my neighbor?', 5);
 
 
 -- INSERT Closed Captioning Information
-INSERT INTO Showtime2 values('1', 'Solo: A Stars Wars Story', 1);
-INSERT INTO Showtime2 values('0', 'Wont you be my neighbor?', 3);
-INSERT INTO Showtime2 values('1', 'Avengers: Infinity War', 4);
-INSERT INTO Showtime2 values('0', 'Deadpool 2', 9);
-INSERT INTO Showtime2 values('1', 'Incredibles 2', 10);
+INSERT INTO Showtime2 values('1', 'Incredibles 2', 1);
+INSERT INTO Showtime2 values('0', 'Deadpool 2', 2);
+INSERT INTO Showtime2 values('1', 'Solo: A Stars Wars Story', 3);
+INSERT INTO Showtime2 values('0', 'Wont you be my neighbor?', 4);
+INSERT INTO Showtime2 values('1', 'Avengers: Infinity War', 5);
 
 
 -- INSERT Customer data

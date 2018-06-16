@@ -76,4 +76,47 @@ public class Employee extends User {
         result = new Booking(transactionNumber, paymentMethod, cardInfo, eId, cId, tickets);
         return result;
     }
+
+    // Employee will have to enter the cardNum if the ticket was bought using a card,
+    // else please enter -1 for cardNum
+    public static void refund(String customerCardNum, int ticketNum) {
+        String paymentMethod = "";
+        String cardInfo = "";
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT CARD_INFO, PAYMENT_METHOD " +
+                            "FROM TICKET T, BOOKING B " +
+                            "WHERE TICKET_NUM = ? " +
+                            "AND T.TRANSACTION = B.TRANSACTION");
+            ps.setInt(1, ticketNum);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                paymentMethod = rs.getString("Payment_method");
+                cardInfo = rs.getString("Card_info");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        // Check if payment method was cash OR customerCardNum == cardInfo
+        if (paymentMethod == "Cash" || cardInfo.equals(customerCardNum)) {
+            // Delete ticket and refund customer if condition is met
+            try {
+                // For UPDATING the Ticket table
+                PreparedStatement psU = conn.prepareStatement(
+                        "DELETE TICKET WHERE TICKET_NUM = ?");
+                psU.setInt(1, ticketNum);
+                psU.executeUpdate();
+                // No need to delete ticket from other tables; it is handled in the DB
+                psU.close();
+            } catch (SQLException ex) {
+                System.out.println("Message: " + ex.getMessage());
+                System.out.println("Refunding ticket# " + ticketNum + " failed.");
+            }
+        } else {
+            System.out.println("Please enter the same card number you bought the ticket with.");
+        }
+    }
+
+
 }
