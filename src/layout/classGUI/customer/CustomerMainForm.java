@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public class CustomerMainForm {
+    private static final String NAME_BASE = "Welcome, ";
     private static final String STATUS_BASE = "Status: ";
 
     private JButton bookButton;
@@ -16,6 +17,7 @@ public class CustomerMainForm {
     private JButton historyButton;
     private JButton logoutButton;
     private JPanel mainPanel;
+    private JLabel nameLabel;
     private JLabel statusLabel;
     private ActionListener signupListner;
     private ActionListener pointCheckListener;
@@ -27,6 +29,8 @@ public class CustomerMainForm {
     public CustomerMainForm(MainFrame mainFrame, Customer customer) {
         this.mainFrame = mainFrame;
         this.customer = customer;
+
+        nameLabel.setText(NAME_BASE + customer.getName());
 
         if(customer.isLoyaltyMember()){
             statusLabel.setText(STATUS_BASE + "Loyalty Member");
@@ -57,6 +61,11 @@ public class CustomerMainForm {
     }
 
     private void createUIComponents() {
+        /*
+         * Name label handler
+         */
+        nameLabel = new JLabel();
+
         /*
          * Status label handler
          */

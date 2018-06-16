@@ -1,8 +1,12 @@
 package model;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Customer extends User {
     private static int ticketPoint = 1000;
@@ -10,26 +14,27 @@ public class Customer extends User {
     private int pointBalance;
     private String name;
 
-
     public Customer(int userId) {
         super("customer", userId);
+
         try {
-            PreparedStatement ps = conn.prepareStatement("SELECT NAME " +
-                    "FROM CUSTOMER " +
-                    "WHERE CID = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT NAME FROM CUSTOMER WHERE CID = ?");
+
             ps.setInt(1, userId);
 
-            ResultSet rs = ps.executeQueryrs.next();
-            this.name = rs.getString("NAME");
+            ResultSet rs = ps.executeQuery();
 
+            while (rs.next()) {
+                name = rs.getString("NAME");
+            }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            ex.printStackTrace();
-            System.exit(-1);
+            System.out.println("Message: " + ex.getMessage());
         }
     }
 
-    public String getName() { return this.name; }
+    public String getName() {
+        return name;
+    }
 
     public boolean isLoyaltyMember() {
         return isLoyaltyMember;
@@ -64,7 +69,7 @@ public class Customer extends User {
 
             while (rs.next()) {
                 int ticketNum = rs.getInt("TICKET_NUM");
-                int price = rs.getInt("PRICE");
+                BigDecimal price = rs.getBigDecimal("PRICE");
                 String transaction = rs.getString("TRANSACTION");
                 String title = rs.getString("TITLE");
                 Timestamp start_time = rs.getTimestamp("START_TIME");
