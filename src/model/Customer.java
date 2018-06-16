@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Customer extends User {
     private static int ticketPoint = 1000;
@@ -9,10 +11,25 @@ public class Customer extends User {
     private String name;
 
 
-    public Customer(int userId, String name) {
+    public Customer(int userId) {
         super("customer", userId);
-        this.name = name;
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT NAME " +
+                    "FROM CUSTOMER " +
+                    "WHERE CID = ?");
+            ps.setInt(1, userId);
+
+            ResultSet rs = ps.executeQueryrs.next();
+            this.name = rs.getString("NAME");
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            System.exit(-1);
+        }
     }
+
+    public String getName() { return this.name; }
 
     public boolean isLoyaltyMember() {
         return isLoyaltyMember;
@@ -35,7 +52,37 @@ public class Customer extends User {
         this.pointBalance += point;
     }
 
-    public void signupForLoyaltyMember() {
+    public List<Ticket> viewBooking (int cId) {
+        List<Ticket> result = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT T.TICKET_NUM, T.PRICE, T.TRANSACTION, T.TITLE, T.START_TIME, T.AID " +
+                            "FROM BOOKING B, TICKET T " +
+                            "WHERE T.TRANSACTION = B.TRANSACTION " +
+                            "AND B.CID = ?");
+            ps.setInt(1, cId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int ticketNum = rs.getInt("TICKET_NUM");
+                int price = rs.getInt("PRICE");
+                String transaction = rs.getString("TRANSACTION");
+                String title = rs.getString("TITLE");
+                Timestamp start_time = rs.getTimestamp("START_TIME");
+                String startTime = start_time.toString();
+                int auditorium = rs.getInt("AID");
+                result.add(new Ticket(ticketNum, price, transaction, title, startTime, auditorium));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            System.exit(-1);
+        }
+
+        return result;
+    }
+
+    public void signUpForLoyaltyMember() {
         this.isLoyaltyMember = true;
         this.pointBalance = 0;
     }
