@@ -12,7 +12,6 @@ import java.util.List;
 public class EmployeeTest {
     //private Employee employee = new Employee(1234);
 
-    @Ignore
     @Test
     public void testTicketSoldPerMoviePerShowtime() {
         Timestamp timestamp = Timestamp.valueOf("2018-06-22 18:30:00");

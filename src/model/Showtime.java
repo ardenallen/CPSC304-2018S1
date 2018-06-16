@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Showtime {
+    public static Connection conn = OracleConnection.buildConnection();
     private Timestamp startTime;
     private String movieTitle;
     private boolean cc;
@@ -33,8 +34,6 @@ public class Showtime {
 
     public static List<Showtime> getAllShowtimes(Movie movie) {
         List<Showtime> result = new ArrayList<>();
-
-        Connection conn = OracleConnection.buildConnection();
 
         try {
             PreparedStatement ps1 = conn.prepareStatement(

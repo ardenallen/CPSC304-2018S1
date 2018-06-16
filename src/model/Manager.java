@@ -3,6 +3,7 @@ package model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,36 @@ public class Manager extends Employee {
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
             System.out.println("Removing " + title + " from Movie table failed.");
+        }
+    }
+
+    public static void addShowtime(Timestamp startTime, String title, int aID) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "INSERT INTO SHOWTIME1 " +
+                            "(START_TIME, TITLE, AID) " +
+                            "(?,?,?)");
+            ps.setTimestamp(1, startTime);
+            ps.setString(2, title);
+            ps.setInt(3, aID);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+            System.out.println("Adding " + startTime + "for movie " + title +  " failed.");
+        }
+    }
+
+    public static void removeShowtime (Timestamp startTime, String title) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "DELETE  FROM SHOWTIME1 " +
+                            "WHERE (START_TIME = ? AND TITLE = ?)");
+            ps.setTimestamp(1, startTime);
+            ps.setString(2, title);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+            System.out.println("Removing " + startTime + " for Movie " + title + " table failed.");
         }
     }
 

@@ -24,9 +24,9 @@ public class Employee extends User {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT COUNT(*) FROM Ticket " +
-                    "WHERE TITLE = ? AND START_TIME = {ts ?}");
+                    "WHERE TITLE = ? AND START_TIME = ?");
             ps.setString(1, movieTitle);
-            ps.setString(2, timeStampString);
+            ps.setTimestamp(2, showTime);
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
