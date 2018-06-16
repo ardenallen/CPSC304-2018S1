@@ -7,7 +7,7 @@ public class ManagerTest {
 
 
     @Test
-    public void testManager() {
+    public void testGetEmployeeStats() {
         Assert.assertEquals(1,1);
     }
 }
