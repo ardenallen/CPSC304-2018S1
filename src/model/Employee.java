@@ -11,12 +11,38 @@ public class Employee extends User {
     public int SIN;
     public String phone;
 
-    public Employee(int userId, String name, int SIN, String phone) {
+    public Employee(int userId) {
         super("employee", userId);
-        this.eID = userId;
-        this.name = name;
-        this.SIN = SIN;
-        this.phone = phone;
+
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * " +
+                    "FROM EMPLOYEE " +
+                    "WHERE EID = ?");
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+
+            this.name = rs.getString("NAME");
+            this.SIN = rs.getInt("SIN");
+            this.phone = rs.getString("PHONE");
+
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+            ex.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getSIN() {
+        return SIN;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public static int ticketSoldPerMoviePerShowtime (String movieTitle, Timestamp showTime) {

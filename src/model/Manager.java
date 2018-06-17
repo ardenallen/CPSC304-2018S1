@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Manager extends Employee {
 
-    public Manager(int userId, String name, int SIN, String phone) {
-        super(userId, name, SIN, phone);
+    public Manager(int userId) {
+        super(userId);
     }
 
     public static void addMovie(String title, int duration, String genre, String censor) {
@@ -109,10 +109,7 @@ public class Manager extends Employee {
 
             while (rs.next()) {
                 int eId = rs.getInt("eID");
-                String name = rs.getString("Name");
-                int SIN = rs.getInt("SIN");
-                String phone = rs.getString("Phone");
-                Employee employee = new Employee(eId, name, SIN, phone);
+                Employee employee = new Employee(eId);
                 result.add(employee);
             }
         } catch (SQLException ex) {
@@ -140,11 +137,8 @@ public class Manager extends Employee {
             PreparedStatement ps = conn.prepareStatement(SQL);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
-                String name = rs.getString("Name");
                 int eID = rs.getInt("EID");
-                int SIN = rs.getInt("SIN");
-                String phone = rs.getString("Phone");
-                Employee x = new Employee(eID, name, SIN, phone);
+                Employee x = new Employee(eID);
                 result.add(x);
             }
 

@@ -14,7 +14,7 @@ public class AuthClient {
     public static boolean tryAuth(User user) {
         Connection conn = OracleConnection.buildConnection();
 
-        String tableToQuery;
+        String tableToQuery = null;
 
         String customerTableQuery = "SELECT * FROM CUSTOMER WHERE CID = ?";
         String employeeTableQuery = "SELECT * FROM EMPLOYEE WHERE EID = ?";
@@ -24,7 +24,8 @@ public class AuthClient {
                 tableToQuery = customerTableQuery;
                 break;
 
-            default:
+            case "employee":
+            case "manager":
                 tableToQuery = employeeTableQuery;
                 break;
         }

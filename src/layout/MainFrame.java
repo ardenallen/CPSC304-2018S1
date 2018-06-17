@@ -38,7 +38,9 @@ public class MainFrame {
     private CustomerTicketsForm customerTicketsForm;
     private CustomerRecommForm customerRecommForm;
 
+    private Employee employee;
     private EmployeeMainForm employeeMainForm;
+
     private ManagerMainForm managerMainForm;
 
     private MainFrame() {
@@ -71,7 +73,8 @@ public class MainFrame {
 
             case "employee":
                 currentUserClass = "employee";
-                employeeMainForm = new EmployeeMainForm(this);
+                employee = new Employee(user.getUserId());
+                employeeMainForm = new EmployeeMainForm(this, employee);
                 removeContent();
                 changeContent(employeeMainForm.getMainPanel());
                 break;
