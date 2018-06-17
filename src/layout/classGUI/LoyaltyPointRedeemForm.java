@@ -85,7 +85,7 @@ public class LoyaltyPointRedeemForm {
 
         backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            mainFrame.backToCustomerBookingForm();
+            mainFrame.backToPreviousForm();
         });
     }
 }

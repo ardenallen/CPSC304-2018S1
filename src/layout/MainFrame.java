@@ -4,6 +4,7 @@ import layout.classGUI.LoyaltyPointRedeemForm;
 import layout.classGUI.MovieSelectionForm;
 import layout.classGUI.ShowtimeSelectionForm;
 import layout.classGUI.customer.CustomerBookingForm;
+import layout.classGUI.customer.CustomerRecommForm;
 import layout.classGUI.customer.history.CustomerHistoryForm;
 import layout.classGUI.customer.CustomerMainForm;
 import layout.classGUI.customer.history.CustomerTicketsForm;
@@ -12,6 +13,7 @@ import layout.classGUI.manager.ManagerMainForm;
 import model.*;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Main frame to handle GUI
@@ -21,6 +23,7 @@ public class MainFrame {
     private static final int WINDOW_HEIGHT = 720;
 
     private JFrame mainFrame;
+    private Container previousContainer;
 
     private String currentUserClass;
     private LoginForm loginForm;
@@ -33,6 +36,7 @@ public class MainFrame {
     private CustomerBookingForm customerBookingForm;
     private CustomerHistoryForm customerHistoryForm;
     private CustomerTicketsForm customerTicketsForm;
+    private CustomerRecommForm customerRecommForm;
 
     private EmployeeMainForm employeeMainForm;
     private ManagerMainForm managerMainForm;
@@ -102,14 +106,9 @@ public class MainFrame {
         changeContent(loyaltyPointRedeemForm.getMainPanel());
     }
 
-    public void backToMovieSelectionForm() {
+    public void backToPreviousForm() {
         removeContent();
-        changeContent(movieSelectionForm.getMainPanel());
-    }
-
-    public void backToShowtimeSelectionForm() {
-        removeContent();
-        changeContent(showtimeSelectionForm.getMainPanel());
+        changeContent(previousContainer);
     }
 
     public String getCurrentUserClass() {
@@ -145,14 +144,9 @@ public class MainFrame {
         changeContent(customerTicketsForm.getMainPanel());
     }
 
-    public void backToCustomerHistorySelectionForm() {
-        removeContent();
-        changeContent(customerHistoryForm.getMainPanel());
-    }
-
-    public void backToCustomerBookingForm() {
-        removeContent();
-        changeContent(customerBookingForm.getMainPanel());
+    public void changeToCustomerRecommPanel() {
+        customerRecommForm = new CustomerRecommForm(this);
+        changeContent(customerRecommForm.getMainPanel());
     }
 
     public Customer getCustomer() {
@@ -167,7 +161,14 @@ public class MainFrame {
         repaintFrame();
     }
 
+    private void changeContent(Container container) {
+        previousContainer = mainFrame.getContentPane();
+        mainFrame.setContentPane(container);
+        repaintFrame();
+    }
+
     private void changeContent(JPanel newPanel) {
+        previousContainer = mainFrame.getContentPane();
         mainFrame.setContentPane(newPanel);
         repaintFrame();
     }

@@ -161,7 +161,7 @@ public class CustomerBookingForm {
 
         backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            mainFrame.backToShowtimeSelectionForm();
+            mainFrame.backToPreviousForm();
         });
     }
 

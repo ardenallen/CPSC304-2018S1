@@ -19,6 +19,7 @@ public class CustomerMainForm {
     private JPanel mainPanel;
     private JLabel nameLabel;
     private JLabel statusLabel;
+    private JButton recommButton;
     private ActionListener signupListner;
     private ActionListener pointCheckListener;
 
@@ -103,6 +104,14 @@ public class CustomerMainForm {
         historyButton = new JButton("View bookings");
         historyButton.addActionListener(e -> {
             mainFrame.changeToCustomerHistoryPanel(customer);
+        });
+
+        /*
+         * Movie recommendation button handler
+         */
+        recommButton = new JButton("Get movie recommendations");
+        recommButton.addActionListener(e -> {
+            mainFrame.changeToCustomerRecommPanel();
         });
     }
 }

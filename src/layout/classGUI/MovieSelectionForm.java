@@ -42,7 +42,13 @@ public class MovieSelectionForm {
          */
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            mainFrame.backToCustomerMainForm();
+            if (mainFrame.getCurrentUserClass().equals("customer")) {
+                mainFrame.backToCustomerMainForm();
+            } else if (mainFrame.getCurrentUserClass().equals("employee")) {
+                // TODO: backToEmployeeMainForm()
+            } else {
+                // TODO: backToManagerMainForm()
+            }
         });
         mainPanel.add(backButton);
     }

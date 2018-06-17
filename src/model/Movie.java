@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
-    public static Connection conn = OracleConnection.buildConnection();
+    private static Connection conn = OracleConnection.buildConnection();
     private String title;
     private int duration; // in minutes
     private String genre;
@@ -59,6 +59,30 @@ public class Movie {
             System.out.println("Message: " + ex.getMessage());
         }
         return result;
+    }
+
+    public static Movie findMovieByTitle(String movieTitle) {
+        Movie movie = null;
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT * FROM MOVIE");
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String title = rs.getString("Title");
+                int duration = rs.getInt("Duration");
+                String genre = rs.getString("Genre");
+                String censor = rs.getString("Censor");
+
+                movie = new Movie(title, duration, genre, censor);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+
+        return movie;
     }
 
     public boolean equals(Movie movie) {

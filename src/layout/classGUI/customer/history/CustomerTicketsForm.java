@@ -38,7 +38,7 @@ public class CustomerTicketsForm {
 
         backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            mainFrame.backToCustomerHistorySelectionForm();
+            mainFrame.backToPreviousForm();
         });
     }
 
