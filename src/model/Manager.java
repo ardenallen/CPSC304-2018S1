@@ -123,14 +123,29 @@ public class Manager extends Employee {
         return result;
     }
 
-    public List<EmployeeStat> getEmployeeStats(String date) {
-        List<EmployeeStat> result = new ArrayList<>();
+    // Returns all the Employee who generated the max (most sales) or min (least sales) amount of ticket sales
+    // Will not take into account of employee who did not sell any ticket on the given date
+    public static List<Employee> getLeastMostSalesEmployee(String minMax, String date) {
+        List<Employee> result = new ArrayList<>();
+
+        return result;
+    }
+
+
+    private static int getLeastMostSales(String minMax) {
+        int result = -1;
 
         return result;
     }
 
     public List<Customer> getBestCustomer() {
         List<Customer> result = new ArrayList<>();
+        return result;
+    }
+
+    private static List<Integer> getEmployeeIDFromSales(int sales) {
+        List<Integer> result = new ArrayList();
+
         return result;
     }
 

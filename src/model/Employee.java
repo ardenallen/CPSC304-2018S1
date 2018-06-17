@@ -209,7 +209,6 @@ public class Employee extends User {
     }
 
     // Extracts movie name given the number of ticket sold
-    // will be wrapped in another function
     private static List<String> getMovieFromNumTicketsSold(int numTicketSold) {
         List<String> result = new ArrayList<>();
         try {
