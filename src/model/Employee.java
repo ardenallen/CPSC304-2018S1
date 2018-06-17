@@ -79,16 +79,22 @@ public class Employee extends User {
 
     // Employee will have to enter the cardNum if the ticket was bought using a card,
     // else please leave blank if cash
-    public static void refund(String customerCardNum, int ticketNum) {
+    public static void refund(String customerCardNum, List<Integer> ticketNums) {
         String paymentMethod = "";
         String cardInfo = "";
+        String sqlTicketNums = "";
+        for (int ticketNum : ticketNums) {
+            sqlTicketNums += ticketNum + ", ";
+        }
+        sqlTicketNums = sqlTicketNums.substring(0, sqlTicketNums.length() - 2);
+        String SQL = "SELECT CARD_INFO, PAYMENT_METHOD " +
+                "FROM TICKET T, BOOKING B " +
+                "WHERE TICKET_NUM IN (%s) " +
+                "AND T.TRANSACTION = B.TRANSACTION";
+        SQL = String.format(SQL, sqlTicketNums);
+
         try {
-            PreparedStatement ps = conn.prepareStatement(
-                    "SELECT CARD_INFO, PAYMENT_METHOD " +
-                            "FROM TICKET T, BOOKING B " +
-                            "WHERE TICKET_NUM = ? " +
-                            "AND T.TRANSACTION = B.TRANSACTION");
-            ps.setInt(1, ticketNum);
+            PreparedStatement ps = conn.prepareStatement(SQL);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 paymentMethod = rs.getString("Payment_method");
@@ -102,16 +108,17 @@ public class Employee extends User {
         if (paymentMethod == "Cash" || cardInfo.equals(customerCardNum)) {
             // Delete ticket and refund customer if condition is met
             try {
-                // For UPDATING the Ticket table
-                PreparedStatement psU = conn.prepareStatement(
-                        "DELETE TICKET WHERE TICKET_NUM = ?");
-                psU.setInt(1, ticketNum);
-                psU.executeUpdate();
+                for (int ticketNum : ticketNums) {
+                    // For UPDATING the Ticket table
+                    PreparedStatement psU = conn.prepareStatement(
+                            "DELETE TICKET WHERE TICKET_NUM = ?");
+                    psU.setInt(1, ticketNum);
+                    //psU.executeUpdate();
+                    psU.close();
+                }
                 // No need to delete ticket from other tables; it is handled in the DB
-                psU.close();
             } catch (SQLException ex) {
                 System.out.println("Message: " + ex.getMessage());
-                System.out.println("Refunding ticket# " + ticketNum + " failed.");
             }
         } else {
             System.out.println("Please enter the same card number you bought the ticket with.");
