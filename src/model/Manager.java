@@ -200,8 +200,25 @@ public class Manager extends Employee {
         return result;
     }
 
-    public List<Customer> getBestCustomer() {
+    public static List<Customer> getBestCustomer() {
         List<Customer> result = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT CID FROM CUSTOMER " +
+                            "WHERE NOT EXISTS ((SELECT TITLE FROM MOVIE) " +
+                            "MINUS (SELECT TITLE FROM TICKET " +
+                            "WHERE EXISTS (SELECT * FROM BOOKING " +
+                            "WHERE CUSTOMER.CID=BOOKING.CID AND BOOKING.TRANSACTION=TICKET.TRANSACTION)))");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int cId = rs.getInt("cID");
+                Customer best = new Customer(cId);
+                result.add(best);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
         return result;
     }
 
