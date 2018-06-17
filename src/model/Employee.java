@@ -190,7 +190,7 @@ public class Employee extends User {
         int result = -1;
         String SQL = "SELECT %s(TICKET_SOLD) FROM (" +
                 "SELECT TITLE, COUNT(*) AS TICKET_SOLD " +
-                "FROM TICKET T " +
+                "FROM TICKET  " +
                 "GROUP BY TITLE)";
         SQL = minMax.equalsIgnoreCase("Min") ?
                 String.format(SQL, "MIN") :

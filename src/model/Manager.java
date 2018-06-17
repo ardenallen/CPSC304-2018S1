@@ -1,9 +1,7 @@
 package model;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.math.BigDecimal;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,8 +130,33 @@ public class Manager extends Employee {
     }
 
 
-    private static int getLeastMostSales(String minMax) {
-        int result = -1;
+    public static BigDecimal getLeastMostSales(String minMax, Date date) {
+        BigDecimal result = new BigDecimal(-1);
+        String SQL = "SELECT %s(SALES) FROM (" +
+                "SELECT EID, SUM(PRICE) AS SALES " +
+                "FROM TICKET T, BOOKING B " +
+                "WHERE TRUNC(START_TIME) = ? "+
+                "AND T.TRANSACTION = B.TRANSACTION " +
+                "GROUP BY EID)";
+        SQL = minMax.equalsIgnoreCase("Min")?
+                String.format(SQL, "MIN"):
+                String.format(SQL,"MAX");
+        try {
+            PreparedStatement ps = conn.prepareStatement(SQL);
+            ps.setDate(1, date);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                result = rs.getBigDecimal(1);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
+    }
+
+    private static List<Integer> getEmployeeIDFromSales(int sales) {
+        List<Integer> result = new ArrayList();
 
         return result;
     }
@@ -143,11 +166,7 @@ public class Manager extends Employee {
         return result;
     }
 
-    private static List<Integer> getEmployeeIDFromSales(int sales) {
-        List<Integer> result = new ArrayList();
 
-        return result;
-    }
 
 
 }
