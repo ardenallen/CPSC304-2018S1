@@ -101,11 +101,13 @@ public class Customer extends User {
 
     public void addPoint(int numOfTickets) {
         try {
-            PreparedStatement ps = conn.prepareStatement(
-                    "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = POINT_BALANCE + ? WHERE CID = ?");
-            ps.setInt(1, numOfTickets * TICKET_POINT_ADD);
-            ps.setInt(2, getUserId());
-            ps.executeUpdate();
+            if (this.isLoyaltyMember()) {
+                PreparedStatement ps = conn.prepareStatement(
+                        "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = POINT_BALANCE + ? WHERE CID = ?");
+                ps.setInt(1, numOfTickets * TICKET_POINT_ADD);
+                ps.setInt(2, getUserId());
+                ps.executeUpdate();
+            }
         } catch (SQLException e) {
             System.out.println("Message: " + e.getMessage());
         }
@@ -217,9 +219,14 @@ public class Customer extends User {
     }
 
     public boolean buyTickets(Movie movie, Showtime showtime, int quantity, String payment) {
+        // If credit: payment is "CXXXXX"
+        // If debit: payment is "DXXXXX"
+        // If cash: payment is "Cash"
+        // If redeem: payment is "Redeem"
+
         String paymentMethod;
         String cardInfo;
-        int price = 13;
+        double price = 13;
 
         if (payment == "Cash") {
             paymentMethod = "Cash";
@@ -239,9 +246,9 @@ public class Customer extends User {
         if (paymentMethod == "Redeem") {
             if (!this.canRedeem(quantity)) {
                 return false;
+            } else {
+                this.redeem(quantity);
             }
-        } else {
-            this.redeem(quantity);
         }
 
         int cId = this.getUserId();
@@ -259,8 +266,6 @@ public class Customer extends User {
             stmt.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
-            ex.printStackTrace();
-            System.exit(-1);
         }
 
 
@@ -277,27 +282,29 @@ public class Customer extends User {
             ps.setString(3, cardInfo);
             ps.setInt(4, cId);
             ps.executeUpdate();
-            conn.commit();
             ps.close();
 
             PreparedStatement ps2 = conn.prepareStatement("INSERT INTO TICKET " +
                     "(TRANSACTION, TICKET_NUM, TITLE, START_TIME, PRICE, AID) " +
                     "VALUES (?, ?, ?, ?, ?, ?)");
-            ps2.setString(1, "43456441781");
+            ps2.setString(1, transactionNumber);
             ps2.setString(3, title);
             ps2.setTimestamp(4, startTime);
-            ps2.setInt(5, price);
+            ps2.setDouble(5, price);
             ps2.setInt(6, auditorum);
 
             for (int i=0; i < quantity; i++) {
-                ps2.setInt(2, ticketNum);
+                ps2.setInt(2, ticketNum + i);
                 ps2.executeUpdate();
             }
             ps2.close();
+
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
-            ex.printStackTrace();
-            System.exit(-1);
+        }
+
+        if (paymentMethod != "Redeem") {
+            this.addPoint(quantity);
         }
         return true;
     }
