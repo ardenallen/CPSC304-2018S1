@@ -22,7 +22,7 @@ public class CustomerHistoryForm {
             JButton bookingButton = new JButton();
             bookingButton.setText("Transaction #: " + booking.getTransactionNum());
             bookingButton.addActionListener(e -> {
-                mainFrame.changeToCustomerTicketsPanel(booking);
+                mainFrame.changeToCustomerTicketsForm(booking);
             });
             mainPanel.add(bookingButton, gbc);
         }

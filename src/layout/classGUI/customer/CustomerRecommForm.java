@@ -34,7 +34,7 @@ public class CustomerRecommForm {
                     movieNoLongerOfferedDialog.setLocationRelativeTo(mainPanel);
                     movieNoLongerOfferedDialog.setVisible(true);
                 } else {
-                    mainFrame.changeToShowtimeSelectPanel(movie);
+                    mainFrame.changeToShowtimeSelectForm(movie);
                 }
             });
 

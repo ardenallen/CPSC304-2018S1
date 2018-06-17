@@ -1,7 +1,7 @@
 package layout.classGUI.customer;
 
 import layout.MainFrame;
-import layout.dialog.FailedLoginDialog;
+import layout.dialog.FailedPurchaseDialog;
 import layout.dialog.SuccessfulPurchaseDialog;
 import layout.dialog.ZeroTicketNumDialog;
 import model.*;
@@ -60,7 +60,7 @@ public class CustomerBookingForm {
          */
         redeemButton = new JButton("Redeem");
         redeemButton.addActionListener(e -> {
-            mainFrame.changeToLoyaltyPointRedeemForm(mainFrame.getCustomer(), movie, showtime);
+            mainFrame.changeToLoyaltyPointRedeemForm(mainFrame.getCustomer(), null, movie, showtime);
         });
 
         if (!isLoyaltyMember) {
@@ -143,16 +143,17 @@ public class CustomerBookingForm {
             }
 
             // Try purchasing
-            if (mainFrame.getCustomer().buyTickets(movie, showtime, ticketNum, paymentStrBuilder.toString())) {
+            String paymentInfo = paymentStrBuilder.toString();
+            if (mainFrame.getCustomer().buyTickets(movie, showtime, ticketNum, paymentInfo)) {
                 SuccessfulPurchaseDialog successfulPurchaseDialog = new SuccessfulPurchaseDialog();
                 successfulPurchaseDialog.pack();
                 successfulPurchaseDialog.setLocationRelativeTo(mainPanel);
                 successfulPurchaseDialog.setVisible(true);
             } else {
-                FailedLoginDialog failedLoginDialog = new FailedLoginDialog();
-                failedLoginDialog.pack();
-                failedLoginDialog.setLocationRelativeTo(mainPanel);
-                failedLoginDialog.setVisible(true);
+                FailedPurchaseDialog failedPurchaseDialog = new FailedPurchaseDialog();
+                failedPurchaseDialog.pack();
+                failedPurchaseDialog.setLocationRelativeTo(mainPanel);
+                failedPurchaseDialog.setVisible(true);
                 return;
             }
 

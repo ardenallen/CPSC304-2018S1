@@ -32,8 +32,6 @@ public class Customer extends User {
             ResultSet rs2 = ps2.executeQuery();
             this.isLoyaltyMember = rs2.next();
             ps.close();
-
-
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
             ex.printStackTrace();
@@ -82,6 +80,7 @@ public class Customer extends User {
     }
 
     public boolean canRedeem(int numOfTickets) {
+        pointBalance = this.getPointBalance();
         return pointBalance - numOfTickets * TICKET_POINT_REDEEM >= 0;
     }
 

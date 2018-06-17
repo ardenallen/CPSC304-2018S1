@@ -8,6 +8,7 @@ import layout.classGUI.customer.CustomerRecommForm;
 import layout.classGUI.customer.history.CustomerHistoryForm;
 import layout.classGUI.customer.CustomerMainForm;
 import layout.classGUI.customer.history.CustomerTicketsForm;
+import layout.classGUI.employee.EmployeeBookingForm;
 import layout.classGUI.employee.EmployeeMainForm;
 import layout.classGUI.manager.ManagerMainForm;
 import model.*;
@@ -40,6 +41,7 @@ public class MainFrame {
 
     private Employee employee;
     private EmployeeMainForm employeeMainForm;
+    private EmployeeBookingForm employeeBookingForm;
 
     private ManagerMainForm managerMainForm;
 
@@ -94,18 +96,18 @@ public class MainFrame {
         changeContent(loginForm.getMainPanel());
     }
 
-    public void changeToMovieSelectPanel() {
+    public void changeToMovieSelectForm() {
         movieSelectionForm = new MovieSelectionForm(this);
         changeContent(movieSelectionForm.getMainPanel());
     }
 
-    public void changeToShowtimeSelectPanel(Movie movie) {
+    public void changeToShowtimeSelectForm(Movie movie) {
         showtimeSelectionForm = new ShowtimeSelectionForm(movie, this);
         changeContent(showtimeSelectionForm.getMainPanel());
     }
 
-    public void changeToLoyaltyPointRedeemForm(Customer customer, Movie movie, Showtime showtime) {
-        loyaltyPointRedeemForm = new LoyaltyPointRedeemForm(customer, movie, showtime, this);
+    public void changeToLoyaltyPointRedeemForm(Customer customer, Employee employee, Movie movie, Showtime showtime) {
+        loyaltyPointRedeemForm = new LoyaltyPointRedeemForm(customer, employee, movie, showtime, this);
         changeContent(loyaltyPointRedeemForm.getMainPanel());
     }
 
@@ -137,23 +139,40 @@ public class MainFrame {
         changeContent(customerBookingForm.getMainPanel());
     }
 
-    public void changeToCustomerHistoryPanel(Customer customer) {
+    public void changeToCustomerHistoryForm(Customer customer) {
         customerHistoryForm = new CustomerHistoryForm(this, customer);
         changeContent(customerHistoryForm.getMainPanel());
     }
 
-    public void changeToCustomerTicketsPanel(Booking booking) {
+    public void changeToCustomerTicketsForm(Booking booking) {
         customerTicketsForm = new CustomerTicketsForm(this, booking);
         changeContent(customerTicketsForm.getMainPanel());
     }
 
-    public void changeToCustomerRecommPanel() {
+    public void changeToCustomerRecommForm() {
         customerRecommForm = new CustomerRecommForm(this);
         changeContent(customerRecommForm.getMainPanel());
     }
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    /**
+     * Employee specific UI handler
+     */
+    public void changeToEmployeeBookingForm(Movie movie, Showtime showtime) {
+        employeeBookingForm = new EmployeeBookingForm(movie, showtime, this);
+        changeContent(employeeBookingForm.getMainPanel());
+    }
+
+    public void backToEmployeeMainForm() {
+        removeContent();
+        changeContent(employeeMainForm.getMainPanel());
+    }
+
+    public Employee getEmployee() {
+        return employee;
     }
 
     /**

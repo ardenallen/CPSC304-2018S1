@@ -5,7 +5,6 @@ import model.Movie;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieSelectionForm {
@@ -32,7 +31,7 @@ public class MovieSelectionForm {
             movieButton.setText(movieInfoHtmlParser(movie));
             movieButton.setHorizontalAlignment(SwingConstants.LEFT);
             movieButton.addActionListener(e -> {
-                mainFrame.changeToShowtimeSelectPanel(movie);
+                mainFrame.changeToShowtimeSelectForm(movie);
             });
             mainPanel.add(movieButton, gbc);
         }
@@ -45,7 +44,7 @@ public class MovieSelectionForm {
             if (mainFrame.getCurrentUserClass().equals("customer")) {
                 mainFrame.backToCustomerMainForm();
             } else if (mainFrame.getCurrentUserClass().equals("employee")) {
-                // TODO: backToEmployeeMainForm()
+                mainFrame.backToEmployeeMainForm();
             } else {
                 // TODO: backToManagerMainForm()
             }

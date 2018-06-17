@@ -41,7 +41,12 @@ public class ShowtimeSelectionForm {
             int auditoriumCapacity = Auditorium.getAuditoriumCapacity(showtime.getaId());
             showTimeButton.setText(showtimeInfoHtmlParser(showtime, bookedTicketNum, auditoriumCapacity));
             showTimeButton.addActionListener(e -> {
-                mainFrame.changeToCustomerBookingForm(movie, showtime);
+                if (mainFrame.getCurrentUserClass().equals("customer")) {
+                    mainFrame.changeToCustomerBookingForm(movie, showtime);
+                } else {
+                    // Current class is either employee or manager
+                    mainFrame.changeToEmployeeBookingForm(movie, showtime);
+                }
             });
 
             if (bookedTicketNum == auditoriumCapacity) {

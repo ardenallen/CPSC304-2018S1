@@ -39,6 +39,9 @@ public class EmployeeMainForm {
          * Sell ticket button handler
          */
         sellButton = new JButton("Sell tickets");
+        sellButton.addActionListener(e -> {
+            mainFrame.changeToMovieSelectForm();
+        });
 
         /*
          * Refund button handler

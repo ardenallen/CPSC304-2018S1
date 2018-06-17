@@ -1,15 +1,17 @@
 package model;
 
+import layout.dialog.CustomerDoesNotExistDialog;
+
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Employee extends User {
-    public int eID;
-    public String name;
-    public int SIN;
-    public String phone;
+    private String name;
+    private int SIN;
+    private String phone;
 
     public Employee(int userId) {
         super("employee", userId);
@@ -43,6 +45,98 @@ public class Employee extends User {
 
     public String getPhone() {
         return phone;
+    }
+
+    public boolean sellTickets(Movie movie, Showtime showtime, int quantity, String payment, Customer customer) {
+        // If credit: payment is "CXXXXX"
+        // If debit: payment is "DXXXXX"
+        // If cash: payment is "Cash"
+        // If redeem: payment is "Redeem"
+        String paymentMethod;
+        String cardInfo;
+        double price = 13;
+
+        if (payment.equals("Cash")) {
+            paymentMethod = "Cash";
+            cardInfo = null;
+        } else if (payment.startsWith("C")) {
+            paymentMethod = "Credit";
+            cardInfo = payment.substring(1);
+        } else if (payment.startsWith("D")) {
+            paymentMethod = "Debit";
+            cardInfo = payment.substring(1);
+        } else {
+            paymentMethod = "Redeem";
+            cardInfo = null;
+            price = 0;
+        }
+
+        if (paymentMethod.equals("Redeem")) {
+            if (!customer.canRedeem(quantity)) {
+                return false;
+            } else {
+                customer.redeem(quantity);
+            }
+        }
+
+        int cId = customer.getUserId();
+        String title = movie.getTitle();
+        int auditorium = showtime.getaId();
+        Timestamp startTime = showtime.getStartTime();
+
+        int ticketNum = 0;
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT max(TICKET_NUM) FROM TICKET");
+            if (rs.next()) {
+                ticketNum = rs.getInt(1) + 1;
+            }
+            stmt.close();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        Long randomNumber = random.nextLong(10_000_000_000L, 100_000_000_000L);
+        String transactionNumber = randomNumber.toString();
+
+        try {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO BOOKING " +
+                    "(TRANSACTION, PAYMENT_METHOD, CARD_INFO, EID, CID) " +
+                    "VALUES (?, ?, ?, ?, ?)");
+            ps.setString(1, transactionNumber);
+            ps.setString(2, paymentMethod);
+            ps.setString(3, cardInfo);
+            ps.setInt(4, super.getUserId());
+            ps.setInt(5, cId);
+            ps.executeUpdate();
+            ps.close();
+
+            PreparedStatement ps2 = conn.prepareStatement("INSERT INTO TICKET " +
+                    "(TRANSACTION, TICKET_NUM, TITLE, START_TIME, PRICE, AID) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)");
+            ps2.setString(1, transactionNumber);
+            ps2.setString(3, title);
+            ps2.setTimestamp(4, startTime);
+            ps2.setDouble(5, price);
+            ps2.setInt(6, auditorium);
+
+            for (int i=0; i < quantity; i++) {
+                ps2.setInt(2, ticketNum + i);
+                ps2.executeUpdate();
+            }
+            ps2.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+
+        if (!paymentMethod.equals("Redeem")) {
+            customer.addPoint(quantity);
+        }
+
+        return true;
     }
 
     public static int ticketSoldPerMoviePerShowtime (String movieTitle, Timestamp showTime) {

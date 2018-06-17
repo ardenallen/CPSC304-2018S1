@@ -2,9 +2,11 @@ package layout.classGUI;
 
 import layout.MainFrame;
 import layout.dialog.FailedLoginDialog;
+import layout.dialog.FailedPurchaseDialog;
 import layout.dialog.SuccessfulPurchaseDialog;
 import layout.dialog.ZeroTicketNumDialog;
 import model.Customer;
+import model.Employee;
 import model.Movie;
 import model.Showtime;
 
@@ -18,12 +20,14 @@ public class LoyaltyPointRedeemForm {
     private JLabel pointBalanceLabel;
 
     private Customer customer;
+    private Employee employee;
     private Movie movie;
     private Showtime showtime;
     private MainFrame mainFrame;
 
-    public LoyaltyPointRedeemForm(Customer customer, Movie movie, Showtime showtime, MainFrame mainFrame) {
+    public LoyaltyPointRedeemForm(Customer customer, Employee employee, Movie movie, Showtime showtime, MainFrame mainFrame) {
         this.customer = customer;
+        this.employee = employee;
         this.movie = movie;
         this.showtime = showtime;
         this.mainFrame = mainFrame;
@@ -67,20 +71,38 @@ public class LoyaltyPointRedeemForm {
                 return;
             }
 
-            if (mainFrame.getCustomer().buyTickets(movie, showtime, ticketNum, "Redeem")) {
-                SuccessfulPurchaseDialog successfulPurchaseDialog = new SuccessfulPurchaseDialog();
-                successfulPurchaseDialog.pack();
-                successfulPurchaseDialog.setLocationRelativeTo(mainPanel);
-                successfulPurchaseDialog.setVisible(true);
-            } else {
-                FailedLoginDialog failedLoginDialog = new FailedLoginDialog();
-                failedLoginDialog.pack();
-                failedLoginDialog.setLocationRelativeTo(mainPanel);
-                failedLoginDialog.setVisible(true);
-                return;
-            }
+            // If this purchase is being done by a customer
+            if (employee == null) {
+                if (mainFrame.getCustomer().buyTickets(movie, showtime, ticketNum, "Redeem")) {
+                    SuccessfulPurchaseDialog successfulPurchaseDialog = new SuccessfulPurchaseDialog();
+                    successfulPurchaseDialog.pack();
+                    successfulPurchaseDialog.setLocationRelativeTo(mainPanel);
+                    successfulPurchaseDialog.setVisible(true);
+                } else {
+                    FailedPurchaseDialog failedPurchaseDialog = new FailedPurchaseDialog();
+                    failedPurchaseDialog.pack();
+                    failedPurchaseDialog.setLocationRelativeTo(mainPanel);
+                    failedPurchaseDialog.setVisible(true);
+                    return;
+                }
 
-            mainFrame.backToCustomerMainForm();
+                mainFrame.backToCustomerMainForm();
+            } else {
+                // If this purchase is being done by an employee
+                if (mainFrame.getEmployee().sellTickets(movie, showtime, ticketNum, "Redeem", customer)) {
+                    SuccessfulPurchaseDialog successfulPurchaseDialog = new SuccessfulPurchaseDialog();
+                    successfulPurchaseDialog.pack();
+                    successfulPurchaseDialog.setLocationRelativeTo(mainPanel);
+                    successfulPurchaseDialog.setVisible(true);
+                } else {
+                    FailedPurchaseDialog failedPurchaseDialog = new FailedPurchaseDialog();
+                    failedPurchaseDialog.pack();
+                    failedPurchaseDialog.setLocationRelativeTo(mainPanel);
+                    failedPurchaseDialog.setVisible(true);
+                }
+
+                mainFrame.backToEmployeeMainForm();
+            }
         });
 
         backButton = new JButton("Back");

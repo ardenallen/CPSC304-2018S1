@@ -95,7 +95,7 @@ public class CustomerMainForm {
          */
         bookButton = new JButton("Book tickets");
         bookButton.addActionListener(e -> {
-            mainFrame.changeToMovieSelectPanel();
+            mainFrame.changeToMovieSelectForm();
         });
 
         /*
@@ -103,7 +103,7 @@ public class CustomerMainForm {
          */
         historyButton = new JButton("View bookings");
         historyButton.addActionListener(e -> {
-            mainFrame.changeToCustomerHistoryPanel(customer);
+            mainFrame.changeToCustomerHistoryForm(customer);
         });
 
         /*
@@ -111,7 +111,7 @@ public class CustomerMainForm {
          */
         recommButton = new JButton("Get movie recommendations");
         recommButton.addActionListener(e -> {
-            mainFrame.changeToCustomerRecommPanel();
+            mainFrame.changeToCustomerRecommForm();
         });
     }
 }
