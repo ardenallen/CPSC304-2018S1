@@ -5,7 +5,7 @@ import model.Booking;
 import model.Customer;
 
 import javax.swing.*;
-import java.util.ArrayList;
+import java.awt.*;
 import java.util.List;
 
 public class CustomerHistoryForm {
@@ -14,12 +14,17 @@ public class CustomerHistoryForm {
     public CustomerHistoryForm(MainFrame mainFrame, Customer customer) {
         List<Booking> bookingList = customer.getAllBookings();
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
         for (Booking booking : bookingList) {
             JButton bookingButton = new JButton();
             bookingButton.setText("Transaction #: " + booking.getTransactionNum());
             bookingButton.addActionListener(e -> {
                 mainFrame.changeToCustomerTicketsPanel(booking);
             });
+            mainPanel.add(bookingButton, gbc);
         }
 
         /*
