@@ -228,7 +228,7 @@ public class Customer extends User {
         String cardInfo;
         double price = 13;
 
-        if (payment == "Cash") {
+        if (payment.equals("Cash")) {
             paymentMethod = "Cash";
             cardInfo = null;
         } else if (payment.startsWith("C")) {
@@ -303,7 +303,7 @@ public class Customer extends User {
             System.out.println("Message: " + ex.getMessage());
         }
 
-        if (paymentMethod != "Redeem") {
+        if (!paymentMethod.equals("Redeem")) {
             this.addPoint(quantity);
         }
         return true;

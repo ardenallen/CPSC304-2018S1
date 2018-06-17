@@ -1,6 +1,8 @@
 package layout.classGUI.customer;
 
 import layout.MainFrame;
+import layout.dialog.FailedLoginDialog;
+import layout.dialog.SuccessfulPurchaseDialog;
 import layout.dialog.ZeroTicketNumDialog;
 import model.*;
 
@@ -110,10 +112,26 @@ public class CustomerBookingForm {
 
         confirmButton = new JButton("Confirm");
         confirmButton.addActionListener(e -> {
-            /*
-             * TODO: Add booking into DB
-             */
             Integer ticketNum = (Integer) ticketNumSpinner.getValue();
+            StringBuilder paymentStrBuilder = new StringBuilder();
+
+            String selectedOption = (String) paymentOptionBox.getSelectedItem();
+            assert selectedOption != null;
+
+            switch (selectedOption) {
+                case ("Cash"):
+                    paymentStrBuilder.append("Cash");
+                    break;
+
+                case ("Debit"):
+                    paymentStrBuilder.append("D");
+                    paymentStrBuilder.append(cardNumberField.getText());
+                    break;
+                case ("Credit"):
+                    paymentStrBuilder.append("C");
+                    paymentStrBuilder.append(cardNumberField.getText());
+                    break;
+            }
 
             // If ticket number is zero (error)
             if (ticketNum == 0) {
@@ -124,8 +142,19 @@ public class CustomerBookingForm {
                 return;
             }
 
-            Customer currentCustomer = mainFrame.getCustomer();
-            currentCustomer.addPoint(ticketNum);
+            // Try purchasing
+            if (mainFrame.getCustomer().buyTickets(movie, showtime, ticketNum, paymentStrBuilder.toString())) {
+                SuccessfulPurchaseDialog successfulPurchaseDialog = new SuccessfulPurchaseDialog();
+                successfulPurchaseDialog.pack();
+                successfulPurchaseDialog.setLocationRelativeTo(mainPanel);
+                successfulPurchaseDialog.setVisible(true);
+            } else {
+                FailedLoginDialog failedLoginDialog = new FailedLoginDialog();
+                failedLoginDialog.pack();
+                failedLoginDialog.setLocationRelativeTo(mainPanel);
+                failedLoginDialog.setVisible(true);
+                return;
+            }
 
             mainFrame.backToCustomerMainForm();
         });

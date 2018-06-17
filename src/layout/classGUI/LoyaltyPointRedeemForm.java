@@ -1,6 +1,8 @@
 package layout.classGUI;
 
 import layout.MainFrame;
+import layout.dialog.FailedLoginDialog;
+import layout.dialog.SuccessfulPurchaseDialog;
 import layout.dialog.ZeroTicketNumDialog;
 import model.Customer;
 import model.Movie;
@@ -54,9 +56,6 @@ public class LoyaltyPointRedeemForm {
          */
         confirmButton = new JButton("Confirm");
         confirmButton.addActionListener(e -> {
-            /*
-             * TODO: Add booking into DB
-             */
             Integer ticketNum = (Integer) ticketNumSpinner.getValue();
 
             // If ticket number is zero (error)
@@ -68,8 +67,18 @@ public class LoyaltyPointRedeemForm {
                 return;
             }
 
-
-            customer.redeem(ticketNum);
+            if (mainFrame.getCustomer().buyTickets(movie, showtime, ticketNum, "Redeem")) {
+                SuccessfulPurchaseDialog successfulPurchaseDialog = new SuccessfulPurchaseDialog();
+                successfulPurchaseDialog.pack();
+                successfulPurchaseDialog.setLocationRelativeTo(mainPanel);
+                successfulPurchaseDialog.setVisible(true);
+            } else {
+                FailedLoginDialog failedLoginDialog = new FailedLoginDialog();
+                failedLoginDialog.pack();
+                failedLoginDialog.setLocationRelativeTo(mainPanel);
+                failedLoginDialog.setVisible(true);
+                return;
+            }
 
             mainFrame.backToCustomerMainForm();
         });

@@ -135,7 +135,7 @@ INSERT INTO Showtime1 values('2018-06-22 16:15:00', 'Deadpool 2', 2);
 INSERT INTO Showtime1 values('2018-06-22 19:30:00', 'Deadpool 2', 2);
 INSERT INTO Showtime1 values('2018-06-22 12:15:00', 'Solo: A Stars Wars Story',3);
 INSERT INTO Showtime1 values('2018-06-22 15:25:00', 'Solo: A Stars Wars Story', 3);
-INSERT INTO Showtime1 values('2018-06-22 18:30:00', 'Solo: A Stars Wars Story', 1);
+INSERT INTO Showtime1 values('2018-06-22 18:30:00', 'Solo: A Stars Wars Story', 3);
 INSERT INTO Showtime1 values('2018-06-22 12:15:00', 'Avengers: Infinity War', 4);
 INSERT INTO Showtime1 values('2018-06-22 15:25:00', 'Avengers: Infinity War', 4);
 INSERT INTO Showtime1 values('2018-06-22 18:30:00', 'Avengers: Infinity War', 4);
