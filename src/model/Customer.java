@@ -1,5 +1,6 @@
 package model;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,21 @@ public class Customer extends User {
         return isLoyaltyMember;
     }
 
+    public void setPoint(int newBalance) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("UPDATE LOYALTY_MEMBER " +
+                    "SET POINT_BALANCE = ? " +
+                    "WHERE CID = ?");
+            ps.setInt(1, newBalance);
+            ps.setInt(2, this.getUserId());
+            ps.executeUpdate();
+            ps.close();
+            this.pointBalance = newBalance;
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+
     public int getPointBalance() {
         try {
             PreparedStatement ps = conn.prepareStatement("SELECT * " +
@@ -71,11 +87,13 @@ public class Customer extends User {
 
     public void redeem(int numOfTickets) {
         try {
-            PreparedStatement ps = conn.prepareStatement(
-                    "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = POINT_BALANCE - ? WHERE CID = ?");
-            ps.setInt(1, numOfTickets * TICKET_POINT_REDEEM);
-            ps.setInt(2, getUserId());
-            ps.executeUpdate();
+            if (this.canRedeem(numOfTickets)) {
+                PreparedStatement ps = conn.prepareStatement(
+                        "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = POINT_BALANCE - ? WHERE CID = ?");
+                ps.setInt(1, numOfTickets * TICKET_POINT_REDEEM);
+                ps.setInt(2, getUserId());
+                ps.executeUpdate();
+            }
         } catch (SQLException e) {
             System.out.println("Message: " + e.getMessage());
         }
@@ -123,14 +141,53 @@ public class Customer extends User {
         return result;
     }
 
+    public List<Ticket> getAllTickets(String transactionNum) {
+        List<Ticket> result = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM TICKET WHERE TRANSACTION = ?");
+
+            ps.setString(1, transactionNum);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int ticketNum = rs.getInt("TICKET_NUM");
+                String title = rs.getString("TITLE");
+                Timestamp startTime = rs.getTimestamp("START_TIME");
+                BigDecimal price = rs.getBigDecimal("PRICE");
+                int aId = rs.getInt("AID");
+
+                result.add(new Ticket(ticketNum, price, transactionNum, title, startTime, aId));
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
+    }
+
     public void signUpForLoyaltyMember() {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "INSERT INTO LOYALTY_MEMBER VALUES (?,0)");
 
             ps.setInt(1, super.getUserId());
-
             ps.executeUpdate();
+            this.isLoyaltyMember = true;
+            this.pointBalance = 0;
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+
+    public void cancelMembership() {
+        try {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM LOYALTY_MEMBER " +
+                    "WHERE CID = ?");
+            ps.setInt(1, this.getUserId());
+            ps.executeUpdate();
+            ps.close();
+            this.isLoyaltyMember = false;
+            this.pointBalance = 0;
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
         }
