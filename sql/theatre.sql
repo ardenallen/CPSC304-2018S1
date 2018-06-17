@@ -69,7 +69,8 @@ CREATE TABLE Employee
     name varchar(30),
     SIN int,
     phone char(10),
-    PRIMARY KEY(eID)
+    PRIMARY KEY(eID),
+    CHECK (LENGTH(phone) = 10)
   );
 
 CREATE TABLE Manager 

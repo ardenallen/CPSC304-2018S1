@@ -32,24 +32,24 @@ public class Showtime {
         return aId;
     }
 
-    public static List<Showtime> getAllShowtimes(Movie movie) {
+    public static List<Showtime> getAllShowtimes(String title) {
         List<Showtime> result = new ArrayList<>();
 
         try {
             PreparedStatement ps1 = conn.prepareStatement(
                     "SELECT * FROM SHOWTIME1 WHERE TITLE = ?");
-            ps1.setString(1, movie.getTitle());
+            ps1.setString(1, title);
             ResultSet rs1 = ps1.executeQuery();
 
             PreparedStatement ps2 = conn.prepareStatement(
                     "SELECT * FROM SHOWTIME2 WHERE TITLE = ?");
-            ps2.setString(1, movie.getTitle());
+            ps2.setString(1, title);
             ResultSet rs2 = ps2.executeQuery();
 
             if (rs2.next()) {
                 while (rs1.next()) {
                     Timestamp timestamp = rs1.getTimestamp("START_TIME");
-                    String title = rs1.getString("TITLE");
+                    title = rs1.getString("TITLE");
                     boolean cc = rs2.getBoolean("CC");
                     int aId = rs2.getInt("AID");
 
@@ -66,4 +66,5 @@ public class Showtime {
     public String getMovieTitle() {
         return movieTitle;
     }
+
 }

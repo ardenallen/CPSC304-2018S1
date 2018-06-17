@@ -15,8 +15,8 @@ public class Manager extends Employee {
          try {
              PreparedStatement ps = conn.prepareStatement(
                      "INSERT INTO MOVIE " +
-                             "(TITLE, GENRE, DURATION, CENSOR) " +
-                             "(?,?,?,?)");
+                             "(TITLE, DURATION, GENRE, CENSOR) " +
+                             "VALUES(?,?,?,?)");
              ps.setString(1, title);
              ps.setInt(2, duration);
              ps.setString(3, genre);
@@ -40,12 +40,12 @@ public class Manager extends Employee {
         }
     }
 
-    public static void addShowtime(Timestamp startTime, String title, int aID) {
+    public static void addShowtime(Timestamp startTime, String title, boolean cc, int aID) {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "INSERT INTO SHOWTIME1 " +
                             "(START_TIME, TITLE, AID) " +
-                            "(?,?,?)");
+                            "VALUES(?,?,?)");
             ps.setTimestamp(1, startTime);
             ps.setString(2, title);
             ps.setInt(3, aID);
@@ -60,7 +60,7 @@ public class Manager extends Employee {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "DELETE SHOWTIME1 " +
-                            "WHERE (START_TIME = ? AND TITLE = ?)");
+                            "WHERE START_TIME = ? AND TITLE = ?");
             ps.setTimestamp(1, startTime);
             ps.setString(2, title);
             ps.executeUpdate();
@@ -75,11 +75,11 @@ public class Manager extends Employee {
             PreparedStatement ps = conn.prepareStatement(
                     "INSERT INTO EMPLOYEE " +
                             "(EID, NAME, SIN, PHONE) " +
-                            "(?,?,?,?)");
+                            "VALUES(?,?,?,?)");
             ps.setInt(1, userId);
             ps.setString(2, name);
             ps.setInt(3, SIN);
-            ps.setString(3, phone);
+            ps.setString(4, phone);
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
@@ -88,6 +88,19 @@ public class Manager extends Employee {
     }
 
     public static void removeEmployee (int userID) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "DELETE EMPLOYEE " +
+                            "WHERE EID = ?");
+            ps.setInt(1, userID);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+            System.out.println("Removing employee " + userID + " failed.");
+        }
+    }
+
+    public static void updateEmployee (int userID) {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "DELETE EMPLOYEE " +
