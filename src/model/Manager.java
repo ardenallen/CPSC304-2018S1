@@ -61,7 +61,7 @@ public class Manager extends Employee {
     public static void removeShowtime (Timestamp startTime, String title) {
         try {
             PreparedStatement ps = conn.prepareStatement(
-                    "DELETE  FROM SHOWTIME1 " +
+                    "DELETE SHOWTIME1 " +
                             "WHERE (START_TIME = ? AND TITLE = ?)");
             ps.setTimestamp(1, startTime);
             ps.setString(2, title);
@@ -69,6 +69,36 @@ public class Manager extends Employee {
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
             System.out.println("Removing " + startTime + " for Movie " + title + " table failed.");
+        }
+    }
+
+    public static void addEmployee(int userId, String name, int SIN, String phone) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "INSERT INTO EMPLOYEE " +
+                            "(EID, NAME, SIN, PHONE) " +
+                            "(?,?,?,?)");
+            ps.setInt(1, userId);
+            ps.setString(2, name);
+            ps.setInt(3, SIN);
+            ps.setString(3, phone);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+            System.out.println("Adding employee " + name + " failed.");
+        }
+    }
+
+    public static void removeEmployee (int userID) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "DELETE EMPLOYEE " +
+                            "WHERE EID = ?");
+            ps.setInt(1, userID);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+            System.out.println("Removing employee " + userID + " failed.");
         }
     }
 
@@ -96,6 +126,11 @@ public class Manager extends Employee {
     public List<EmployeeStat> getEmployeeStats(String date) {
         List<EmployeeStat> result = new ArrayList<>();
 
+        return result;
+    }
+
+    public List<Customer> getBestCustomer() {
+        List<Customer> result = new ArrayList<>();
         return result;
     }
 

@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Customer extends User {
     private static final int TICKET_POINT_REDEEM = 1000;
-    private static final int TICKET_POINT_ADD = 50;
+    private static final int TICKET_POINT_ADD = 100;
 
     private boolean isLoyaltyMember;
     private int pointBalance;
