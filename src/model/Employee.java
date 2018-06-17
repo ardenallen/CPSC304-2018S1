@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Employee extends User {
-    private int eID;
-    private String name;
-    private int SIN;
-    private String phone;
+    public int eID;
+    public String name;
+    public int SIN;
+    public String phone;
 
     public Employee(int userId, String name, int SIN, String phone) {
         super("employee", userId);
+        this.eID = userId;
         this.name = name;
         this.SIN = SIN;
         this.phone = phone;

@@ -123,14 +123,39 @@ public class Manager extends Employee {
 
     // Returns all the Employee who generated the max (most sales) or min (least sales) amount of ticket sales
     // Will not take into account of employee who did not sell any ticket on the given date
-    public static List<Employee> getLeastMostSalesEmployee(String minMax, String date) {
+    public static List<Employee> getLeastMostSalesEmployee(String minMax, Date date) {
         List<Employee> result = new ArrayList<>();
+        BigDecimal minMaxSales = Manager.getLeastMostSales(minMax, date);
+        List<Integer> eIDs = Manager.getEmployeeIDFromSales(minMaxSales, date);
+        String sqlEIDs = "";
+        for (int eID : eIDs) {
+            sqlEIDs += eID + ", ";
+        }
+        sqlEIDs = sqlEIDs.substring(0, sqlEIDs.length() - 2);
+        String SQL = "SELECT * FROM EMPLOYEE " +
+                "WHERE EID IN (%s)";
+        SQL = String.format(SQL, sqlEIDs);
 
+        try {
+            PreparedStatement ps = conn.prepareStatement(SQL);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                String name = rs.getString("Name");
+                int eID = rs.getInt("EID");
+                int SIN = rs.getInt("SIN");
+                String phone = rs.getString("Phone");
+                Employee x = new Employee(eID, name, SIN, phone);
+                result.add(x);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
         return result;
     }
 
 
-    public static BigDecimal getLeastMostSales(String minMax, Date date) {
+    private static BigDecimal getLeastMostSales(String minMax, Date date) {
         BigDecimal result = new BigDecimal(-1);
         String SQL = "SELECT %s(SALES) FROM (" +
                 "SELECT EID, SUM(PRICE) AS SALES " +
@@ -155,9 +180,29 @@ public class Manager extends Employee {
         return result;
     }
 
-    private static List<Integer> getEmployeeIDFromSales(int sales) {
+    // Extract employee ID given the date and amount of sales they generated
+    private static List<Integer> getEmployeeIDFromSales(BigDecimal sales, Date date) {
         List<Integer> result = new ArrayList();
-
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT EID, SUM(PRICE)" +
+                            "FROM TICKET T, BOOKING B " +
+                            "WHERE TRUNC(START_TIME) = ? "+
+                            "AND T.TRANSACTION = B.TRANSACTION " +
+                            "GROUP BY EID");
+            ps.setDate(1, date);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                BigDecimal sum = rs.getBigDecimal(2);
+                if (sum.compareTo(sales) == 0) {
+                    int eID = rs.getInt("eID");
+                    result.add(eID);
+                }
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
         return result;
     }
 
