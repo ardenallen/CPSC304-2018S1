@@ -139,7 +139,7 @@ public class Employee extends User {
                     PreparedStatement psU = conn.prepareStatement(
                             "DELETE TICKET WHERE TICKET_NUM = ?");
                     psU.setInt(1, ticketNum);
-                    //psU.executeUpdate();
+                    psU.executeUpdate();
                     psU.close();
                 }
                 // No need to delete ticket from other tables; it is handled in the DB
@@ -149,20 +149,6 @@ public class Employee extends User {
         } else {
             System.out.println("Please enter the same card number you bought the ticket with.");
         }
-    }
-
-    public int getRevenuePerEmployeePerDay(String date) {
-        //SUM AGGREGATE
-        // USE THIS.EID
-        int result = -1;
-        try {
-            PreparedStatement ps = conn.prepareStatement(
-                    "SELECT SUM(PRICE) FROM TICKET "
-            );
-        } catch (SQLException ex) {
-
-        }
-        return result;
     }
 
     // Returns a list of MovieStat in descending order of the number of tickets sold
