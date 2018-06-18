@@ -66,18 +66,8 @@ public class Employee extends User {
         int auditorium = showtime.getaId();
         Timestamp startTime = showtime.getStartTime();
 
-        int ticketNum = 0;
+        int ticketNum = getNextTicketNum();
 
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT max(TICKET_NUM) FROM TICKET");
-            if (rs.next()) {
-                ticketNum = rs.getInt(1) + 1;
-            }
-            stmt.close();
-        } catch (SQLException ex) {
-            System.out.println("Message: " + ex.getMessage());
-        }
 
         ThreadLocalRandom random = ThreadLocalRandom.current();
         Long randomNumber = random.nextLong(10_000_000_000L, 100_000_000_000L);
@@ -211,9 +201,9 @@ public class Employee extends User {
         }
         // Refund points to customer if payment method is redeem
         if (paymentMethod.trim().equals("Redeem")) {
-            int currentBalance = User.getLoyaltyPoints(cID);
+            int currentBalance = getLoyaltyPoints(cID);
             int newBalance = currentBalance + 1000 * ticketNums.size();
-            User.updateLoyaltyPoints(cID, newBalance);
+            updateLoyaltyPoints(cID, newBalance);
         }
         // Check if payment method was cash, redeem OR if the given cardNum is the same as the one in record
         if (paymentMethod.trim().equals("Cash") ||
