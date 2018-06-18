@@ -39,8 +39,8 @@ public class EmployeeTest {
     @Test
     public void testRefund() {
         List<Integer> ticketNums = new ArrayList<>();
-        ticketNums.add(1);
-        Employee.refund("5531584671644409", ticketNums);
+        ticketNums.add(4);
+        Employee.refund("", ticketNums);
 
     }
 

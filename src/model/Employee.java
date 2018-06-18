@@ -1,7 +1,5 @@
 package model;
 
-import layout.dialog.CustomerDoesNotExistDialog;
-
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
@@ -202,12 +200,13 @@ public class Employee extends User {
     public static boolean refund(String customerCardNum, List<Integer> ticketNums) {
         String paymentMethod = "";
         String cardInfo = "";
+        int cID = -1;
         String sqlTicketNums = "";
         for (int ticketNum : ticketNums) {
             sqlTicketNums += ticketNum + ", ";
         }
         sqlTicketNums = sqlTicketNums.substring(0, sqlTicketNums.length() - 2);
-        String SQL = "SELECT CARD_INFO, PAYMENT_METHOD " +
+        String SQL = "SELECT CARD_INFO, PAYMENT_METHOD, CID " +
                 "FROM TICKET T, BOOKING B " +
                 "WHERE TICKET_NUM IN (%s) " +
                 "AND T.TRANSACTION = B.TRANSACTION";
@@ -219,25 +218,53 @@ public class Employee extends User {
             while(rs.next()) {
                 paymentMethod = rs.getString("Payment_method");
                 cardInfo = rs.getString("Card_info");
+                cID = rs.getInt("CID");
             }
             ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
         }
-        // Check if payment method was cash OR customerCardNum == cardInfo
-        if (paymentMethod.trim().equals("Cash") || (cardInfo!= null && cardInfo.equals(customerCardNum))) {
+        // Refund points to customer if payment method is redeem
+        if (paymentMethod.trim().equals("Redeem")) {
+            int currentBalance = 0;
+            try {
+                // Get current point balance
+                PreparedStatement psG = conn.prepareStatement(
+                        "SELECT POINT_BALANCE FROM LOYALTY_MEMBER " +
+                                "WHERE CID = ?");
+                psG.setInt(1, cID);
+                ResultSet rs = psG.executeQuery();
+                while(rs.next()) {
+                    currentBalance = rs.getInt(1);
+                }
+                psG.close();
+                // Adding points back
+                PreparedStatement psU = conn.prepareStatement(
+                  "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = ?");
+                int newBalance = currentBalance + 1000 * ticketNums.size();
+                psU.setInt(1, newBalance);
+                psU.execute();
+                psU.close();
+            } catch (SQLException ex) {
+                System.out.println("Message: " + ex.getMessage());
+            }
+            return true;
+        }
+        // Check if payment method was cash, redeem OR if the given cardNum is the same as the one in record
+        if (paymentMethod.trim().equals("Cash") ||
+                paymentMethod.trim().equals("Redeem") ||
+                (cardInfo!= null && cardInfo.equals(customerCardNum))) {
             // Delete ticket and refund customer if condition is met
             try {
                 for (int ticketNum : ticketNums) {
                     // For UPDATING the Ticket table
                     PreparedStatement psU = conn.prepareStatement(
                             "DELETE TICKET WHERE TICKET_NUM = ?");
+                    // No need to delete ticket from other tables; it is handled in the DB
                     psU.setInt(1, ticketNum);
                     psU.executeUpdate();
                     psU.close();
                 }
-                // No need to delete ticket from other tables; it is handled in the DB
-
                 return true;
             } catch (SQLException ex) {
                 System.out.println("Message: " + ex.getMessage());
