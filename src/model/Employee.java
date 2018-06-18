@@ -25,7 +25,7 @@ public class Employee extends User {
             this.name = rs.getString("NAME");
             this.SIN = rs.getInt("SIN");
             this.phone = rs.getString("PHONE");
-
+            ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
             ex.printStackTrace();
@@ -139,7 +139,6 @@ public class Employee extends User {
 
     public static int ticketSoldPerMoviePerShowtime (String movieTitle, Timestamp showTime) {
         int ticketSold = -1;
-        String timeStampString = showTime.toString();
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT COUNT(*) FROM Ticket " +
@@ -151,6 +150,7 @@ public class Employee extends User {
             while(rs.next()) {
                 ticketSold = rs.getInt(1);
             }
+            ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
         }
@@ -187,6 +187,7 @@ public class Employee extends User {
                 eId = rs.getInt("eID");
                 cId = rs.getInt("cId");
             }
+            ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
 
@@ -292,6 +293,7 @@ public class Employee extends User {
                 MovieStat x = new MovieStat(title, count);
                 result.add(x);
             }
+            ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
         }
@@ -388,6 +390,7 @@ public class Employee extends User {
                 BigDecimal price = rs.getBigDecimal(2);
                 result = result.add(price);
             }
+            ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
         }
