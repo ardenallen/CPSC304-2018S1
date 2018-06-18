@@ -1,7 +1,7 @@
 package layout.classGUI.manager;
 
 import layout.MainFrame;
-import layout.classGUI.employee.CheckLoyaltyPointDialog;
+import layout.dialog.CheckLoyaltyPointDialog;
 import layout.dialog.TransactionNumInputDialog;
 import model.Manager;
 
@@ -84,6 +84,9 @@ public class ManagerMainForm {
          * Manage employees button handler
          */
         manageEmployeesButton = new JButton("Manage employees");
+        manageEmployeesButton.addActionListener(e -> {
+            mainFrame.changeToManageEmployeeForm();
+        });
 
         /*
          * Manage movies button handler

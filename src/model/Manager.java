@@ -81,7 +81,7 @@ public class Manager extends Employee {
                 ps = conn.prepareStatement(
                         "DELETE SHOWTIME2 " +
                                 "WHERE TITLE = ?");
-                ps.setString(2, title);
+                ps.setString(1, title);
                 ps.executeUpdate();
             }
 
@@ -91,7 +91,7 @@ public class Manager extends Employee {
         }
     }
 
-    public static void addEmployee(int userId, String name, int SIN, String phone) {
+    public static boolean addEmployee(int userId, String name, int SIN, String phone) {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "INSERT INTO EMPLOYEE " +
@@ -102,26 +102,34 @@ public class Manager extends Employee {
             ps.setInt(3, SIN);
             ps.setString(4, phone);
             ps.executeUpdate();
+
+            return true;
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
             System.out.println("Adding employee " + name + " failed.");
         }
+
+        return false;
     }
 
-    public static void removeEmployee (int userID) {
+    public static boolean removeEmployee (int userID) {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "DELETE EMPLOYEE " +
                             "WHERE EID = ?");
             ps.setInt(1, userID);
             ps.executeUpdate();
+
+            return true;
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
             System.out.println("Removing employee " + userID + " failed.");
         }
+
+        return false;
     }
 
-    public static void updateEmployee (int eId, String name, String phone ) {
+    public static boolean updateEmployee (int eId, String name, String phone) {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "UPDATE EMPLOYEE SET NAME = ?, PHONE = ? WHERE EID = ?");
@@ -129,10 +137,65 @@ public class Manager extends Employee {
             ps.setString(2, phone);
             ps.setInt(3, eId);
             ps.execute();
+
+            return true;
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
             System.out.println("Updating employee " + eId + " failed.");
         }
+
+        return false;
+    }
+
+    public static boolean promoteEmployeeToManager(int eId) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "INSERT INTO MANAGER VALUES ?");
+            ps.setInt(1, eId);
+            ps.execute();
+
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+            System.out.println("Updating employee " + eId + " failed.");
+        }
+
+        return false;
+    }
+
+    public static boolean demoteManagerToEmployee(int eId) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "DELETE FROM MANAGER WHERE EID = ?");
+            ps.setInt(1, eId);
+            ps.execute();
+
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+            System.out.println("Updating employee " + eId + " failed.");
+        }
+
+        return false;
+    }
+
+    public static int getNextAvailableEid() {
+        int eId = 0;
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT max(EID) FROM EMPLOYEE");
+            if (rs.next()) {
+                eId = rs.getInt(1) + 1;
+            }
+            stmt.close();
+
+            return eId;
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+
+        return eId;
     }
 
     public static Employee getEmployeeFromId(int eId) {
@@ -260,8 +323,4 @@ public class Manager extends Employee {
         }
         return result;
     }
-
-
-
-
 }

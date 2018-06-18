@@ -22,9 +22,9 @@ public class Employee extends User {
             ResultSet rs = ps.executeQuery();
             rs.next();
 
-            this.name = rs.getString("NAME");
+            this.name = rs.getString("NAME").trim();
             this.SIN = rs.getInt("SIN");
-            this.phone = rs.getString("PHONE");
+            this.phone = rs.getString("PHONE").trim();
             ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());

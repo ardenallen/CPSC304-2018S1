@@ -12,7 +12,10 @@ import layout.classGUI.employee.EmployeeMovieStatForm;
 import layout.classGUI.employee.EmployeeSellingForm;
 import layout.classGUI.employee.EmployeeMainForm;
 import layout.classGUI.employee.EmployeeRefundForm;
+import layout.classGUI.manager.AddEmployeeForm;
+import layout.classGUI.manager.ManageEmployeeForm;
 import layout.classGUI.manager.ManagerMainForm;
+import layout.classGUI.manager.UpdateEmployeeForm;
 import model.*;
 
 import javax.swing.*;
@@ -48,6 +51,9 @@ public class MainFrame {
     private EmployeeMovieStatForm employeeMovieStatForm;
 
     private Manager manager;
+    private ManageEmployeeForm manageEmployeeForm;
+    private UpdateEmployeeForm updateEmployeeForm;
+    private AddEmployeeForm addEmployeeForm;
     private ManagerMainForm managerMainForm;
 
     private MainFrame() {
@@ -90,7 +96,7 @@ public class MainFrame {
                 currentUserClass = "manager";
                 manager = new Manager(user.getUserId());
 
-                // To make sure the UI doesn't get confused
+                // To make sure the UI doesn't get confused (manager is also employee)
                 employee = manager;
 
                 managerMainForm = new ManagerMainForm(this, manager);
@@ -202,9 +208,34 @@ public class MainFrame {
     /**
      * Manager specific UI handler
      */
+    public void changeToManageEmployeeForm() {
+        manageEmployeeForm = new ManageEmployeeForm(this);
+        changeContent(manageEmployeeForm.getMainPanel());
+    }
+
+    public void changeToUpdateEmployeeForm(Employee employee) {
+        updateEmployeeForm = new UpdateEmployeeForm(employee, this);
+        changeContent(updateEmployeeForm.getMainPanel());
+    }
+
+    public void changeToAddEmployeeForm() {
+        addEmployeeForm = new AddEmployeeForm(this);
+        changeContent(addEmployeeForm.getMainPanel());
+    }
+
+    public void backAndRefreshManageEmployeeForm() {
+        removeContent();
+        manageEmployeeForm = new ManageEmployeeForm(this);
+        changeContent(manageEmployeeForm.getMainPanel());
+    }
+
     public void backToManagerMainForm() {
         removeContent();
         changeContent(managerMainForm.getMainPanel());
+    }
+
+    public Manager getManager() {
+        return manager;
     }
 
     /**

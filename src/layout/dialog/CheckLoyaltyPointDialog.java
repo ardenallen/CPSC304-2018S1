@@ -1,4 +1,4 @@
-package layout.classGUI.employee;
+package layout.dialog;
 
 import layout.MainFrame;
 import layout.dialog.CustomerDoesNotExistDialog;

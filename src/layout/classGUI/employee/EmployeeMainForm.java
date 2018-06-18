@@ -1,6 +1,7 @@
 package layout.classGUI.employee;
 
 import layout.MainFrame;
+import layout.dialog.CheckLoyaltyPointDialog;
 import layout.dialog.TransactionNumInputDialog;
 import model.Employee;
 

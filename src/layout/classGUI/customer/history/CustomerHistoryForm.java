@@ -21,7 +21,7 @@ public class CustomerHistoryForm {
 
         for (Booking booking : bookingList) {
             JButton bookingButton = new JButton();
-            bookingButton.setText("Transaction #: " + booking.getTransactionNum());
+            bookingButton.setText("<html> <b>Transaction #: </b>" + booking.getTransactionNum() + "</html>");
             bookingButton.addActionListener(e -> {
                 mainFrame.changeToCustomerTicketsForm(booking);
             });
