@@ -45,15 +45,7 @@ public class Movie {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT * FROM MOVIE");
             ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                String title = rs.getString("Title");
-                int duration = rs.getInt("Duration");
-                String genre = rs.getString("Genre");
-                String censor = rs.getString("Censor");
-                Movie movie = new Movie(title, duration, genre, censor);
-                result.add(movie);
-            }
+            result = createMoviesFromResultSet(rs);
             ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
@@ -62,27 +54,38 @@ public class Movie {
     }
 
     public static Movie findMovieByTitle(String movieTitle) {
-        Movie movie = null;
+        List<Movie> result = new ArrayList<>();
 
         try {
             PreparedStatement ps = conn.prepareStatement(
-                    "SELECT * FROM MOVIE");
+                    "SELECT * FROM MOVIE WHERE TITLE = ?");
+            ps.setString(1, movieTitle);
             ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                String title = rs.getString("Title");
-                int duration = rs.getInt("Duration");
-                String genre = rs.getString("Genre");
-                String censor = rs.getString("Censor");
-
-                movie = new Movie(title, duration, genre, censor);
-            }
+            result = createMoviesFromResultSet(rs);
             ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
         }
 
-        return movie;
+        return result.get(0);
+    }
+
+    public static List<Movie> createMoviesFromResultSet(ResultSet rs){
+        List<Movie> result = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                String title = rs.getString("Title");
+                int duration = rs.getInt("Duration");
+                String genre = rs.getString("Genre");
+                String censor = rs.getString("Censor");
+                Movie movie = new Movie(title, duration, genre, censor);
+                result.add(movie);
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
     }
 
     public boolean equals(Movie movie) {

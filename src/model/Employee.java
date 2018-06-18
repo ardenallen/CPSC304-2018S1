@@ -318,14 +318,8 @@ public class Employee extends User {
             PreparedStatement ps = conn.prepareStatement(SQL);
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()) {
-                String title = rs.getString("Title");
-                int duration = rs.getInt("Duration");
-                String genre = rs.getString("Genre");
-                String censor = rs.getString("Censor");
-                Movie x = new Movie(title, duration, genre, censor);
-                result.add(x);
-            }
+            result = Movie.createMoviesFromResultSet(rs);
+
             ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
