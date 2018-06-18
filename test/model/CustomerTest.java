@@ -125,4 +125,12 @@ public class CustomerTest {
         loyal.addPoint(2);
         assertTrue(User.getLoyaltyPoints(loyal.getUserId()) == 2868);
     }
+
+
+
+    @Test
+    public void testGetMaxId() {
+        int maxID = Customer.getMaxID();
+
+    }
 }

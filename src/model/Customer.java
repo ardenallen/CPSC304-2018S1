@@ -227,4 +227,19 @@ public class Customer extends User {
         }
         return true;
     }
+
+    public static int getMaxID() {
+        int result = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT MAX(CID) FROM CUSTOMER");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return result;
+    }
 }
