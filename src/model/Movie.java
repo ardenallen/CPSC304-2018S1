@@ -46,6 +46,7 @@ public class Movie {
                     "SELECT * FROM MOVIE");
             ResultSet rs = ps.executeQuery();
             result = createMoviesFromResultSet(rs);
+            rs.close();
             ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
