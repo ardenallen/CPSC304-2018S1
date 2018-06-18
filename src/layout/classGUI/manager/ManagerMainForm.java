@@ -1,24 +1,35 @@
 package layout.classGUI.manager;
 
 import layout.MainFrame;
+import layout.classGUI.employee.CheckLoyaltyPointDialog;
+import layout.dialog.TransactionNumInputDialog;
+import model.Manager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ManagerMainForm {
+    private static final String NAME_BASE = "Welcome, ";
+
     private JPanel mainPanel;
     private JButton sellButton;
-    private JButton moviesButton;
-    private JButton bookingsButton;
-    private JButton statsButton;
+    private JButton movieStatsButton;
+    private JButton refundButton;
+    private JButton checkPointButton;
+    private JButton manageEmployeesButton;
+    private JButton manageMoviesButton;
     private JButton logoutButton;
-    private JButton employeeButton;
+    private JLabel nameLabel;
 
+    private Manager manager;
     private MainFrame mainFrame;
 
-    public ManagerMainForm(MainFrame mainFrame) {
+    public ManagerMainForm(MainFrame mainFrame, Manager manager) {
         this.mainFrame = mainFrame;
+        this.manager = manager;
+
+        nameLabel.setText(NAME_BASE + manager.getName());
     }
 
     public JPanel getMainPanel() {
@@ -26,6 +37,62 @@ public class ManagerMainForm {
     }
 
     private void createUIComponents() {
+        /*
+         * Name label setup
+         */
+        nameLabel = new JLabel();
+
+        /*
+         * Sell ticket button handler
+         */
+        sellButton = new JButton("Sell tickets");
+        sellButton.addActionListener(e -> {
+            mainFrame.changeToMovieSelectForm();
+        });
+
+        /*
+         * Refund button handler
+         */
+        refundButton = new JButton("Refund");
+        refundButton.addActionListener(e -> {
+            TransactionNumInputDialog transactionNumInputDialog = new TransactionNumInputDialog(mainFrame);
+            transactionNumInputDialog.pack();
+            transactionNumInputDialog.setLocationRelativeTo(mainPanel);
+            transactionNumInputDialog.setVisible(true);
+        });
+
+        /*
+         * Check point button handler
+         */
+        checkPointButton = new JButton("Check loyalty point");
+        checkPointButton.addActionListener(e -> {
+            CheckLoyaltyPointDialog checkLoyaltyPointDialog = new CheckLoyaltyPointDialog(mainFrame);
+            checkLoyaltyPointDialog.pack();
+            checkLoyaltyPointDialog.setLocationRelativeTo(mainPanel);
+            checkLoyaltyPointDialog.setVisible(true);
+        });
+
+        /*
+         * Movie stat button handler
+         */
+        movieStatsButton = new JButton("Get movie stats");
+        movieStatsButton.addActionListener(e -> {
+            mainFrame.changeToEmployeeViewMovieStatForm();
+        });
+
+        /*
+         * Manage employees button handler
+         */
+        manageEmployeesButton = new JButton("Manage employees");
+
+        /*
+         * Manage movies button handler
+         */
+        manageMoviesButton = new JButton("Manage movies");
+
+        /*
+         * Logout button setup
+         */
         logoutButton = new JButton("Logout");
         logoutButton.addActionListener(new ActionListener() {
             @Override

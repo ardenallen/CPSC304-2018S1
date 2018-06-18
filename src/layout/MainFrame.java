@@ -47,6 +47,7 @@ public class MainFrame {
     private EmployeeRefundForm employeeRefundForm;
     private EmployeeMovieStatForm employeeMovieStatForm;
 
+    private Manager manager;
     private ManagerMainForm managerMainForm;
 
     private MainFrame() {
@@ -87,7 +88,8 @@ public class MainFrame {
 
             case "manager":
                 currentUserClass = "manager";
-                managerMainForm = new ManagerMainForm(this);
+                manager = new Manager(user.getUserId());
+                managerMainForm = new ManagerMainForm(this, manager);
                 removeContent();
                 changeContent(managerMainForm.getMainPanel());
                 break;
@@ -191,6 +193,14 @@ public class MainFrame {
 
     public Employee getEmployee() {
         return employee;
+    }
+
+    /**
+     * Manager specific UI handler
+     */
+    public void backToManagerMainForm() {
+        removeContent();
+        changeContent(managerMainForm.getMainPanel());
     }
 
     /**

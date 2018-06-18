@@ -18,6 +18,7 @@ public class AuthClient {
 
         String customerTableQuery = "SELECT * FROM CUSTOMER WHERE CID = ?";
         String employeeTableQuery = "SELECT * FROM EMPLOYEE WHERE EID = ?";
+        String managerTableQuery = "SELECT * FROM MANAGER WHERE EID = ?";
 
         switch (user.getUserClass()) {
             case "customer":
@@ -25,8 +26,11 @@ public class AuthClient {
                 break;
 
             case "employee":
-            case "manager":
                 tableToQuery = employeeTableQuery;
+                break;
+
+            case "manager":
+                tableToQuery = managerTableQuery;
                 break;
         }
 

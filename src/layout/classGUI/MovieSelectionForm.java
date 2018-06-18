@@ -47,7 +47,7 @@ public class MovieSelectionForm {
             } else if (mainFrame.getCurrentUserClass().equals("employee")) {
                 mainFrame.backToEmployeeMainForm();
             } else {
-                // TODO: backToManagerMainForm()
+                mainFrame.backToManagerMainForm();
             }
         });
         mainPanel.add(backButton);
