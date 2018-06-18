@@ -6,7 +6,7 @@ import model.*;
 
 import javax.swing.*;
 
-public class EmployeeBookingForm {
+public class EmployeeSellingForm {
     private JPanel mainPanel;
     private JTextField customerIdField;
     private JButton redeemButton;
@@ -22,7 +22,7 @@ public class EmployeeBookingForm {
     private Movie movie;
     private Showtime showtime;
 
-    public EmployeeBookingForm(Movie movie, Showtime showtime, MainFrame mainFrame) {
+    public EmployeeSellingForm(Movie movie, Showtime showtime, MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         this.movie = movie;
         this.showtime = showtime;

@@ -199,7 +199,7 @@ public class Employee extends User {
 
     // Employee will have to enter the cardNum if the ticket was bought using a card,
     // else please leave blank if cash
-    public static void refund(String customerCardNum, List<Integer> ticketNums) {
+    public static boolean refund(String customerCardNum, List<Integer> ticketNums) {
         String paymentMethod = "";
         String cardInfo = "";
         String sqlTicketNums = "";
@@ -225,7 +225,7 @@ public class Employee extends User {
             System.out.println("Message: " + ex.getMessage());
         }
         // Check if payment method was cash OR customerCardNum == cardInfo
-        if (paymentMethod == "Cash" || cardInfo.equals(customerCardNum)) {
+        if (paymentMethod.trim().equals("Cash") || (cardInfo!= null && cardInfo.equals(customerCardNum))) {
             // Delete ticket and refund customer if condition is met
             try {
                 for (int ticketNum : ticketNums) {
@@ -237,12 +237,16 @@ public class Employee extends User {
                     psU.close();
                 }
                 // No need to delete ticket from other tables; it is handled in the DB
+
+                return true;
             } catch (SQLException ex) {
                 System.out.println("Message: " + ex.getMessage());
             }
         } else {
             System.out.println("Please enter the same card number you bought the ticket with.");
         }
+
+        return false;
     }
 
     // Returns a list of MovieStat in descending order of the number of tickets sold

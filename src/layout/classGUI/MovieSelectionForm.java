@@ -14,6 +14,7 @@ public class MovieSelectionForm {
     private static final String HTML_END = "</html>";
 
     private JPanel mainPanel;
+    private JPanel moviesPanel;
     private List<Movie> movieList;
 
     public MovieSelectionForm(MainFrame mainFrame) {
@@ -33,7 +34,7 @@ public class MovieSelectionForm {
             movieButton.addActionListener(e -> {
                 mainFrame.changeToShowtimeSelectForm(movie);
             });
-            mainPanel.add(movieButton, gbc);
+            moviesPanel.add(movieButton, gbc);
         }
 
         /*

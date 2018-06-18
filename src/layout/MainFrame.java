@@ -8,8 +8,9 @@ import layout.classGUI.customer.CustomerRecommForm;
 import layout.classGUI.customer.history.CustomerHistoryForm;
 import layout.classGUI.customer.CustomerMainForm;
 import layout.classGUI.customer.history.CustomerTicketsForm;
-import layout.classGUI.employee.EmployeeBookingForm;
+import layout.classGUI.employee.EmployeeSellingForm;
 import layout.classGUI.employee.EmployeeMainForm;
+import layout.classGUI.employee.EmployeeRefundForm;
 import layout.classGUI.manager.ManagerMainForm;
 import model.*;
 
@@ -41,7 +42,8 @@ public class MainFrame {
 
     private Employee employee;
     private EmployeeMainForm employeeMainForm;
-    private EmployeeBookingForm employeeBookingForm;
+    private EmployeeSellingForm employeeSellingForm;
+    private EmployeeRefundForm employeeRefundForm;
 
     private ManagerMainForm managerMainForm;
 
@@ -120,6 +122,10 @@ public class MainFrame {
         return currentUserClass;
     }
 
+    public JFrame getMainFrame() {
+        return mainFrame;
+    }
+
     /**
      * Customer specific UI handler
      */
@@ -161,9 +167,14 @@ public class MainFrame {
     /**
      * Employee specific UI handler
      */
-    public void changeToEmployeeBookingForm(Movie movie, Showtime showtime) {
-        employeeBookingForm = new EmployeeBookingForm(movie, showtime, this);
-        changeContent(employeeBookingForm.getMainPanel());
+    public void changeToEmployeeSellingForm(Movie movie, Showtime showtime) {
+        employeeSellingForm = new EmployeeSellingForm(movie, showtime, this);
+        changeContent(employeeSellingForm.getMainPanel());
+    }
+
+    public void changeToEmployeeViewBookingForm(Booking booking) {
+        employeeRefundForm = new EmployeeRefundForm(booking, this);
+        changeContent(employeeRefundForm.getMainPanel());
     }
 
     public void backToEmployeeMainForm() {

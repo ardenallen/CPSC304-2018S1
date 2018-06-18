@@ -20,6 +20,7 @@ public class ShowtimeSelectionForm {
     private static final String HTML_END = "</html>";
 
     private JPanel mainPanel;
+    private JPanel showtimesPanel;
     private MainFrame mainFrame;
 
     private List<Showtime> showtimeList;
@@ -45,7 +46,7 @@ public class ShowtimeSelectionForm {
                     mainFrame.changeToCustomerBookingForm(movie, showtime);
                 } else {
                     // Current class is either employee or manager
-                    mainFrame.changeToEmployeeBookingForm(movie, showtime);
+                    mainFrame.changeToEmployeeSellingForm(movie, showtime);
                 }
             });
 
@@ -53,7 +54,7 @@ public class ShowtimeSelectionForm {
                 showTimeButton.setEnabled(false);
             }
 
-            mainPanel.add(showTimeButton, gbc);
+            showtimesPanel.add(showTimeButton, gbc);
         }
 
         /*

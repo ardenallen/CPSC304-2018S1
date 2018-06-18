@@ -1,6 +1,7 @@
 package layout.classGUI.employee;
 
 import layout.MainFrame;
+import layout.dialog.TransactionNumInputDialog;
 import model.Employee;
 
 import javax.swing.*;
@@ -47,6 +48,12 @@ public class EmployeeMainForm {
          * Refund button handler
          */
         refundButton = new JButton("Refund");
+        refundButton.addActionListener(e -> {
+            TransactionNumInputDialog transactionNumInputDialog = new TransactionNumInputDialog(mainFrame);
+            transactionNumInputDialog.pack();
+            transactionNumInputDialog.setLocationRelativeTo(mainPanel);
+            transactionNumInputDialog.setVisible(true);
+        });
 
         /*
          * Movie stat button handler

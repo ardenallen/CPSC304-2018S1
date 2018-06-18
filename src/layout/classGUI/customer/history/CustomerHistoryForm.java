@@ -10,6 +10,7 @@ import java.util.List;
 
 public class CustomerHistoryForm {
     private JPanel mainPanel;
+    private JPanel bookingsPanel;
 
     public CustomerHistoryForm(MainFrame mainFrame, Customer customer) {
         List<Booking> bookingList = customer.getAllBookings();
@@ -24,7 +25,7 @@ public class CustomerHistoryForm {
             bookingButton.addActionListener(e -> {
                 mainFrame.changeToCustomerTicketsForm(booking);
             });
-            mainPanel.add(bookingButton, gbc);
+            bookingsPanel.add(bookingButton, gbc);
         }
 
         /*
