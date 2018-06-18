@@ -89,6 +89,10 @@ public class MainFrame {
             case "manager":
                 currentUserClass = "manager";
                 manager = new Manager(user.getUserId());
+
+                // To make sure the UI doesn't get confused
+                employee = manager;
+
                 managerMainForm = new ManagerMainForm(this, manager);
                 removeContent();
                 changeContent(managerMainForm.getMainPanel());

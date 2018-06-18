@@ -88,7 +88,7 @@ public class LoyaltyPointRedeemForm {
 
                 mainFrame.backToCustomerMainForm();
             } else {
-                // If this purchase is being done by an employee
+                // If this purchase is being done by an employee or manager
                 if (mainFrame.getEmployee().sellTickets(movie, showtime, ticketNum, "Redeem", customer)) {
                     SuccessfulPurchaseDialog successfulPurchaseDialog = new SuccessfulPurchaseDialog();
                     successfulPurchaseDialog.pack();
