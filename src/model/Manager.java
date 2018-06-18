@@ -50,6 +50,16 @@ public class Manager extends Employee {
             ps.setString(2, title);
             ps.setInt(3, aID);
             ps.executeUpdate();
+
+            ps = conn.prepareStatement(
+                    "INSERT INTO SHOWTIME2 " +
+                            "(CC, TITLE, AID) " +
+                            "VALUES(?,?,?)");
+            ps.setBoolean(1, cc);
+            ps.setString(2, title);
+            ps.setInt(3, aID);
+            ps.executeUpdate();
+
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
             System.out.println("Adding " + startTime + "for movie " + title +  " failed.");
@@ -64,6 +74,17 @@ public class Manager extends Employee {
             ps.setTimestamp(1, startTime);
             ps.setString(2, title);
             ps.executeUpdate();
+
+            List<Showtime> allTimes = Showtime.getAllShowtimes(title);
+
+            if (allTimes.isEmpty()) {
+                ps = conn.prepareStatement(
+                        "DELETE SHOWTIME2 " +
+                                "WHERE TITLE = ?");
+                ps.setString(2, title);
+                ps.executeUpdate();
+            }
+
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
             System.out.println("Removing " + startTime + " for Movie " + title + " table failed.");
@@ -115,21 +136,7 @@ public class Manager extends Employee {
     }
 
     public static Employee getEmployeeFromId(int eId) {
-        List<Employee> result = new ArrayList<>();
-        try {
-           PreparedStatement ps = conn.prepareStatement(
-                   "SELECT * FROM EMPLOYEE WHERE EID = ?"
-           );
-           ps.setInt(1, eId);
-           ResultSet rs = ps.executeQuery();
-           rs.next();
-           Employee emp = new Employee(eId);
-           result.add(emp);
-       }
-       catch (SQLException ex) {
-           System.out.println("Message: " + ex.getMessage());
-       }
-        return result.get(0);
+        return new Employee(eId);
     }
 
     public static List<Employee> getAllEmployee() {
