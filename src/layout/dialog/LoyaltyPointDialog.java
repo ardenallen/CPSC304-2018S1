@@ -1,6 +1,7 @@
 package layout.dialog;
 
 import model.Customer;
+import model.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +16,7 @@ public class LoyaltyPointDialog extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        pointLabel.setText("Current point: " + customer.getPointBalance());
+        pointLabel.setText("Current point: " + User.getLoyaltyPoints(customer.getUserId()));
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

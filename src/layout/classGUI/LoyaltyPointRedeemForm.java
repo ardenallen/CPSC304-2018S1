@@ -5,10 +5,7 @@ import layout.dialog.FailedLoginDialog;
 import layout.dialog.FailedPurchaseDialog;
 import layout.dialog.SuccessfulPurchaseDialog;
 import layout.dialog.ZeroTicketNumDialog;
-import model.Customer;
-import model.Employee;
-import model.Movie;
-import model.Showtime;
+import model.*;
 
 import javax.swing.*;
 
@@ -32,7 +29,7 @@ public class LoyaltyPointRedeemForm {
         this.showtime = showtime;
         this.mainFrame = mainFrame;
 
-        pointBalanceLabel.setText(String.valueOf(customer.getPointBalance()));
+        pointBalanceLabel.setText(String.valueOf(User.getLoyaltyPoints(customer.getUserId())));
     }
 
     public JPanel getMainPanel() {
@@ -50,7 +47,7 @@ public class LoyaltyPointRedeemForm {
          */
         Integer value = 0;
         Integer min = 0;
-        Integer max = (customer.getPointBalance() / 1000);
+        Integer max = (User.getLoyaltyPoints(customer.getUserId()) / 1000);
         Integer step = 1;
         SpinnerNumberModel model = new SpinnerNumberModel(value, min, max, step);
         ticketNumSpinner = new JSpinner(model);

@@ -45,71 +45,21 @@ public class Customer extends User {
         return isLoyaltyMember;
     }
 
-    public void setPoint(int newBalance) {
-        try {
-            PreparedStatement ps = conn.prepareStatement("UPDATE LOYALTY_MEMBER " +
-                    "SET POINT_BALANCE = ? " +
-                    "WHERE CID = ?");
-            ps.setInt(1, newBalance);
-            ps.setInt(2, this.getUserId());
-            ps.executeUpdate();
-            ps.close();
-            this.pointBalance = newBalance;
-        } catch (SQLException ex) {
-            System.out.println("Message: " + ex.getMessage());
-        }
-    }
-
-    public int getPointBalance() {
-        try {
-            PreparedStatement ps = conn.prepareStatement("SELECT * " +
-                    "FROM LOYALTY_MEMBER " +
-                    "WHERE CID = ?");
-            ps.setInt(1, getUserId());
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                pointBalance = rs.getInt("POINT_BALANCE");
-                return pointBalance;
-            }
-        } catch (SQLException e) {
-            System.out.println("Message: " + e.getMessage());
-        }
-
-        return -1;
-    }
-
     public boolean canRedeem(int numOfTickets) {
-        pointBalance = this.getPointBalance();
+        pointBalance = User.getLoyaltyPoints(this.getUserId());
         return pointBalance - numOfTickets * TICKET_POINT_REDEEM >= 0;
     }
 
     public void redeem(int numOfTickets) {
-        try {
-            if (this.canRedeem(numOfTickets)) {
-                PreparedStatement ps = conn.prepareStatement(
-                        "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = POINT_BALANCE - ? WHERE CID = ?");
-                ps.setInt(1, numOfTickets * TICKET_POINT_REDEEM);
-                ps.setInt(2, getUserId());
-                ps.executeUpdate();
-            }
-        } catch (SQLException e) {
-            System.out.println("Message: " + e.getMessage());
-        }
+        int currentBalance = User.getLoyaltyPoints(this.getUserId());
+        int newBalance = currentBalance - numOfTickets * TICKET_POINT_REDEEM;
+        User.updateLoyaltyPoints(this.getUserId(), newBalance);
     }
 
     public void addPoint(int numOfTickets) {
-        try {
-            if (this.isLoyaltyMember()) {
-                PreparedStatement ps = conn.prepareStatement(
-                        "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = POINT_BALANCE + ? WHERE CID = ?");
-                ps.setInt(1, numOfTickets * TICKET_POINT_ADD);
-                ps.setInt(2, getUserId());
-                ps.executeUpdate();
-            }
-        } catch (SQLException e) {
-            System.out.println("Message: " + e.getMessage());
-        }
+        int currentBalance = User.getLoyaltyPoints(this.getUserId());
+        int newBalance = currentBalance + numOfTickets * TICKET_POINT_ADD;
+        User.updateLoyaltyPoints(this.getUserId(), newBalance);
     }
 
     public List<Booking> getAllBookings() {

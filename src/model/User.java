@@ -25,4 +25,39 @@ public class User {
         return userId;
     }
 
+    public static int getLoyaltyPoints(int cID) {
+        int currentBalance = 0;
+        try {
+            // Get current point balance
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT POINT_BALANCE FROM LOYALTY_MEMBER " +
+                            "WHERE CID = ?");
+            ps.setInt(1, cID);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                currentBalance = rs.getInt(1);
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return currentBalance;
+    }
+
+    public static void updateLoyaltyPoints(int cID, int newBalance) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = ? " +
+                            "WHERE CID = ?");
+            ps.setInt(1, newBalance);
+            ps.setInt(2, cID);
+            ps.executeUpdate();
+        }
+        catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+
+
+
 }

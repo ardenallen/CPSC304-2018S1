@@ -227,29 +227,9 @@ public class Employee extends User {
         }
         // Refund points to customer if payment method is redeem
         if (paymentMethod.trim().equals("Redeem")) {
-            int currentBalance = 0;
-            try {
-                // Get current point balance
-                PreparedStatement psG = conn.prepareStatement(
-                        "SELECT POINT_BALANCE FROM LOYALTY_MEMBER " +
-                                "WHERE CID = ?");
-                psG.setInt(1, cID);
-                ResultSet rs = psG.executeQuery();
-                while(rs.next()) {
-                    currentBalance = rs.getInt(1);
-                }
-                psG.close();
-                // Adding points back
-                PreparedStatement psU = conn.prepareStatement(
-                  "UPDATE LOYALTY_MEMBER SET POINT_BALANCE = ?");
-                int newBalance = currentBalance + 1000 * ticketNums.size();
-                psU.setInt(1, newBalance);
-                psU.execute();
-                psU.close();
-            } catch (SQLException ex) {
-                System.out.println("Message: " + ex.getMessage());
-            }
-            return true;
+            int currentBalance = User.getLoyaltyPoints(cID);
+            int newBalance = currentBalance + 1000 * ticketNums.size();
+            User.updateLoyaltyPoints(cID, newBalance);
         }
         // Check if payment method was cash, redeem OR if the given cardNum is the same as the one in record
         if (paymentMethod.trim().equals("Cash") ||

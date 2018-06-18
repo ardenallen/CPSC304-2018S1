@@ -48,7 +48,7 @@ public class CustomerBookingForm {
         if (isLoyaltyMember) {
             pointTitleLabel.setVisible(true);
             loyaltyPointLabel.setVisible(true);
-            loyaltyPointBalance = mainFrame.getCustomer().getPointBalance();
+            loyaltyPointBalance = User.getLoyaltyPoints(mainFrame.getCustomer().getUserId());
         } else {
             pointTitleLabel.setVisible(false);
             loyaltyPointLabel.setVisible(false);

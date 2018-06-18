@@ -20,7 +20,7 @@ public class CustomerTest {
     @Before
     public void runBefore() {
         loyal = new Customer(1);
-        loyal.setPoint(2718);
+        User.updateLoyaltyPoints(1, 2718);
         nonLoyal = new Customer(2);
         nonLoyal.cancelMembership();
 
@@ -86,8 +86,8 @@ public class CustomerTest {
         String name1 = loyal.getName();
         String name2 = nonLoyal.getName();
 
-        int point1 = loyal.getPointBalance();
-        int point2 = nonLoyal.getPointBalance();
+        int point1 = User.getLoyaltyPoints(loyal.getUserId());
+        int point2 = User.getLoyaltyPoints(nonLoyal.getUserId());
 
         assertEquals("Tanek Blair", name1);
         assertEquals("Katelyn Austin", name2);
@@ -102,9 +102,9 @@ public class CustomerTest {
     @Test
     public void testRedeem() {
         loyal.redeem(2);
-        assertTrue(loyal.getPointBalance() == 718);
+        assertTrue(User.getLoyaltyPoints(loyal.getUserId()) == 718);
         loyal.redeem(1);
-        assertTrue(loyal.getPointBalance() == 718);
+        assertTrue(User.getLoyaltyPoints(nonLoyal.getUserId()) == 718);
     }
 
 
@@ -112,14 +112,14 @@ public class CustomerTest {
     public void testSingUpForLoyaltyMember() {
         nonLoyal.signUpForLoyaltyMember();
         assertTrue(nonLoyal.isLoyaltyMember());
-        assertTrue(nonLoyal.getPointBalance() == 0);
+        assertTrue(User.getLoyaltyPoints(nonLoyal.getUserId()) == 0);
     }
 
     @Test
     public void testAddPoint() {
         loyal.addPoint(1);
-        assertTrue(loyal.getPointBalance() == 2768);
+        assertTrue(User.getLoyaltyPoints(loyal.getUserId()) == 2768);
         loyal.addPoint(2);
-        assertTrue(loyal.getPointBalance() == 2868);
+        assertTrue(User.getLoyaltyPoints(loyal.getUserId()) == 2868);
     }
 }
