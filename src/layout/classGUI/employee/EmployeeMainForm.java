@@ -71,6 +71,9 @@ public class EmployeeMainForm {
          * Movie stat button handler
          */
         movieStatsButton = new JButton("Get movie stats");
+        movieStatsButton.addActionListener(e -> {
+            mainFrame.changeToEmployeeViewMovieStatForm();
+        });
 
         /*
          * Logout button handler

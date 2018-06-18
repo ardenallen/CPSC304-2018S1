@@ -8,6 +8,7 @@ import layout.classGUI.customer.CustomerRecommForm;
 import layout.classGUI.customer.history.CustomerHistoryForm;
 import layout.classGUI.customer.CustomerMainForm;
 import layout.classGUI.customer.history.CustomerTicketsForm;
+import layout.classGUI.employee.EmployeeMovieStatForm;
 import layout.classGUI.employee.EmployeeSellingForm;
 import layout.classGUI.employee.EmployeeMainForm;
 import layout.classGUI.employee.EmployeeRefundForm;
@@ -44,6 +45,7 @@ public class MainFrame {
     private EmployeeMainForm employeeMainForm;
     private EmployeeSellingForm employeeSellingForm;
     private EmployeeRefundForm employeeRefundForm;
+    private EmployeeMovieStatForm employeeMovieStatForm;
 
     private ManagerMainForm managerMainForm;
 
@@ -175,6 +177,11 @@ public class MainFrame {
     public void changeToEmployeeViewBookingForm(Booking booking) {
         employeeRefundForm = new EmployeeRefundForm(booking, this);
         changeContent(employeeRefundForm.getMainPanel());
+    }
+
+    public void changeToEmployeeViewMovieStatForm() {
+        employeeMovieStatForm = new EmployeeMovieStatForm(this);
+        changeContent(employeeMovieStatForm.getMainPanel());
     }
 
     public void backToEmployeeMainForm() {
