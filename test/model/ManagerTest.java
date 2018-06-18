@@ -56,9 +56,13 @@ public class ManagerTest {
     public void testUpdateEmployee() {
 
         Manager.updateEmployee(1, "TEST", "0000000000");
-//        Employee emp = Manager.getEmployeeFromId(1);
-//        Assert.assertFalse(emp.getName() == "A");
-//        Assert.assertFalse(emp.getPhone() == "0000000000");
+        Employee emp = Manager.getEmployeeFromId(1);
+        Assert.assertEquals(emp.getName(), "TEST");
+        Assert.assertEquals(emp.getPhone(), "0000000000");
+        Manager.updateEmployee(1, "A", "abcdefghij");
+        Assert.assertEquals(emp.getName(), "TEST");
+        Assert.assertEquals(emp.getPhone(), "0000000000");
+        Manager.updateEmployee(1, "Francesco Rojel", "6044987637");
     }
 
     @Test

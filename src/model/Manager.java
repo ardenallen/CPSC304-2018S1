@@ -120,6 +120,7 @@ public class Manager extends Employee {
            PreparedStatement ps = conn.prepareStatement(
                    "SELECT * FROM EMPLOYEE WHERE EID = ?"
            );
+           ps.setInt(1, eId);
            ResultSet rs = ps.executeQuery();
            rs.next();
            Employee emp = new Employee(eId);
