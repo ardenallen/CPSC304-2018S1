@@ -1,10 +1,11 @@
 package model;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static model.Ticket.createTicketsFromResultSet;
 
 public class Customer extends User {
     private static final int TICKET_POINT_REDEEM = 1000;
@@ -149,16 +150,8 @@ public class Customer extends User {
 
             ps.setString(1, transactionNum);
             ResultSet rs = ps.executeQuery();
+            result = createTicketsFromResultSet(rs);
 
-            while (rs.next()) {
-                int ticketNum = rs.getInt("TICKET_NUM");
-                String title = rs.getString("TITLE");
-                Timestamp startTime = rs.getTimestamp("START_TIME");
-                BigDecimal price = rs.getBigDecimal("PRICE");
-                int aId = rs.getInt("AID");
-
-                result.add(new Ticket(ticketNum, price, transactionNum, title, startTime, aId));
-            }
             ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());

@@ -61,17 +61,7 @@ public class Ticket {
             ps.setTimestamp(2, showtime.getStartTime());
 
             ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int ticketNum = rs.getInt("TICKET_NUM");
-                BigDecimal price = rs.getBigDecimal("PRICE");
-                String transactionNum = rs.getString("TRANSACTION");
-                String title = rs.getString("TITLE");
-                Timestamp timestamp = rs.getTimestamp("START_TIME");
-                int aId = rs.getInt("AID");
-
-                result.add(new Ticket(ticketNum, price, transactionNum, title, timestamp, aId));
-            }
+            result = createTicketsFromResultSet(rs);
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
         }
@@ -91,21 +81,30 @@ public class Ticket {
                     "AND T.TRANSACTION = ?");
             ps.setString(1, transactionNum);
             ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int ticketNum = rs.getInt("TICKET_NUM");
-                BigDecimal price = rs.getBigDecimal("PRICE");
-                String transaction = rs.getString("TRANSACTION");
-                String title = rs.getString("TITLE");
-                Timestamp startTime = rs.getTimestamp("START_TIME");
-                int auditorium = rs.getInt("AID");
-
-                result.add(new Ticket(ticketNum, price, transaction, title, startTime, auditorium));
-            }
+            result = createTicketsFromResultSet(rs);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
 
         return result;
     }
+
+    public static List<Ticket> createTicketsFromResultSet(ResultSet rs) {
+        List<Ticket> result = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                int ticketNum = rs.getInt("TICKET_NUM");
+                BigDecimal price = rs.getBigDecimal("PRICE");
+                String transactionNum = rs.getString("TRANSACTION");
+                String title = rs.getString("TITLE");
+                Timestamp timestamp = rs.getTimestamp("START_TIME");
+                int aId = rs.getInt("AID");
+
+                result.add(new Ticket(ticketNum, price, transactionNum, title, timestamp, aId));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+            }
+            return result;
+        }
 }
