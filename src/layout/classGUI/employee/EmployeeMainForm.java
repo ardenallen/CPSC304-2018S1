@@ -17,6 +17,7 @@ public class EmployeeMainForm {
     private JButton refundButton;
     private JButton movieStatsButton;
     private JLabel nameLabel;
+    private JButton checkPointButton;
 
     private MainFrame mainFrame;
 
@@ -53,6 +54,17 @@ public class EmployeeMainForm {
             transactionNumInputDialog.pack();
             transactionNumInputDialog.setLocationRelativeTo(mainPanel);
             transactionNumInputDialog.setVisible(true);
+        });
+
+        /*
+         * Check point button handler
+         */
+        checkPointButton = new JButton("Check loyalty point");
+        checkPointButton.addActionListener(e -> {
+            CheckLoyaltyPointDialog checkLoyaltyPointDialog = new CheckLoyaltyPointDialog(mainFrame);
+            checkLoyaltyPointDialog.pack();
+            checkLoyaltyPointDialog.setLocationRelativeTo(mainPanel);
+            checkLoyaltyPointDialog.setVisible(true);
         });
 
         /*
