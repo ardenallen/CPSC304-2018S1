@@ -11,7 +11,7 @@ public class Manager extends Employee {
         super(userId);
     }
 
-    public static void addMovie(String title, int duration, String genre, String censor) {
+    public static boolean addMovie(String title, int duration, String genre, String censor) {
          try {
              PreparedStatement ps = conn.prepareStatement(
                      "INSERT INTO MOVIE " +
@@ -22,25 +22,33 @@ public class Manager extends Employee {
              ps.setString(3, genre);
              ps.setString(4, censor);
              ps.executeUpdate();
+
+             return true;
          } catch (SQLException ex) {
              System.out.println("Message: " + ex.getMessage());
              System.out.println("Adding " + title + " to Movie table failed.");
          }
+
+         return false;
     }
 
-    public static void removeMovie (String title) {
+    public static boolean removeMovie (String title) {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "DELETE MOVIE WHERE Title = ?");
             ps.setString(1, title);
             ps.executeUpdate();
+
+            return true;
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
             System.out.println("Removing " + title + " from Movie table failed.");
         }
+
+        return false;
     }
 
-    public static void addShowtime(Timestamp startTime, String title, boolean cc, int aID) {
+    public static boolean addShowtime(Timestamp startTime, String title, boolean cc, int aID) {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "INSERT INTO SHOWTIME1 " +
@@ -60,13 +68,16 @@ public class Manager extends Employee {
             ps.setInt(3, aID);
             ps.executeUpdate();
 
+            return true;
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
             System.out.println("Adding " + startTime + "for movie " + title +  " failed.");
         }
+
+        return false;
     }
 
-    public static void removeShowtime (Timestamp startTime, String title) {
+    public static boolean removeShowtime (Timestamp startTime, String title) {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "DELETE SHOWTIME1 " +
@@ -85,10 +96,13 @@ public class Manager extends Employee {
                 ps.executeUpdate();
             }
 
+            return true;
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
             System.out.println("Removing " + startTime + " for Movie " + title + " table failed.");
         }
+
+        return false;
     }
 
     public static boolean addEmployee(int userId, String name, int SIN, String phone) {

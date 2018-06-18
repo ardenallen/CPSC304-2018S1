@@ -8,7 +8,7 @@ public class OracleConnection {
 
     public static Connection buildConnection() {
         Connection conn = null;
-        String connectURL = "jdbc:oracle:thin:@localhost:1522:ug";
+        String connectURL = "jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug";
         try {
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             conn = DriverManager.getConnection(connectURL,"ora_a2l0b","a30183157");

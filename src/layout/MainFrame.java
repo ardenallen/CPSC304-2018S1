@@ -12,13 +12,11 @@ import layout.classGUI.employee.EmployeeMovieStatForm;
 import layout.classGUI.employee.EmployeeSellingForm;
 import layout.classGUI.employee.EmployeeMainForm;
 import layout.classGUI.employee.EmployeeRefundForm;
-import layout.classGUI.manager.AddEmployeeForm;
-import layout.classGUI.manager.ManageEmployeeForm;
-import layout.classGUI.manager.ManagerMainForm;
-import layout.classGUI.manager.UpdateEmployeeForm;
+import layout.classGUI.manager.*;
 import model.*;
 
 import javax.swing.*;
+import java.util.List;
 import java.awt.*;
 
 /**
@@ -54,6 +52,11 @@ public class MainFrame {
     private ManageEmployeeForm manageEmployeeForm;
     private UpdateEmployeeForm updateEmployeeForm;
     private AddEmployeeForm addEmployeeForm;
+    private ManageMovieForm manageMovieForm;
+    private AddMovieForm addMovieForm;
+    private ManageShowtimeForm manageShowtimeForm;
+    private AddShowtimeForm addShowtimeForm;
+    private RemoveShowtimeForm removeShowtimeForm;
     private ManagerMainForm managerMainForm;
 
     private MainFrame() {
@@ -75,6 +78,10 @@ public class MainFrame {
      * General UI handler
      */
     public void switchClassPanel(User user) {
+        customer = null;
+        employee = null;
+        manager = null;
+
         switch(user.getUserClass()) {
             case "customer":
                 currentUserClass = "customer";
@@ -221,6 +228,43 @@ public class MainFrame {
     public void changeToAddEmployeeForm() {
         addEmployeeForm = new AddEmployeeForm(this);
         changeContent(addEmployeeForm.getMainPanel());
+    }
+
+    public void changeToManageMovieForm() {
+        manageMovieForm = new ManageMovieForm(this);
+        changeContent(manageMovieForm.getMainPanel());
+    }
+
+    public void changeToAddMovieForm() {
+        addMovieForm = new AddMovieForm(this);
+        changeContent(addMovieForm.getMainPanel());
+    }
+
+    public void changeToManageShowtimeForm(Movie movie) {
+        manageShowtimeForm = new ManageShowtimeForm(movie, this);
+        changeContent(manageShowtimeForm.getMainPanel());
+    }
+
+    public void changeToAddShowtimeForm(Movie movie) {
+        addShowtimeForm = new AddShowtimeForm(movie, this);
+        changeContent(addShowtimeForm.getMainPanel());
+    }
+
+    public void changeToRemoveShowtimeForm(Movie movie, List<Showtime> showtimeList) {
+        removeShowtimeForm = new RemoveShowtimeForm(movie, showtimeList, this);
+        changeContent(removeShowtimeForm.getMainPanel());
+    }
+
+    public void backAndRefreshManageShowtimeForm(Movie movie) {
+        removeContent();
+        manageShowtimeForm = new ManageShowtimeForm(movie, this);
+        changeContent(manageShowtimeForm.getMainPanel());
+    }
+
+    public void backAndRefreshManageMovieForm() {
+        removeContent();
+        manageMovieForm = new ManageMovieForm(this);
+        changeContent(manageMovieForm.getMainPanel());
     }
 
     public void backAndRefreshManageEmployeeForm() {

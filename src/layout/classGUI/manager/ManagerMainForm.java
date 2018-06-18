@@ -92,6 +92,9 @@ public class ManagerMainForm {
          * Manage movies button handler
          */
         manageMoviesButton = new JButton("Manage movies");
+        manageMoviesButton.addActionListener(e -> {
+            mainFrame.changeToManageMovieForm();
+        });
 
         /*
          * Logout button setup
