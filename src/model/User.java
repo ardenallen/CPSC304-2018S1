@@ -24,7 +24,7 @@ public class User {
     public Integer getUserId() {
         return userId;
     }
-    
+
     public static int getLoyaltyPoints(int cID) {
         int currentBalance = 0;
         try {
@@ -80,5 +80,20 @@ public class User {
                 payment.substring(1):
                 null;
         return result;
+    }
+
+    public int getNextTicketNum() {
+        int ticketNum = 0;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT max(TICKET_NUM) FROM TICKET");
+            if (rs.next()) {
+                ticketNum = rs.getInt(1) + 1;
+            }
+            stmt.close();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return ticketNum;
     }
 }

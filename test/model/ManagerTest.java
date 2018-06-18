@@ -33,6 +33,7 @@ public class ManagerTest {
         Assert.assertFalse(last.equals(movie));
     }
 
+    @Ignore
     @Test
     public void testAddEmployee() {
 
@@ -43,6 +44,7 @@ public class ManagerTest {
         Assert.assertTrue(last.getUserId() == 200);
     }
 
+    @Ignore
     @Test
     public void testRemoveEmployee() {
 

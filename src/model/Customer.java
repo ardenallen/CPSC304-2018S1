@@ -47,20 +47,20 @@ public class Customer extends User {
     }
 
     public boolean canRedeem(int numOfTickets) {
-        pointBalance = User.getLoyaltyPoints(this.getUserId());
+        pointBalance = getLoyaltyPoints(this.getUserId());
         return pointBalance - numOfTickets * TICKET_POINT_REDEEM >= 0;
     }
 
     public void redeem(int numOfTickets) {
-        int currentBalance = User.getLoyaltyPoints(this.getUserId());
+        int currentBalance = getLoyaltyPoints(this.getUserId());
         int newBalance = currentBalance - numOfTickets * TICKET_POINT_REDEEM;
-        User.updateLoyaltyPoints(this.getUserId(), newBalance);
+        updateLoyaltyPoints(this.getUserId(), newBalance);
     }
 
     public void addPoint(int numOfTickets) {
-        int currentBalance = User.getLoyaltyPoints(this.getUserId());
+        int currentBalance = getLoyaltyPoints(this.getUserId());
         int newBalance = currentBalance + numOfTickets * TICKET_POINT_ADD;
-        User.updateLoyaltyPoints(this.getUserId(), newBalance);
+        updateLoyaltyPoints(this.getUserId(), newBalance);
     }
 
     public List<Booking> getAllBookings() {
@@ -183,21 +183,10 @@ public class Customer extends User {
 
         int cId = this.getUserId();
         String title = movie.getTitle();
-        int auditorum = showtime.getaId();
+        int auditorium = showtime.getaId();
         Timestamp startTime = showtime.getStartTime();
 
-        int ticketNum = 0;
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT max(TICKET_NUM) FROM TICKET");
-            if (rs.next()) {
-                ticketNum = rs.getInt(1) + 1;
-            }
-            stmt.close();
-        } catch (SQLException ex) {
-            System.out.println("Message: " + ex.getMessage());
-        }
-
+        int ticketNum = getNextTicketNum();
 
         ThreadLocalRandom random = ThreadLocalRandom.current();
         Long randomNumber = random.nextLong(10_000_000_000L, 100_000_000_000L);
@@ -221,7 +210,7 @@ public class Customer extends User {
             ps2.setString(3, title);
             ps2.setTimestamp(4, startTime);
             ps2.setDouble(5, price);
-            ps2.setInt(6, auditorum);
+            ps2.setInt(6, auditorium);
 
             for (int i=0; i < quantity; i++) {
                 ps2.setInt(2, ticketNum + i);
