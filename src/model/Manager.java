@@ -100,17 +100,35 @@ public class Manager extends Employee {
         }
     }
 
-    public static void updateEmployee (int userID) {
+    public static void updateEmployee (int eId, String name, String phone ) {
         try {
             PreparedStatement ps = conn.prepareStatement(
-                    "DELETE EMPLOYEE " +
-                            "WHERE EID = ?");
-            ps.setInt(1, userID);
-            ps.executeUpdate();
+                    "UPDATE EMPLOYEE SET NAME = ?, PHONE = ? WHERE EID = ?");
+            ps.setString(1,name);
+            ps.setString(2, phone);
+            ps.setInt(3, eId);
+            ps.execute();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
-            System.out.println("Removing employee " + userID + " failed.");
+            System.out.println("Updating employee " + eId + " failed.");
         }
+    }
+
+    public static Employee getEmployeeFromId(int eId) {
+        List<Employee> result = new ArrayList<>();
+        try {
+           PreparedStatement ps = conn.prepareStatement(
+                   "SELECT * FROM EMPLOYEE WHERE EID = ?"
+           );
+           ResultSet rs = ps.executeQuery();
+           rs.next();
+           Employee emp = new Employee(eId);
+           result.add(emp);
+       }
+       catch (SQLException ex) {
+           System.out.println("Message: " + ex.getMessage());
+       }
+        return result.get(0);
     }
 
     public static List<Employee> getAllEmployee() {

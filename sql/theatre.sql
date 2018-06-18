@@ -70,7 +70,10 @@ CREATE TABLE Employee
     SIN int,
     phone char(10),
     PRIMARY KEY(eID),
-    CHECK (LENGTH(phone) = 10)
+    CONSTRAINT check_phone
+    CHECK (REGEXP_LIKE (phone, '^\d{10}$')),
+    CONSTRAINT check_length
+    CHECK (LENGTH(name) >= 3)
   );
 
 CREATE TABLE Manager 
