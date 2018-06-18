@@ -242,4 +242,18 @@ public class Customer extends User {
         }
         return result;
     }
+
+    public static boolean addNewCustomer(int cId, String name) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "INSERT INTO CUSTOMER (CID, NAME) " +
+                            "VALUES(?,?)");
+            ps.setInt(1, cId);
+            ps.setString(2, name);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Message: " + ex.getMessage());
+        }
+        return false;
+    }
 }

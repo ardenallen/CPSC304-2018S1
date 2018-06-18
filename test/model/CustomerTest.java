@@ -133,4 +133,8 @@ public class CustomerTest {
         int maxID = Customer.getMaxID();
 
     }
+
+    @Test public void testAddNewCustomer() {
+        Customer.addNewCustomer(999, "TEST");
+    }
 }
