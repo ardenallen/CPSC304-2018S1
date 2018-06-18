@@ -24,7 +24,7 @@ public class User {
     public Integer getUserId() {
         return userId;
     }
-
+    
     public static int getLoyaltyPoints(int cID) {
         int currentBalance = 0;
         try {
@@ -58,6 +58,27 @@ public class User {
         }
     }
 
+    // convert payment passed in from UI to a standardized paymentMethod
+    public String getPaymentMethodFromPayment(String payment) {
+        if (payment.equals("Cash")) {
+            return "Cash";
+        } else if (payment.startsWith("C")) {
+            return "Credit";
+        } else if (payment.startsWith("D")) {
+            return "Debit";
+        } else {
+            return "Redeem";
+        }
+    }
 
-
+    public String getCardInfoFromPayment(String payment) {
+        // If credit: payment is "CXXXXX"
+        // If debit: payment is "DXXXXX"
+        // If cash: payment is "Cash"
+        // If redeem: payment is "Redeem"
+        String result = payment.startsWith("C") || payment.startsWith("D") ?
+                payment.substring(1):
+                null;
+        return result;
+    }
 }

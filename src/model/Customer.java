@@ -1,10 +1,11 @@
 package model;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static model.Ticket.createTicketsFromResultSet;
 
 public class Customer extends User {
     private static final int TICKET_POINT_REDEEM = 1000;
@@ -99,16 +100,8 @@ public class Customer extends User {
 
             ps.setString(1, transactionNum);
             ResultSet rs = ps.executeQuery();
+            result = createTicketsFromResultSet(rs);
 
-            while (rs.next()) {
-                int ticketNum = rs.getInt("TICKET_NUM");
-                String title = rs.getString("TITLE");
-                Timestamp startTime = rs.getTimestamp("START_TIME");
-                BigDecimal price = rs.getBigDecimal("PRICE");
-                int aId = rs.getInt("AID");
-
-                result.add(new Ticket(ticketNum, price, transactionNum, title, startTime, aId));
-            }
             ps.close();
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
@@ -175,22 +168,10 @@ public class Customer extends User {
 
         String paymentMethod;
         String cardInfo;
-        double price = 13;
-
-        if (payment.equals("Cash")) {
-            paymentMethod = "Cash";
-            cardInfo = null;
-        } else if (payment.startsWith("C")) {
-            paymentMethod = "Credit";
-            cardInfo = payment.substring(1);
-        } else if (payment.startsWith("D")) {
-            paymentMethod = "Debit";
-            cardInfo = payment.substring(1);
-        } else {
-            paymentMethod = "Redeem";
-            cardInfo = null;
-            price = 0;
-        }
+        double price = payment.equals("Redeem") ? 0 : 13;
+        // Helpers to get paymentMethod and cardInfo from payment
+        paymentMethod = getPaymentMethodFromPayment(payment);
+        cardInfo = getCardInfoFromPayment(payment);
 
         if (paymentMethod == "Redeem") {
             if (!this.canRedeem(quantity)) {

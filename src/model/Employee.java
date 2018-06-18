@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static model.Ticket.createTicketsFromResultSet;
+
 public class Employee extends User {
     private String name;
     private int SIN;
@@ -46,28 +48,12 @@ public class Employee extends User {
     }
 
     public boolean sellTickets(Movie movie, Showtime showtime, int quantity, String payment, Customer customer) {
-        // If credit: payment is "CXXXXX"
-        // If debit: payment is "DXXXXX"
-        // If cash: payment is "Cash"
-        // If redeem: payment is "Redeem"
         String paymentMethod;
         String cardInfo;
-        double price = 13;
-
-        if (payment.equals("Cash")) {
-            paymentMethod = "Cash";
-            cardInfo = null;
-        } else if (payment.startsWith("C")) {
-            paymentMethod = "Credit";
-            cardInfo = payment.substring(1);
-        } else if (payment.startsWith("D")) {
-            paymentMethod = "Debit";
-            cardInfo = payment.substring(1);
-        } else {
-            paymentMethod = "Redeem";
-            cardInfo = null;
-            price = 0;
-        }
+        double price = payment.equals("Redeem") ? 0 : 13;
+        // Helpers to get paymentMethod and cardInfo from payment
+        paymentMethod = getPaymentMethodFromPayment(payment);
+        cardInfo = getCardInfoFromPayment(payment);
 
         if (paymentMethod.equals("Redeem")) {
             if (!customer.canRedeem(quantity)) {
@@ -173,15 +159,8 @@ public class Employee extends User {
                             "AND T.TRANSACTION = B.TRANSACTION");
             ps.setString(1, transactionNumber);
             ResultSet rs = ps.executeQuery();
-
+            tickets = createTicketsFromResultSet(rs);
             while(rs.next()) {
-                int ticketNum = rs.getInt("Ticket_num");
-                String title = rs.getString("Title");
-                Timestamp startTime = rs.getTimestamp("Start_time");
-                BigDecimal price = rs.getBigDecimal("Price");
-                int aId = rs.getInt("aID");
-                Ticket x = new Ticket(ticketNum, price, transactionNumber, title, startTime, aId);
-                tickets.add(x);
                 paymentMethod = rs.getString("Payment_method");
                 cardInfo = rs.getString("Card_info");
                 eId = rs.getInt("eID");
