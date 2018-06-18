@@ -46,28 +46,12 @@ public class Employee extends User {
     }
 
     public boolean sellTickets(Movie movie, Showtime showtime, int quantity, String payment, Customer customer) {
-        // If credit: payment is "CXXXXX"
-        // If debit: payment is "DXXXXX"
-        // If cash: payment is "Cash"
-        // If redeem: payment is "Redeem"
         String paymentMethod;
         String cardInfo;
-        double price = 13;
-
-        if (payment.equals("Cash")) {
-            paymentMethod = "Cash";
-            cardInfo = null;
-        } else if (payment.startsWith("C")) {
-            paymentMethod = "Credit";
-            cardInfo = payment.substring(1);
-        } else if (payment.startsWith("D")) {
-            paymentMethod = "Debit";
-            cardInfo = payment.substring(1);
-        } else {
-            paymentMethod = "Redeem";
-            cardInfo = null;
-            price = 0;
-        }
+        double price = payment.equals("Redeem") ? 0 : 13;
+        // Helpers to get paymentMethod and cardInfo from payment
+        paymentMethod = getPaymentMethodFromPayment(payment);
+        cardInfo = getCardInfoFromPayment(payment);
 
         if (paymentMethod.equals("Redeem")) {
             if (!customer.canRedeem(quantity)) {
@@ -249,7 +233,6 @@ public class Employee extends User {
             } catch (SQLException ex) {
                 System.out.println("Message: " + ex.getMessage());
             }
-            return true;
         }
         // Check if payment method was cash, redeem OR if the given cardNum is the same as the one in record
         if (paymentMethod.trim().equals("Cash") ||

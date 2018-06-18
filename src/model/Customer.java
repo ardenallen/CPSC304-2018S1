@@ -225,22 +225,10 @@ public class Customer extends User {
 
         String paymentMethod;
         String cardInfo;
-        double price = 13;
-
-        if (payment.equals("Cash")) {
-            paymentMethod = "Cash";
-            cardInfo = null;
-        } else if (payment.startsWith("C")) {
-            paymentMethod = "Credit";
-            cardInfo = payment.substring(1);
-        } else if (payment.startsWith("D")) {
-            paymentMethod = "Debit";
-            cardInfo = payment.substring(1);
-        } else {
-            paymentMethod = "Redeem";
-            cardInfo = null;
-            price = 0;
-        }
+        double price = payment.equals("Redeem") ? 0 : 13;
+        // Helpers to get paymentMethod and cardInfo from payment
+        paymentMethod = getPaymentMethodFromPayment(payment);
+        cardInfo = getCardInfoFromPayment(payment);
 
         if (paymentMethod == "Redeem") {
             if (!this.canRedeem(quantity)) {

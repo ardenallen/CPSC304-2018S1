@@ -2,6 +2,7 @@ package test;
 
 import model.*;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import utils.OracleConnection;
 
@@ -115,7 +116,9 @@ public class CustomerTest {
         assertTrue(nonLoyal.getPointBalance() == 0);
     }
 
+    @Ignore
     @Test
+    // point balance is not necessary the expected value after multiple test run
     public void testAddPoint() {
         loyal.addPoint(1);
         assertTrue(loyal.getPointBalance() == 2768);
