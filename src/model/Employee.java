@@ -265,7 +265,6 @@ public class Employee extends User {
     }
 
     // Return all movies with the max (most popular) or min (least popular) # of ticket sold
-    // Will not take into account of movies with no tickets sold
     public static List<Movie> getLeastMostPopularMovie(String minMax) {
         List<Movie> result = new ArrayList<>();
         int minMaxNumTicketSold = Employee.getLeastMostPopularMovieTicketCount(minMax);
@@ -294,9 +293,11 @@ public class Employee extends User {
     private static int getLeastMostPopularMovieTicketCount(String minMax) {
         int result = -1;
         String SQL = "SELECT %s(TICKET_SOLD) FROM (" +
-                "SELECT TITLE, COUNT(*) AS TICKET_SOLD " +
-                "FROM TICKET  " +
-                "GROUP BY TITLE)";
+                "SELECT M.TITLE, COUNT(T.TICKET_NUM) AS TICKET_SOLD " +
+                "FROM MOVIE M  " +
+                "LEFT OUTER JOIN TICKET T " +
+                "ON M.TITLE = T.TITLE " +
+                "GROUP BY M.TITLE)";
         SQL = minMax.equalsIgnoreCase("Min") ?
                 String.format(SQL, "MIN") :
                 String.format(SQL, "MAX");
@@ -318,8 +319,11 @@ public class Employee extends User {
         List<String> result = new ArrayList<>();
         try {
             PreparedStatement ps = conn.prepareStatement(
-                    "SELECT TITLE, COUNT(*) FROM TICKET " +
-                    "GROUP BY TITLE");
+                    "SELECT M.TITLE, COUNT(T.TICKET_NUM) AS TICKET_SOLD " +
+                            "FROM MOVIE M  " +
+                            "LEFT OUTER JOIN TICKET T " +
+                            "ON M.TITLE = T.TITLE " +
+                            "GROUP BY M.TITLE");
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 int count = rs.getInt(2);
