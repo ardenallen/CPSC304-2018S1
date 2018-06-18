@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static model.Ticket.createTicketsFromResultSet;
-
 public class Employee extends User {
     private String name;
     private int SIN;
@@ -159,8 +157,15 @@ public class Employee extends User {
                             "AND T.TRANSACTION = B.TRANSACTION");
             ps.setString(1, transactionNumber);
             ResultSet rs = ps.executeQuery();
-            tickets = createTicketsFromResultSet(rs);
             while(rs.next()) {
+                int ticketNum = rs.getInt("TICKET_NUM");
+                BigDecimal price = rs.getBigDecimal("PRICE");
+                String transactionNum = rs.getString("TRANSACTION");
+                String title = rs.getString("TITLE");
+                Timestamp timestamp = rs.getTimestamp("START_TIME");
+                int aId = rs.getInt("AID");
+                tickets.add(new Ticket(ticketNum, price, transactionNum, title, timestamp, aId));
+
                 paymentMethod = rs.getString("Payment_method");
                 cardInfo = rs.getString("Card_info");
                 eId = rs.getInt("eID");
