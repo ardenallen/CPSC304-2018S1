@@ -1,14 +1,65 @@
 package model;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 
 public class ManagerTest {
 
+    @Ignore
+    @Test
+    public void testAddMovie() {
+
+        Movie movie = new Movie("Jurassic World: Fallen Kingdom", 120, "Adventure", "PG");
+        Manager.addMovie(movie.getTitle(), movie.getDuration(), movie.getGenre(), movie.getCensor());
+        List<Movie> allMovies = Movie.getAllMovie();
+        Movie last = allMovies.get(allMovies.size() - 1);
+        Assert.assertTrue(last.equals(movie));
+    }
+
+    @Ignore
+    @Test
+    public void testRemoveMovie() {
+
+        Movie movie = new Movie("Jurassic World: Fallen Kingdom", 120, "Adventure", "PG");
+        Manager.removeMovie(movie.getTitle());
+        List<Movie> allMovies = Movie.getAllMovie();
+        Movie last = allMovies.get(allMovies.size() - 1);
+        Assert.assertFalse(last.equals(movie));
+    }
+
+    @Test
+    public void testAddEmployee() {
+
+        Manager.addEmployee(200, "Arden Allen",000000001, "5055555555");
+        Employee emp = new Employee(200);
+        List<Employee> allEmps = Manager.getAllEmployee();
+        Employee last = allEmps.get(allEmps.size()-1);
+        Assert.assertTrue(last.getUserId() == 200);
+    }
+
+    @Test
+    public void testRemoveEmployee() {
+
+        Manager.removeEmployee(200);
+        List<Employee> allEmps = Manager.getAllEmployee();
+        Employee last = allEmps.get(allEmps.size()-1);
+        Assert.assertFalse(last.getUserId() == 200);
+    }
+
+    @Test
+    public void testUpdateEmployee() {
+
+        Manager.updateEmployee(1, "TEST", "0000000000");
+//        Employee emp = Manager.getEmployeeFromId(1);
+//        Assert.assertFalse(emp.getName() == "A");
+//        Assert.assertFalse(emp.getPhone() == "0000000000");
+    }
 
     @Test
     public void testGetEmployeeStats() {
@@ -20,7 +71,7 @@ public class ManagerTest {
     }
 
     @Test
-    public void testGetBestEmployee() {
+    public void testGetBestCustomer() {
 
         List<Customer> best = Manager.getBestCustomer();
         int bestID = best.get(0).getUserId();

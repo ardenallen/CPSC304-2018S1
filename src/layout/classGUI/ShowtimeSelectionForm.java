@@ -30,7 +30,7 @@ public class ShowtimeSelectionForm {
         /*
          * Showtime button generator
          */
-        showtimeList = Showtime.getAllShowtimes(movie);
+        showtimeList = Showtime.getAllShowtimes(movie.getTitle());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;

@@ -69,7 +69,11 @@ CREATE TABLE Employee
     name varchar(30),
     SIN int,
     phone char(10),
-    PRIMARY KEY(eID)
+    PRIMARY KEY(eID),
+    CONSTRAINT check_phone
+    CHECK (REGEXP_LIKE (phone, '^\d{10}$')),
+    CONSTRAINT check_length
+    CHECK (LENGTH(name) >= 3)
   );
 
 CREATE TABLE Manager 
