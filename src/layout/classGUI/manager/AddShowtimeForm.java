@@ -1,6 +1,7 @@
 package layout.classGUI.manager;
 
 import layout.MainFrame;
+import layout.dialog.FieldCantBeBlankDialog;
 import layout.dialog.OperationFailureDialog;
 import layout.dialog.OperationSuccessfulDialog;
 import model.Manager;
@@ -59,6 +60,16 @@ public class AddShowtimeForm {
             boolean cc = false;
             int aId = -1;
 
+            // Blank check;
+            if(aIdField.getText().isEmpty()) {
+                FieldCantBeBlankDialog fieldCantBeBlankDialog = new FieldCantBeBlankDialog();
+                fieldCantBeBlankDialog.pack();
+                fieldCantBeBlankDialog.setLocationRelativeTo(mainPanel);
+                fieldCantBeBlankDialog.setVisible(true);
+                return;
+            }
+
+            // Type check;
             try {
                 timestamp = new Timestamp(spinnerDateModel.getDate().toInstant().toEpochMilli());
                 title = movie.getTitle();

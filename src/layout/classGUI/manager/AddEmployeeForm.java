@@ -1,6 +1,7 @@
 package layout.classGUI.manager;
 
 import layout.MainFrame;
+import layout.dialog.FieldCantBeBlankDialog;
 import layout.dialog.OperationFailureDialog;
 import layout.dialog.OperationSuccessfulDialog;
 import model.Manager;
@@ -47,8 +48,31 @@ public class AddEmployeeForm {
         addButton = new JButton("Add");
         addButton.addActionListener(e -> {
             int nextAvailableEid = Manager.getNextAvailableEid();
+
+            // Blank check
+            if(nameField.getText().isEmpty() || sinField.getText().isEmpty() || phoneNumField.getText().isEmpty()) {
+                FieldCantBeBlankDialog fieldCantBeBlankDialog = new FieldCantBeBlankDialog();
+                fieldCantBeBlankDialog.pack();
+                fieldCantBeBlankDialog.setLocationRelativeTo(mainPanel);
+                fieldCantBeBlankDialog.setVisible(true);
+                return;
+            }
+
             String name = nameField.getText();
-            int sin = Integer.parseInt(sinField.getText());
+            int sin;
+
+            // Type check
+            try {
+                sin = Integer.parseInt(sinField.getText());
+            } catch (NumberFormatException e1) {
+                OperationFailureDialog operationFailureDialog = new OperationFailureDialog();
+                operationFailureDialog.pack();
+                operationFailureDialog.setLocationRelativeTo(mainPanel);
+                operationFailureDialog.setVisible(true);
+
+                return;
+            }
+
             String phoneNum = phoneNumField.getText();
 
             if (Manager.addEmployee(nextAvailableEid, name, sin, phoneNum)) {

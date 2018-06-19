@@ -53,6 +53,7 @@ public class AddMovieForm {
          */
         addButton = new JButton("Add");
         addButton.addActionListener(e -> {
+            // Blank check
             if(titleField.getText().isEmpty() || genreField.getText().isEmpty() ||
                     durationField.getText().isEmpty() || censorField.getText().isEmpty()) {
                 FieldCantBeBlankDialog fieldCantBeBlankDialog = new FieldCantBeBlankDialog();
@@ -67,6 +68,7 @@ public class AddMovieForm {
             String censor = censorField.getText();
             int duration;
 
+            // Type check
             try {
                 duration = Integer.parseInt(durationField.getText());
             } catch (NumberFormatException e1) {
