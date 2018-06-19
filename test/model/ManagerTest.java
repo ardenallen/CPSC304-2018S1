@@ -103,6 +103,9 @@ public class ManagerTest {
     public void testPromotion() {
         boolean successful = Manager.promoteEmployeeToManager(2);
         Assert.assertTrue(successful);
+
+        boolean successful2 = Manager.demoteManagerToEmployee(2);
+        Assert.assertTrue(successful2);
     }
 
 }
