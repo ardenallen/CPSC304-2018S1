@@ -22,6 +22,7 @@ public class ManagerMainForm {
     private JButton manageMoviesButton;
     private JButton logoutButton;
     private JLabel nameLabel;
+    private JButton bestCustomerButton;
 
     private Manager manager;
     private MainFrame mainFrame;
@@ -103,6 +104,14 @@ public class ManagerMainForm {
         manageMoviesButton = new JButton("Manage movies");
         manageMoviesButton.addActionListener(e -> {
             mainFrame.changeToManageMovieForm();
+        });
+
+        /*
+         * Best customer button handler
+         */
+        bestCustomerButton = new JButton("Get best customer");
+        bestCustomerButton.addActionListener(e -> {
+            mainFrame.changeToBestCustomerForm();
         });
 
         /*
