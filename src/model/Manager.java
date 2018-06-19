@@ -236,8 +236,8 @@ public class Manager extends Employee {
 
     // Returns all the Employee who generated the max (most sales) or min (least sales) amount of ticket sales
     // Will not take into account of employee who did not sell any ticket on the given date
-    public static List<Employee> getLeastMostSalesEmployee(String minMax, Date date) {
-        List<Employee> result = new ArrayList<>();
+    public static List<EmployeeStat> getLeastMostSalesEmployee(String minMax, Date date) {
+        List<EmployeeStat> result = new ArrayList<>();
         BigDecimal minMaxSales = Manager.getLeastMostSales(minMax, date);
         List<Integer> eIDs = Manager.getEmployeeIDFromSales(minMaxSales, date);
         String sqlEIDs = "";
@@ -254,7 +254,8 @@ public class Manager extends Employee {
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 int eID = rs.getInt("EID");
-                Employee x = new Employee(eID);
+                String name = rs.getString("Name");
+                EmployeeStat x = new EmployeeStat(eID, name, minMaxSales);
                 result.add(x);
             }
 
