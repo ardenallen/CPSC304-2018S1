@@ -1,8 +1,10 @@
 package layout;
 
+import layout.dialog.CustomerSignUpDialog;
 import layout.dialog.FailedLoginDialog;
 import layout.dialog.InvalidIdDialog;
 import model.AuthClient;
+import model.Customer;
 import model.User;
 
 import javax.swing.*;
@@ -14,6 +16,7 @@ public class LoginForm {
     private JComboBox<String> userClassOptionBox;
     private JButton loginButton;
     private JTextField idField;
+    private JButton signUpButton;
 
     private MainFrame mainFrame;
 
@@ -56,6 +59,17 @@ public class LoginForm {
                     failedLoginDialog.setLocationRelativeTo(mainPanel);
                     failedLoginDialog.setVisible(true);
                 }
+            }
+        });
+        signUpButton = new JButton("Sign Up");
+        signUpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int cID = Customer.getMaxID() + 1;
+                CustomerSignUpDialog signUpDialog = new CustomerSignUpDialog(cID);
+                signUpDialog.pack();
+                signUpDialog.setLocationRelativeTo(mainPanel);
+                signUpDialog.setVisible(true);
             }
         });
     }
