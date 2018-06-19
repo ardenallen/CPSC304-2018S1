@@ -18,6 +18,7 @@ public class ManagerMainForm {
     private JButton refundButton;
     private JButton checkPointButton;
     private JButton manageEmployeesButton;
+    private JButton employeeStatsButton;
     private JButton manageMoviesButton;
     private JButton logoutButton;
     private JLabel nameLabel;
@@ -78,6 +79,14 @@ public class ManagerMainForm {
         movieStatsButton = new JButton("Get movie stats");
         movieStatsButton.addActionListener(e -> {
             mainFrame.changeToEmployeeViewMovieStatForm();
+        });
+
+        /*
+         * Employee stat button handler
+         */
+        employeeStatsButton = new JButton("Get employee stats");
+        employeeStatsButton.addActionListener(e -> {
+            mainFrame.changeToManagerViewEmployeeStatForm();
         });
 
         /*

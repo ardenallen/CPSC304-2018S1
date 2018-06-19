@@ -57,6 +57,7 @@ public class MainFrame {
     private ManageShowtimeForm manageShowtimeForm;
     private AddShowtimeForm addShowtimeForm;
     private RemoveShowtimeForm removeShowtimeForm;
+    private ManagerEmployeeStatForm managerEmployeeStatForm;
     private ManagerMainForm managerMainForm;
 
     private MainFrame() {
@@ -276,6 +277,11 @@ public class MainFrame {
     public void backToManagerMainForm() {
         removeContent();
         changeContent(managerMainForm.getMainPanel());
+    }
+
+    public void changeToManagerViewEmployeeStatForm() {
+        managerEmployeeStatForm = new ManagerEmployeeStatForm(this);
+        changeContent(managerEmployeeStatForm.getMainPanel());
     }
 
     public Manager getManager() {

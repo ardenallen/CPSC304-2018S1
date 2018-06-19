@@ -46,39 +46,12 @@
           <text value="Refund"/>
         </properties>
       </component>
-      <component id="fc4e5" class="javax.swing.JButton" binding="checkPointButton" custom-create="true">
-        <constraints>
-          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <text value="Check loyalty point"/>
-        </properties>
-      </component>
       <vspacer id="3139d">
         <constraints>
           <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
       </vspacer>
-      <component id="d250b" class="javax.swing.JButton" binding="manageEmployeesButton" custom-create="true" default-binding="true">
-        <constraints>
-          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <text value="Manage employees"/>
-        </properties>
-      </component>
-      <component id="151b6" class="javax.swing.JButton" binding="manageMoviesButton" custom-create="true" default-binding="true">
-        <constraints>
-          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <text value="Manage movies"/>
-        </properties>
-      </component>
       <component id="b3b0c" class="javax.swing.JButton" binding="logoutButton" custom-create="true">
         <constraints>
           <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -109,6 +82,42 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
       </hspacer>
+      <component id="151b6" class="javax.swing.JButton" binding="manageMoviesButton" custom-create="true" default-binding="true">
+        <constraints>
+          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Manage movies"/>
+        </properties>
+      </component>
+      <component id="d250b" class="javax.swing.JButton" binding="manageEmployeesButton" custom-create="true" default-binding="true">
+        <constraints>
+          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Manage employees"/>
+        </properties>
+      </component>
+      <component id="fc4e5" class="javax.swing.JButton" binding="checkPointButton" custom-create="true">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Check loyalty point"/>
+        </properties>
+      </component>
+      <component id="c5571" class="javax.swing.JButton" binding="employeeStatsButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Get employee stats"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
