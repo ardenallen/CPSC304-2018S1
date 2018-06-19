@@ -164,7 +164,7 @@ public class Manager extends Employee {
     public static boolean promoteEmployeeToManager(int eId) {
         try {
             PreparedStatement ps = conn.prepareStatement(
-                    "INSERT INTO MANAGER VALUES ?");
+                    "INSERT INTO MANAGER (EID) VALUES (?)");
             ps.setInt(1, eId);
             ps.execute();
 
