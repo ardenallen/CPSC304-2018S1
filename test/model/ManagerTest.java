@@ -5,6 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -88,4 +89,20 @@ public class ManagerTest {
         Assert.assertEquals(bestID, 29);
         Assert.assertEquals(bestName, "Hedley Howell");
     }
+
+
+    @Test
+    public void testRemoveShowtime() {
+
+        Timestamp timestamp = Timestamp.valueOf("2018-06-22 18:30:00");
+        Manager.removeShowtime(timestamp, "Incredibles 2");
+    }
+
+
+    @Test
+    public void testPromotion() {
+        boolean successful = Manager.promoteEmployeeToManager(2);
+        Assert.assertTrue(successful);
+    }
+
 }
