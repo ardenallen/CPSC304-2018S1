@@ -33,6 +33,7 @@ public class RemoveShowtimeForm {
     private List<JToggleButton> buttonList;
 
     public RemoveShowtimeForm(Movie movie, List<Showtime> showtimeList, MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
         this.movie = movie;
 
         /*
@@ -132,6 +133,14 @@ public class RemoveShowtimeForm {
                 operationFailureDialog.setLocationRelativeTo(mainPanel);
                 operationFailureDialog.setVisible(true);
             }
+        });
+
+        /*
+         * Back button setup
+         */
+        backButton = new JButton("Back");
+        backButton.addActionListener(e -> {
+            mainFrame.backAndRefreshManageShowtimeForm(movie);
         });
     }
 }
