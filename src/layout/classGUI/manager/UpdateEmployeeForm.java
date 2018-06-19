@@ -93,10 +93,10 @@ public class UpdateEmployeeForm {
             String updatePhoneNum = phoneNumField.getText();
             String updatedPosition = positionsBox.getSelectedItem().toString();
 
-            boolean isUpdated = initialName.equals(updatedName)
+            boolean isNotUpdated = updatedName.equals(initialName)
                     && updatePhoneNum.equals(initialPhoneNum) && updatedPosition.equals(initialPosition);
 
-            if (!isUpdated) {
+            if (isNotUpdated) {
                 NoUpdateErrorDialog noUpdateErrorDialog = new NoUpdateErrorDialog();
                 noUpdateErrorDialog.pack();
                 noUpdateErrorDialog.setLocationRelativeTo(mainPanel);
@@ -118,7 +118,7 @@ public class UpdateEmployeeForm {
                     operationSuccessfulDialog.setLocationRelativeTo(mainPanel);
                     operationSuccessfulDialog.setVisible(true);
 
-                    mainFrame.backToPreviousForm();
+                    mainFrame.backAndRefreshManageEmployeeForm();
                 } else {
                     OperationFailureDialog operationFailureDialog = new OperationFailureDialog();
                     operationFailureDialog.pack();
