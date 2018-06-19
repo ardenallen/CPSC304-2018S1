@@ -1,8 +1,7 @@
 package layout.classGUI.customer;
 
 import layout.MainFrame;
-import layout.dialog.LoyaltyPointDialog;
-import layout.dialog.LoyaltySignupDialog;
+import layout.dialog.*;
 import model.Customer;
 
 import javax.swing.*;
@@ -20,6 +19,7 @@ public class CustomerMainForm {
     private JLabel nameLabel;
     private JLabel statusLabel;
     private JButton recommButton;
+    private JButton cancelMembershipButton;
     private ActionListener signupListner;
     private ActionListener pointCheckListener;
 
@@ -38,6 +38,12 @@ public class CustomerMainForm {
             switchLoyalMembershipButton();
         } else {
             statusLabel.setText(STATUS_BASE + "Regular Member");
+        }
+
+        if (customer.isLoyaltyMember()) {
+            cancelMembershipButton.setVisible(true);
+        } else {
+            cancelMembershipButton.setVisible(false);
         }
     }
 
@@ -112,6 +118,17 @@ public class CustomerMainForm {
         recommButton = new JButton("Get movie recommendations");
         recommButton.addActionListener(e -> {
             mainFrame.changeToCustomerRecommForm();
+        });
+
+        /*
+         * Cancel membership button setup
+         */
+        cancelMembershipButton = new JButton("Cancel membership");
+        cancelMembershipButton.addActionListener(e -> {
+            CancelMembershipDialog cancelMembershipDialog = new CancelMembershipDialog(customer, mainFrame);
+            cancelMembershipDialog.pack();
+            cancelMembershipDialog.setLocationRelativeTo(mainPanel);
+            cancelMembershipDialog.setVisible(true);
         });
     }
 }

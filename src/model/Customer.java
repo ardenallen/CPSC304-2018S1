@@ -123,7 +123,7 @@ public class Customer extends User {
         }
     }
 
-    public void cancelMembership() {
+    public boolean cancelMembership() {
         try {
             PreparedStatement ps = conn.prepareStatement("DELETE FROM LOYALTY_MEMBER " +
                     "WHERE CID = ?");
@@ -132,9 +132,13 @@ public class Customer extends User {
             ps.close();
             this.isLoyaltyMember = false;
             this.pointBalance = 0;
+
+            return true;
         } catch (SQLException ex) {
             System.out.println("Message: " + ex.getMessage());
         }
+
+        return false;
     }
 
     public static List<String> getRecommendations() {
