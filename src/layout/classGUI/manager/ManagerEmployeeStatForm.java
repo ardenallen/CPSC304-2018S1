@@ -28,6 +28,8 @@ public class ManagerEmployeeStatForm {
     }
 
     private void createUIComponents() {
+        pleaseEnterTheDateTextField = new JTextField("Please enter the date");
+
         /*
          * Table setup
          */
@@ -40,15 +42,15 @@ public class ManagerEmployeeStatForm {
             }});
         DefaultTableModel model = (DefaultTableModel) employeeTable.getModel();
 
-        // Getting date from text box??
-        Date inputDate = Date.valueOf(pleaseEnterTheDateTextField.getText().trim());
-
         /*
          * Min button setup
          */
         minButton = new JButton("Minimum sale");
         minButton.addActionListener(e -> {
             model.setRowCount(0);
+
+            Date inputDate = Date.valueOf(pleaseEnterTheDateTextField.getText().trim());
+
             List<Employee> minEmployeeList = Manager.getLeastMostSalesEmployee("min", inputDate);
 
             int count = 1;
@@ -67,6 +69,8 @@ public class ManagerEmployeeStatForm {
         maxButton = new JButton("Maximum sale");
         maxButton.addActionListener(e -> {
             model.setRowCount(0);
+
+            Date inputDate = Date.valueOf(pleaseEnterTheDateTextField.getText().trim());
 
             List<Employee> maxEmployeeList = Manager.getLeastMostSalesEmployee("max", inputDate);
 
