@@ -40,6 +40,19 @@ public class UpdateEmployeeForm {
         } else {
             initialPosition = "employee";
         }
+
+        if (initialPosition.equals("employee")) {
+            positionsBox.setSelectedIndex(0);
+        } else {
+            positionsBox.setSelectedIndex(1);
+        }
+
+        nameField.setText(initialName);
+
+        sinField.setText(String.valueOf(sin));
+        sinField.setEditable(false);
+
+        phoneNumField.setText(initialPhoneNum);
     }
 
     public JPanel getMainPanel() {
@@ -50,32 +63,26 @@ public class UpdateEmployeeForm {
         /*
          * Name field setup
          */
-        nameField = new JTextField(initialName);
+        nameField = new JTextField();
 
         /*
          * SIN field setup
          *
          * SIN is unique to people thus should not be editable
          */
-        sinField = new JTextField(String.valueOf(sin));
+        sinField = new JTextField();
         sinField.setEditable(false);
 
         /*
          * Name field setup
          */
-        phoneNumField = new JTextField(initialPhoneNum);
+        phoneNumField = new JTextField();
 
         /*
          * Position box setup
          */
         String[] positionOptions = {"employee", "manager"};
         positionsBox = new JComboBox<>(positionOptions);
-
-        if (initialPosition.equals("employee")) {
-            positionsBox.setSelectedIndex(0);
-        } else {
-            positionsBox.setSelectedIndex(1);
-        }
 
         /*
          * Update button setup
