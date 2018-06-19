@@ -61,8 +61,8 @@ public class EmployeeTest {
     @Ignore
     @Test
     public void testGetLeastMostPopularMovie() {
-        List<Movie> min = Employee.getLeastMostPopularMovie("MIN");
-        List<Movie> max = Employee.getLeastMostPopularMovie("MAX");
+        List<MovieStat> min = Employee.getLeastMostPopularMovie("MIN");
+        List<MovieStat> max = Employee.getLeastMostPopularMovie("MAX");
 
     }
 }
