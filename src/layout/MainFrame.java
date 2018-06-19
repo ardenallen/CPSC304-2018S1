@@ -183,6 +183,11 @@ public class MainFrame {
         changeContent(customerRecommForm.getMainPanel());
     }
 
+    public void backToMovieSelectionForm() {
+        removeContent();
+        changeContent(movieSelectionForm.getMainPanel());
+    }
+
     public Customer getCustomer() {
         return customer;
     }
