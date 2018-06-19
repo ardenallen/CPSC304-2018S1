@@ -100,20 +100,7 @@ public class RemoveShowtimeForm {
                 String titleString = components[0];
                 String timestampString = components[1];
 
-                Timestamp timestamp;
-
-                try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSSSSS");
-                    Date parsedDate = dateFormat.parse(timestampString);
-                    timestamp = new java.sql.Timestamp(parsedDate.getTime());
-                } catch(Exception e1) {
-                    OperationFailureDialog operationFailureDialog = new OperationFailureDialog();
-                    operationFailureDialog.pack();
-                    operationFailureDialog.setLocationRelativeTo(mainPanel);
-                    operationFailureDialog.setVisible(true);
-
-                    return;
-                }
+                Timestamp timestamp = Timestamp.valueOf(timestampString);
 
                 boolean isCurrentOperationSuccessful = Manager.removeShowtime(timestamp, titleString);
 
