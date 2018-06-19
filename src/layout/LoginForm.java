@@ -66,7 +66,7 @@ public class LoginForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int cID = Customer.getMaxID() + 1;
-                CustomerSignUpDialog signUpDialog = new CustomerSignUpDialog(cID);
+                CustomerSignUpDialog signUpDialog = new CustomerSignUpDialog(cID, mainFrame);
                 signUpDialog.pack();
                 signUpDialog.setLocationRelativeTo(mainPanel);
                 signUpDialog.setVisible(true);
