@@ -31,6 +31,18 @@ public class LoginForm {
     private void createUIComponents() {
         String[] userClasses = { "customer", "employee", "manager"};
         userClassOptionBox = new JComboBox<>(userClasses);
+        userClassOptionBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String userClass = (String) userClassOptionBox.getSelectedItem();
+                if (userClass != "customer"){
+                    signUpButton.setVisible(false);
+                }
+                else{
+                    signUpButton.setVisible(true);
+                }
+            }
+        });
 
         loginButton = new JButton("Login");
         loginButton.addActionListener(new ActionListener() {
@@ -61,7 +73,7 @@ public class LoginForm {
                 }
             }
         });
-        signUpButton = new JButton("Sign Up");
+        signUpButton = new JButton("Sign Up New Customer");
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

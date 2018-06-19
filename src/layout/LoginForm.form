@@ -83,7 +83,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Sign Up"/>
+          <text value="Sign Up New Customer"/>
         </properties>
       </component>
       <vspacer id="e107b">
