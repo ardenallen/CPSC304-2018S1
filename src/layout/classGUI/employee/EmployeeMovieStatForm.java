@@ -2,7 +2,7 @@ package layout.classGUI.employee;
 
 import layout.MainFrame;
 import model.Employee;
-import model.Movie;
+import model.MovieStat;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -29,7 +29,7 @@ public class EmployeeMovieStatForm {
         /*
          * Table setup
          */
-        Object[] headers = {"Rank", "Title", "Genre"};
+        Object[] headers = {"Rank", "Title", "# of tickets sold"};
 
         movieTable = new JTable(new DefaultTableModel(headers, 0) {
             @Override
@@ -39,10 +39,10 @@ public class EmployeeMovieStatForm {
         });
         DefaultTableModel model = (DefaultTableModel) movieTable.getModel();
 
-        List<Movie> allMovies = Movie.getAllMovie();
+        List<MovieStat> allMovies = Employee.getAllMovieStats();
 
-        for (Movie movie : allMovies) {
-            model.addRow(new Object[] {"N/A", movie.getTitle(), movie.getGenre()});
+        for (MovieStat movie : allMovies) {
+            model.addRow(new Object[] {"N/A", movie.title, movie.count});
         }
 
         /*
@@ -52,12 +52,12 @@ public class EmployeeMovieStatForm {
         minButton.addActionListener(e -> {
             model.setRowCount(0);
 
-            List<Movie> minMovieList = Employee.getLeastMostPopularMovie("min");
+            List<MovieStat> minMovieList = Employee.getLeastMostPopularMovie("min");
 
             int count = 1;
 
-            for (Movie movie : minMovieList) {
-                model.addRow(new Object[] {count, movie.getTitle(), movie.getGenre()});
+            for (MovieStat movie : minMovieList) {
+                model.addRow(new Object[] {count, movie.title, movie.count});
                 count++;
             }
 
@@ -71,12 +71,12 @@ public class EmployeeMovieStatForm {
         maxButton.addActionListener(e -> {
             model.setRowCount(0);
 
-            List<Movie> maxMovieList = Employee.getLeastMostPopularMovie("max");
+            List<MovieStat> maxMovieList = Employee.getLeastMostPopularMovie("max");
 
             int count = 1;
 
-            for (Movie movie : maxMovieList) {
-                model.addRow(new Object[] {count, movie.getTitle(), movie.getGenre()});
+            for (MovieStat movie : maxMovieList) {
+                model.addRow(new Object[] {count, movie.title, movie.count});
                 count++;
             }
 

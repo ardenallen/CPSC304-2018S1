@@ -255,8 +255,8 @@ public class Employee extends User {
     }
 
     // Return all movies with the max (most popular) or min (least popular) # of ticket sold
-    public static List<Movie> getLeastMostPopularMovie(String minMax) {
-        List<Movie> result = new ArrayList<>();
+    public static List<MovieStat> getLeastMostPopularMovie(String minMax) {
+        List<MovieStat> result = new ArrayList<>();
         int minMaxNumTicketSold = Employee.getLeastMostPopularMovieTicketCount(minMax);
         List<String> movieTitles = Employee.getMovieFromNumTicketsSold(minMaxNumTicketSold);
         String sqlMovieTitles = "";
@@ -270,8 +270,11 @@ public class Employee extends User {
         try {
             PreparedStatement ps = conn.prepareStatement(SQL);
             ResultSet rs = ps.executeQuery();
-
-            result = Movie.createMoviesFromResultSet(rs);
+            while (rs.next()) {
+                String title = rs.getString("Title");
+                MovieStat x = new MovieStat(title, minMaxNumTicketSold);
+                result.add(x);
+            }
 
             ps.close();
         } catch (SQLException ex) {
