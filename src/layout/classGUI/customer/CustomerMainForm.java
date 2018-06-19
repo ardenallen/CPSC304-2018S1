@@ -1,7 +1,9 @@
 package layout.classGUI.customer;
 
 import layout.MainFrame;
-import layout.dialog.*;
+import layout.dialog.CancelMembershipDialog;
+import layout.dialog.LoyaltyPointDialog;
+import layout.dialog.LoyaltySignupDialog;
 import model.Customer;
 
 import javax.swing.*;

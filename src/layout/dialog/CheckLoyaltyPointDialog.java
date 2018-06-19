@@ -1,9 +1,6 @@
 package layout.dialog;
 
 import layout.MainFrame;
-import layout.dialog.CustomerDoesNotExistDialog;
-import layout.dialog.LoyaltyPointDialog;
-import layout.dialog.NotLoyaltyMemberDialog;
 import model.AuthClient;
 import model.Customer;
 import model.User;

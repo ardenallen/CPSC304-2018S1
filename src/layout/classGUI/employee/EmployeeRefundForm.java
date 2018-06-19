@@ -1,12 +1,9 @@
 package layout.classGUI.employee;
 
 import layout.MainFrame;
-import layout.dialog.OperationFailureDialog;
-import layout.dialog.OperationSuccessfulDialog;
 import layout.dialog.RefundConfirmDialog;
 import layout.dialog.WrongCardNumDialog;
 import model.Booking;
-import model.Employee;
 import model.Ticket;
 
 import javax.swing.*;

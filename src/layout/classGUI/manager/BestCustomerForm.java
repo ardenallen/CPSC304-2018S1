@@ -3,7 +3,6 @@ package layout.classGUI.manager;
 import layout.MainFrame;
 import model.Customer;
 import model.Manager;
-import model.Movie;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

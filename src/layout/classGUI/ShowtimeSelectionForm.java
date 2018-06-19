@@ -5,12 +5,9 @@ import model.Auditorium;
 import model.Movie;
 import model.Showtime;
 import model.Ticket;
-import sun.applet.Main;
-import utils.OracleConnection;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
 import java.util.List;
 
 public class ShowtimeSelectionForm {

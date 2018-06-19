@@ -4,20 +4,20 @@ import layout.classGUI.LoyaltyPointRedeemForm;
 import layout.classGUI.MovieSelectionForm;
 import layout.classGUI.ShowtimeSelectionForm;
 import layout.classGUI.customer.CustomerBookingForm;
+import layout.classGUI.customer.CustomerMainForm;
 import layout.classGUI.customer.CustomerRecommForm;
 import layout.classGUI.customer.history.CustomerHistoryForm;
-import layout.classGUI.customer.CustomerMainForm;
 import layout.classGUI.customer.history.CustomerTicketsForm;
-import layout.classGUI.employee.EmployeeMovieStatForm;
-import layout.classGUI.employee.EmployeeSellingForm;
 import layout.classGUI.employee.EmployeeMainForm;
+import layout.classGUI.employee.EmployeeMovieStatForm;
 import layout.classGUI.employee.EmployeeRefundForm;
+import layout.classGUI.employee.EmployeeSellingForm;
 import layout.classGUI.manager.*;
 import model.*;
 
 import javax.swing.*;
-import java.util.List;
 import java.awt.*;
+import java.util.List;
 
 /**
  * Main frame to handle GUI

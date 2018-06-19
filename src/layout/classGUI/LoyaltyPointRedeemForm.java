@@ -1,7 +1,6 @@
 package layout.classGUI;
 
 import layout.MainFrame;
-import layout.dialog.FailedLoginDialog;
 import layout.dialog.FailedPurchaseDialog;
 import layout.dialog.SuccessfulPurchaseDialog;
 import layout.dialog.ZeroTicketNumDialog;

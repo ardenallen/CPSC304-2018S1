@@ -1,7 +1,8 @@
 package layout.dialog;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SuccessfulPurchaseDialog extends JDialog {
     private JPanel contentPane;
