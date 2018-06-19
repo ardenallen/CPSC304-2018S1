@@ -5,7 +5,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -71,9 +70,9 @@ public class ManagerTest {
     public void testGetEmployeeStats() {
 
         Date date = Date.valueOf("2018-06-22");
-        List<Employee> max = Manager.getLeastMostSalesEmployee("MAX", date);
-        List<Employee> min = Manager.getLeastMostSalesEmployee("MIN", date);
-        Assert.assertNotEquals(max.get(0).getUserId(), min.get(0).getUserId());
+        List<EmployeeStat> max = Manager.getLeastMostSalesEmployee("MAX", date);
+        List<EmployeeStat> min = Manager.getLeastMostSalesEmployee("MIN", date);
+        Assert.assertNotEquals(max.get(0).eId, min.get(0).eId);
     }
 
     @Test

@@ -1,7 +1,7 @@
 package layout.classGUI.manager;
 
 import layout.MainFrame;
-import model.Employee;
+import model.EmployeeStat;
 import model.Manager;
 
 import javax.swing.*;
@@ -33,7 +33,7 @@ public class ManagerEmployeeStatForm {
         /*
          * Table setup
          */
-        Object[] headers = {"Rank", "EID", "Name"};
+        Object[] headers = {"Rank", "EID", "Name", "Sales ($)"};
 
         employeeTable = new JTable(new DefaultTableModel(headers, 0) {
             @Override
@@ -51,12 +51,12 @@ public class ManagerEmployeeStatForm {
 
             Date inputDate = Date.valueOf(pleaseEnterTheDateTextField.getText().trim());
 
-            List<Employee> minEmployeeList = Manager.getLeastMostSalesEmployee("min", inputDate);
+            List<EmployeeStat> minEmployeeList = Manager.getLeastMostSalesEmployee("min", inputDate);
 
             int count = 1;
 
-            for (Employee employee : minEmployeeList) {
-                model.addRow(new Object[] {count, employee.getUserId(), employee.getName()});
+            for (EmployeeStat employee : minEmployeeList) {
+                model.addRow(new Object[] {count, employee.eId, employee.name, employee.sales});
                 count++;
             }
 
@@ -72,12 +72,12 @@ public class ManagerEmployeeStatForm {
 
             Date inputDate = Date.valueOf(pleaseEnterTheDateTextField.getText().trim());
 
-            List<Employee> maxEmployeeList = Manager.getLeastMostSalesEmployee("max", inputDate);
+            List<EmployeeStat> maxEmployeeList = Manager.getLeastMostSalesEmployee("max", inputDate);
 
             int count = 1;
 
-            for (Employee employee : maxEmployeeList) {
-                model.addRow(new Object[] {count, employee.getUserId(), employee.getName()});
+            for (EmployeeStat employee : maxEmployeeList) {
+                model.addRow(new Object[] {count, employee.eId, employee.name, employee.sales});
                 count++;
             }
 

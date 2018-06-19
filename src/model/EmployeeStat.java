@@ -1,11 +1,13 @@
 package model;
 
-public class EmployeeStat {
-    public String eId;
-    public String name;
-    public int sales; // per day
+import java.math.BigDecimal;
 
-    public EmployeeStat(String eId, String name, int sales) {
+public class EmployeeStat {
+    public int eId;
+    public String name;
+    public BigDecimal sales; // per day
+
+    public EmployeeStat(int eId, String name, BigDecimal sales) {
         this.eId = eId;
         this.name = name;
         this.sales = sales;
