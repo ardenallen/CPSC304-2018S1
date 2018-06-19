@@ -62,7 +62,7 @@ public class ShowtimeSelectionForm {
          */
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            mainFrame.backToPreviousForm();
+            mainFrame.backToMovieSelectionForm();
         });
         mainPanel.add(backButton);
     }
