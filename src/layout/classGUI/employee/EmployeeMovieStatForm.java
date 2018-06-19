@@ -39,6 +39,12 @@ public class EmployeeMovieStatForm {
         });
         DefaultTableModel model = (DefaultTableModel) movieTable.getModel();
 
+        List<Movie> allMovies = Movie.getAllMovie();
+
+        for (Movie movie : allMovies) {
+            model.addRow(new Object[] {"N/A", movie.getTitle(), movie.getGenre()});
+        }
+
         /*
          * Min button setup
          */
